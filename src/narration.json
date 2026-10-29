@@ -36,11 +36,35 @@
     },
     "report-point": {
       "voice": "narrator",
-      "text": "It read all twenty roads and their inspections, and built this on its own. None of the roads is finished yet, and fifteen haven't started. It even caught that the task records and the inspections don't agree, and that one road is on hold with no reason recorded. Then it tells you exactly what to do next."
+      "text": "It read all twenty roads and their inspections, and built this on its own. None of the roads is finished yet, and fifteen haven't started. It even caught that the task records and the inspections don't agree, and that one road is on hold with no reason recorded. Then it tells you exactly what to do next.",
+      "cues": [
+        {
+          "word": "twenty",
+          "show": "Roads in the program"
+        },
+        {
+          "word": "fifteen",
+          "show": "No roads completed; three in four not started"
+        },
+        {
+          "word": "caught",
+          "show": "One road on hold needs a decision"
+        },
+        {
+          "word": "Then",
+          "show": "What to look at next"
+        }
+      ]
     },
     "report-pdf": {
       "voice": "narrator",
-      "text": "And with one click, it becomes a PDF you can send straight to the client."
+      "text": "And with one click, it becomes a PDF you can send straight to the client.",
+      "cues": [
+        {
+          "word": "click",
+          "act": "pdf"
+        }
+      ]
     },
     "intel-lead": {
       "voice": "narrator",
@@ -48,7 +72,29 @@
     },
     "intel-point": {
       "voice": "narrator",
-      "text": "Here's the intel. Of forty and a half tonnes of overlay, Lakebreeze Drive took more than thirty-four, and the padding tells the same story. Fifteen of the twenty roads have none at all, so TaskForce AI asks the right question: is that work still to come, or data that was never entered?"
+      "text": "Here's the intel. Of forty and a half tonnes of overlay, Lakebreeze Drive took more than thirty-four, and the padding tells the same story. Fifteen of the twenty roads have none at all, so TaskForce AI asks the right question: is that work still to come, or data that was never entered?",
+      "cues": [
+        {
+          "word": "forty",
+          "show": "Asphalt overlay placed (t)"
+        },
+        {
+          "word": "Lakebreeze",
+          "show": "Lakebreeze Dr. carries most of the overlay work"
+        },
+        {
+          "word": "padding",
+          "show": "Padding also concentrated on Lakebreeze Dr."
+        },
+        {
+          "word": "Fifteen",
+          "show": "Most of 20 roads have no asphalt placed"
+        },
+        {
+          "word": "asks",
+          "show": "What to look at next"
+        }
+      ]
     },
     "map-lead": {
       "voice": "narrator",
@@ -56,11 +102,43 @@
     },
     "map-point": {
       "voice": "narrator",
-      "text": "Here are the five partly done roads, coloured by progress. Watson Drive is already at seventy percent, while Austin Drive is only just getting started."
+      "text": "Here are the five partly done roads, coloured by progress. Watson Drive is already at seventy percent, while Austin Drive is only just getting started.",
+      "cues": [
+        {
+          "word": "five",
+          "show": "Roads partly done"
+        },
+        {
+          "word": "coloured",
+          "show": ".leaflet-container"
+        }
+      ]
     },
     "map-looks": {
       "voice": "narrator",
-      "text": "And you can switch between grey, colour and satellite with a single click."
+      "text": "And you can switch between grey, colour and satellite with a single click.",
+      "cues": [
+        {
+          "word": "switch",
+          "act": "layers-open"
+        },
+        {
+          "word": "grey",
+          "act": "layer:Grey"
+        },
+        {
+          "word": "colour",
+          "act": "layer:Colour"
+        },
+        {
+          "word": "satellite",
+          "act": "layer:Satellite"
+        },
+        {
+          "word": "click",
+          "act": "layer:Grey"
+        }
+      ]
     },
     "history-1": {
       "voice": "narrator",
@@ -76,7 +154,25 @@
     },
     "voice-point": {
       "voice": "narrator",
-      "text": "It turned the speech into text as it was spoken, knew the moment the question was finished, and sent it on its own. Then it ran the numbers and spotted the drop: nearly thirty-five tonnes of padding in May, and just seven in July. That's worth a call to the site."
+      "text": "It turned the speech into text as it was spoken, knew the moment the question was finished, and sent it on its own. Then it ran the numbers and spotted the drop: nearly thirty-five tonnes of padding in May, and just seven in July. That's worth a call to the site.",
+      "cues": [
+        {
+          "word": "turned",
+          "show": "How much HMA padding was placed each month"
+        },
+        {
+          "word": "ran",
+          "show": "Summary"
+        },
+        {
+          "word": "drop",
+          "show": "May 2026 placed most HMA padding, 34.77 tonnes"
+        },
+        {
+          "word": "worth",
+          "show": "What to look at next"
+        }
+      ]
     },
     "dsr-lead": {
       "voice": "narrator",
@@ -96,7 +192,21 @@
     },
     "fill-1-point": {
       "voice": "narrator",
-      "text": "Project, shift and weather, the crew with their trades and hours, and both machines, each one matched to the real records in TaskForce."
+      "text": "Project, shift and weather, the crew with their trades and hours, and both machines, each one matched to the real records in TaskForce.",
+      "cues": [
+        {
+          "word": "Project",
+          "show": "[data-section='Site Information']"
+        },
+        {
+          "word": "crew",
+          "show": "[data-section='Labor Tracking']"
+        },
+        {
+          "word": "machines",
+          "show": "[data-section='Equipment']"
+        }
+      ]
     },
     "fill-2": {
       "voice": "user",
@@ -104,7 +214,17 @@
     },
     "fill-2-point": {
       "voice": "narrator",
-      "text": "Forty tonnes of HL3 go into materials, and the late delivery is logged as a material shortage. No forms, and no dropdowns."
+      "text": "Forty tonnes of HL3 go into materials, and the late delivery is logged as a material shortage. No forms, and no dropdowns.",
+      "cues": [
+        {
+          "word": "Forty",
+          "show": "[data-section='Materials']"
+        },
+        {
+          "word": "late",
+          "show": "[data-section='Delays & Issues']"
+        }
+      ]
     },
     "dsr-review": {
       "voice": "narrator",

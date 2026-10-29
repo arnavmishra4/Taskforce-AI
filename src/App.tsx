@@ -36,8 +36,8 @@ type LineId = keyof typeof narration.lines;
 
 const answers = recorded as unknown as Recorded;
 const sessions: string[] = [];
-const THINK_MS = 3200;      // the lookups play out over this long (the real ones took 20-35 s)
-const STREAM_MS = 2600;     // and the written answer streams in over at most this long
+const THINK_MS = 2600;      // the lookups play out over this long (the real ones took 20-35 s)
+const STREAM_MS = 2000;     // and the written answer streams in over at most this long
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const readMs = (text: string) => Math.max(1600, text.split(/\s+/).length * 360);
 class Stopped extends Error {}
@@ -113,6 +113,7 @@ export default function App() {
   // ── moving through the page ──
   const glide = async (box: HTMLElement | null, to: number, ms: number, run: number) => {
     if (!box) return;
+    box.style.scrollBehavior = "auto";   // the chat's own smooth scrolling restarted on every step: off meanwhile
     const from = box.scrollTop;
     const target = Math.max(0, Math.min(to, box.scrollHeight - box.clientHeight));
     for (let t = 0; t <= ms; t += 16) {
@@ -122,6 +123,7 @@ export default function App() {
       const k = t / ms;
       box.scrollTop = from + (target - from) * (k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2);
     }
+    box.style.scrollBehavior = "";
   };
   const topIn = (el: Element, box: HTMLElement) =>
     el.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 16;
@@ -136,9 +138,63 @@ export default function App() {
     return rows?.length ? (rows[rows.length - 1] as HTMLElement) : null;
   };
 
+  // ── cues: a narrator line moves the page as it is spoken (narration.json "cues", at their words' times) ──
+  type Cue = { word: string; show?: string; act?: string };
+  const plain = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const cuesOf = (id: LineId) => {
+    const line = narration.lines[id] as { text: string; cues?: Cue[] };
+    const words = line.text.split(" ").map(plain), starts = (alignment as Record<string, number[]>)[id] ?? [];
+    let from = 0;
+    return (line.cues ?? []).map((c) => {
+      const i = words.findIndex((w, k) => k >= from && w.startsWith(plain(c.word)));
+      from = i + 1;
+      return { ...c, t: starts[i] ?? 0 };
+    });
+  };
+  // the element a cue shows: a selector, or the latest heading / label / message with that text
+  const find = (root: HTMLElement | null, show: string) => {
+    if (!root) return null;
+    if (/^[.[]/.test(show)) return root.querySelector(show);
+    const hits = Array.from(root.querySelectorAll("h3, h4, h5, p, span, div"))
+      .filter((el) => Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent?.includes(show)));
+    const el = hits[hits.length - 1];
+    return el ? (el.closest(`section, .${chat.messageRow}`) ?? el) : null;
+  };
+  const perform = async (c: Cue, run: number, root: HTMLElement | null) => {
+    if (c.show) {
+      const el = find(root, c.show);
+      const box = (el?.closest('[data-demo="dsr-body"]') as HTMLElement | null) ?? areaRef.current;
+      if (el && box) await glide(box, topIn(el, box) - 36, 700, run);
+      return;
+    }
+    const row = lastAnswer();
+    const control = row?.querySelector(".leaflet-control-layers");
+    if (c.act === "pdf") {
+      Array.from(row?.querySelectorAll("button") ?? []).find((b) => b.textContent?.trim() === "Download PDF")?.click();
+    } else if (c.act === "layers-open" && control) {
+      control.classList.add("leaflet-control-layers-expanded");
+      spot(control, 6000);
+    } else if (c.act?.startsWith("layer:") && control) {
+      Array.from(control.querySelectorAll("label")).find((l) => l.textContent?.trim() === c.act!.slice(6))
+        ?.querySelector("input")?.click();
+    }
+  };
+  // a narrator line with its cues: each one starts a little before its word, so the page arrives with it
+  const present = async (id: LineId, run: number, root: () => HTMLElement | null) => {
+    const cues = cuesOf(id);
+    let next = 0, chain = Promise.resolve();
+    await play(id, run, (at, _of, from) => {
+      while (next < cues.length && from + at >= cues[next].t - 0.35) {
+        const c = cues[next++];
+        chain = chain.then(() => perform(c, run, root())).catch(() => {});
+      }
+    });
+    await chain;
+  };
+
   // ── asking: typed, or said into the mic ──
   const type = async (text: string, run: number) => {
-    for (let i = 1; i <= text.length; i++) { await wait(18 + Math.random() * 34, run); setInput(text.slice(0, i)); }
+    for (let i = 1; i <= text.length; i++) { await wait(15 + Math.random() * 28, run); setInput(text.slice(0, i)); }
     await wait(280, run);
     spot($(`.${chat.sendButton}`), 600);
     await wait(180, run);
@@ -201,6 +257,7 @@ export default function App() {
       if (e.step || e.report || e.text) show(built.text === "");
     }
     built = { ...built, steps: built.steps.map((s) => (s.state === "running" ? { ...s, state: "done" as const } : s)) };
+    follow.current = false;   // from here the narrator moves the chat
     show(false);
     await wait(500, run);   // charts draw, the map loads its tiles
   };
@@ -209,14 +266,8 @@ export default function App() {
   const walk = async (lines: LineId[], run: number) => {
     follow.current = false;
     const box = areaRef.current, row = lastAnswer();
-    const ms = lines.reduce((n, id) => n + readMs(narration.lines[id].text), 0);
-    await Promise.all([
-      (async () => { await wait(250, run); await say(lines, run); })(),
-      (async () => {
-        if (box && row) await glide(box, topIn(row, box), 800, run);
-        await glide(box, box?.scrollHeight ?? 0, ms, run);
-      })(),
-    ]);
+    if (box && row) await glide(box, topIn(row, box) - 36, 800, run);
+    for (const [n, id] of lines.entries()) { if (n) await wait(220, run); await present(id, run, () => areaRef.current); }
     follow.current = true;
   };
 
@@ -271,33 +322,22 @@ export default function App() {
     const button = row && Array.from(row.querySelectorAll("button")).find((b) => b.textContent?.trim() === "Download PDF");
     if (!box || !row || !button) return;
     follow.current = false;
-    await glide(box, topIn(row.querySelector('[role="region"]') ?? row, box), 900, run);
+    await glide(box, topIn(row.querySelector('[role="region"]') ?? row, box) - 36, 800, run);
     spot(button, 3000);
-    await Promise.all([play("report-pdf", run), (async () => {
-      await wait(1400, run);
-      button.click();
-      for (let t = 0; t < 30000 && button.textContent?.trim() === "Preparing…"; t += 100) await wait(100, run);
-    })()]);
+    await present("report-pdf", run, () => areaRef.current);   // its cue clicks the button on "click"
+    for (let t = 0; t < 30000 && button.textContent?.trim() === "Preparing…"; t += 100) await wait(100, run);
     follow.current = true;
   };
 
   const tourMap = async (run: number) => {
     const box = areaRef.current, row = lastAnswer();
     const map = row?.querySelector(".leaflet-container");
-    const control = row?.querySelector(".leaflet-control-layers");
-    if (!box || !map || !control) return;
+    if (!box || !row || !map) return;
     follow.current = false;
-    await glide(box, topIn(map, box) - 60, 900, run);
-    const pick = (name: string) => Array.from(control.querySelectorAll("label"))
-      .find((l) => l.textContent?.trim() === name)?.querySelector("input")?.click();
-    await Promise.all([play("map-looks", run), (async () => {
-      await wait(500, run);
-      control.classList.add("leaflet-control-layers-expanded");
-      spot(control, 7500);
-      for (const [name, ms] of [["Colour", 900], ["Satellite", 1900], ["Grey", 2300]] as const) { await wait(ms, run); pick(name); }
-      await wait(500, run);
-      control.classList.remove("leaflet-control-layers-expanded");
-    })()]);
+    await glide(box, topIn(map, box) - 60, 700, run);
+    await present("map-looks", run, () => areaRef.current);    // its cues open the looks and switch them on their words
+    await wait(500, run);
+    row.querySelector(".leaflet-control-layers")?.classList.remove("leaflet-control-layers-expanded");
     follow.current = true;
   };
 
@@ -331,22 +371,13 @@ export default function App() {
       setDsrLine({ said: fill.said, did: "", working: true });
       setDsrBusy(true);
       setMic("working");
-      await wait(1000, run);
+      await wait(800, run);
       setForm((f) => ({ was: f.now, now: fill.summary }));
       setDsrBusy(false);
       setMic("listening");
       setDsrLine({ said: fill.said, did: fill.reply.replace(/\s*Summary updated\./, ""), working: false });
-      await wait(300, run);
-      const target = body?.querySelector(`[data-section="${n === 0 ? "Labor Tracking" : "Materials"}"]`);
-      const lines = [`fill-${n + 1}-point` as LineId];
-      await Promise.all([
-        (async () => { for (const id of lines) await play(id, run); })(),
-        (async () => {
-          if (body) await glide(body, 0, 700, run);
-          await wait(1800, run);
-          if (body && target) await glide(body, topIn(target, body), 2600, run);
-        })(),
-      ]);
+      await wait(150, run);
+      await present(`fill-${n + 1}-point` as LineId, run, () => body);   // its cues scroll the form to what it names
     }
     setMic("off");
     if (body) await glide(body, body.scrollHeight, 1200, run);

@@ -1,7 +1,7 @@
 // Records the demo's voices with ElevenLabs, once, into public/audio/<id>.mp3 (lines and voices: src/narration.json).
 // A line already recorded is kept; after changing a line's text, delete its mp3 (or pass --force to redo them all).
-// The person speaking into the mic ("user" lines) also gets the time each word is said (ElevenLabs forced alignment,
-// src/alignment.json), so the words heard appear on screen as they are spoken.
+// Every line also gets the time each word is said (ElevenLabs forced alignment, src/alignment.json): the words heard
+// appear on screen as they are spoken, and the narrator's cues (narration.json) land on their words.
 //
 // Usage: npm run record:voice   (reads ELEVENLABS_API_KEY from .env.local)
 
@@ -32,7 +32,7 @@ let made = 0;
 for (const [id, { voice, text }] of Object.entries(lines)) {
   const out = path.join(OUT, `${id}.mp3`);
   if (!force && fs.existsSync(out)) {
-    if (voice === "user" && !alignment[id]) alignment[id] = await align(out, text);
+    if (!alignment[id]) alignment[id] = await align(out, text);
     continue;
   }
   const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voices[voice].id}?output_format=mp3_44100_128`, {
@@ -43,7 +43,7 @@ for (const [id, { voice, text }] of Object.entries(lines)) {
   });
   if (!res.ok) { console.log(`  ${id}: ERROR ${res.status} ${(await res.text()).slice(0, 200)}`); continue; }
   fs.writeFileSync(out, Buffer.from(await res.arrayBuffer()));
-  if (voice === "user") alignment[id] = await align(out, text);
+  alignment[id] = await align(out, text);
   made++;
   console.log(`  ${id} (${voices[voice].name})`);
 }
