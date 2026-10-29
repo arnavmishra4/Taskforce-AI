@@ -1,0 +1,30 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  border-right: 1px solid #ebedf8;
+  background: #FFFFFF;
+  gap: 25px;
+  padding: 15px 8px;
+  z-index: 50;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.collapsed{
+  width: 78px;
+  min-width: 0px;
+}
+.logo-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 29px;
+  align-items: center;
+}

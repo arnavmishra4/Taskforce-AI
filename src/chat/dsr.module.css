@@ -1,0 +1,631 @@
+/* Daily Site Report draft panel and cards. Palette: the TF AI page's (tfai.module.css). */
+
+/* ── The form pane ── */
+.pane {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border-right: 1px solid #E8ECF4;
+  min-height: 0;
+  container-type: inline-size;
+}
+
+/* the chat to the right of it: a column, so the form gets the room */
+.chatNarrow { flex: 0 0 clamp(320px, 30vw, 420px); }
+
+.paneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5625rem 0.875rem;
+  border-bottom: 1px solid #E8ECF4;
+  flex-shrink: 0;
+}
+
+.paneTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.liveDot { width: 8px; height: 8px; border-radius: 50%; background: #16A34A; flex-shrink: 0; }
+.liveDotBusy { background: #8361FE; animation: pulse 1.2s ease-in-out infinite; }
+
+.menuWrap { position: relative; }
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 20;
+  min-width: 10rem;
+  padding: 0.25rem;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(17, 24, 39, 0.08);
+}
+.menuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  font-size: 0.8125rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.menuItem:hover:not(:disabled) { background: #F3F4F6; }
+.menuItem:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.paneActions { display: flex; align-items: center; gap: 0.375rem; }
+
+.working {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #5E3CDB;
+  background: #EDE8FF;
+  border-radius: 999px;
+  padding: 0.0625rem 0.5rem;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.iconButton {
+  border: none;
+  background: transparent;
+  color: #9CA3AF;
+  font-size: 1.25rem;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.iconButton:hover { background: #F3F4F6; color: #111827; }
+
+.paneBody { flex: 1; min-height: 0; overflow-y: auto; background: #F7F8FC; }
+.paneBody::-webkit-scrollbar { width: 6px; }
+.paneBody::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+
+/* The form's own grid breaks on the window's width; here it sits in part of the window, so it breaks on the pane's */
+.paneBody :global(.generate-report) { padding: 16px 18px 96px; }
+
+@container (max-width: 1100px) {
+  .paneBody :global(.form-row--cols-5),
+  .paneBody :global(.form-row--cols-6) { grid-template-columns: repeat(3, 1fr); }
+  .paneBody :global(.form-row--cols-4) { grid-template-columns: repeat(2, 1fr); }
+}
+
+@container (max-width: 760px) {
+  .paneBody :global(.form-row--cols-3),
+  .paneBody :global(.form-row--cols-5),
+  .paneBody :global(.form-row--cols-6) { grid-template-columns: repeat(2, 1fr); }
+}
+
+@container (max-width: 520px) {
+  .paneBody :global(.form-row) { grid-template-columns: 1fr; }
+}
+
+.hint { font-size: 0.8125rem; color: #9CA3AF; margin: 1rem; line-height: 1.5; }
+
+.count {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #6B7280;
+  background: #F3F4F6;
+  border-radius: 999px;
+  padding: 0 0.375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Transcript drawer ── */
+.drawer {
+  max-height: 32%;
+  overflow-y: auto;
+  padding: 0.5rem 0.875rem;
+  border-bottom: 1px solid #E8ECF4;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+/* ── Open questions, over the form ── */
+.reviewPopup {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: min(360px, calc(100% - 32px));
+  max-height: 60%;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #FDE68A;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.18);
+  z-index: 5;
+  overflow: hidden;
+}
+
+.reviewPopupHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: none;
+  background: #FEF3C7;
+  color: #92400E;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.reviewPopupBody { overflow-y: auto; padding: 0.625rem; }
+.reviewPopupBody .reviewItem:last-child { margin-bottom: 0; }
+
+/* ── Review ── */
+.reviewItem { border: 1px solid #FDE68A; background: #FFFBEB; border-radius: 8px; padding: 0.625rem 0.75rem; margin-bottom: 0.625rem; }
+.reviewHead { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.reviewLabel { font-size: 0.8125rem; font-weight: 600; color: #111827; }
+.reviewSaid { margin: 0.1875rem 0 0; font-size: 0.8125rem; color: #374151; overflow-wrap: anywhere; }
+.reviewReason { margin: 0.125rem 0 0.4375rem; font-size: 0.75rem; color: #92400E; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.3125rem; align-items: center; }
+.chipsAll { max-height: 12rem; overflow-y: auto; align-content: flex-start; }
+.optionFind {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 0.375rem;
+  padding: 0.3125rem 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 0.78125rem;
+}
+
+.chip {
+  border: 1px solid #DDD6FE;
+  background: #FFFFFF;
+  color: #4C2FBF;
+  font-size: 0.78125rem;
+  border-radius: 999px;
+  padding: 0.1875rem 0.625rem;
+  cursor: pointer;
+  text-align: left;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.chip:hover:not(:disabled) { background: #EDE8FF; border-color: #8361FE; }
+.chip:disabled { opacity: 0.5; cursor: not-allowed; }
+.chipNote { font-size: 0.6875rem; color: #9CA3AF; }
+
+.linkButton { border: none; background: transparent; color: #6B7280; font-size: 0.75rem; cursor: pointer; padding: 0; text-decoration: underline; }
+.linkButton:hover { color: #111827; }
+
+/* ── Transcript ── */
+.logEntry { display: flex; gap: 0.625rem; padding: 0.4375rem 0; border-bottom: 1px solid #F1F3F8; }
+.logTime { font-size: 0.6875rem; color: #9CA3AF; font-variant-numeric: tabular-nums; padding-top: 0.125rem; flex-shrink: 0; }
+.logSaid { margin: 0; font-size: 0.8125rem; color: #111827; overflow-wrap: anywhere; }
+.logDid { margin: 0.0625rem 0 0; font-size: 0.75rem; color: #6B7280; }
+
+
+.primaryButton {
+  border: none;
+  background: linear-gradient(135deg, #8361FE, #6640EE);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.4375rem 0.875rem;
+  cursor: pointer;
+}
+
+.primaryButton:disabled, .secondaryButton:disabled, .dangerButton:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* deleting a task: the one red button, for what cannot be undone */
+.dangerButton {
+  border: none;
+  background: #DC2626;
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.4375rem 0.875rem;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.dangerButton:hover:not(:disabled) { background: #B91C1C; }
+
+.secondaryButton {
+  border: 1px solid #E0E4EF;
+  background: #FFFFFF;
+  color: #374151;
+  font-size: 0.8125rem;
+  border-radius: 8px;
+  padding: 0.4375rem 0.75rem;
+  cursor: pointer;
+}
+
+.secondaryButton:hover:not(:disabled) { border-color: #C4AAFD; color: #5E3CDB; }
+.secondaryButtonOn { background: #EDE8FF; border-color: #C4AAFD; color: #5E3CDB; }
+
+/* ── Review before submitting, over the form ── */
+.submitScrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 10;
+}
+
+.submitBox {
+  width: min(720px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(17, 24, 39, 0.28);
+  overflow: hidden;
+}
+
+.submitTitle { margin: 0; padding: 0.875rem 1.125rem; font-size: 1rem; font-weight: 600; color: #111827; border-bottom: 1px solid #E8ECF4; }
+.submitBody { flex: 1; min-height: 0; overflow-y: auto; padding: 0.875rem 1.125rem; }
+.submitWarn { margin: 0 0 0.75rem; padding: 0.5rem 0.75rem; font-size: 0.8125rem; color: #92400E; background: #FEF3C7; border-radius: 8px; }
+.submitSection { margin-bottom: 1rem; }
+
+.submitHeading {
+  margin: 0 0 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.submitFields { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.375rem 1rem; }
+.submitField { min-width: 0; }
+.submitField dt { font-size: 0.6875rem; color: #9CA3AF; }
+.submitField dd { margin: 0; font-size: 0.8125rem; color: #111827; overflow-wrap: anywhere; }
+.submitTableWrap { overflow-x: auto; border: 1px solid #E8ECF4; border-radius: 8px; }
+.submitTable { width: 100%; border-collapse: collapse; font-size: 0.78125rem; }
+.submitTable th { text-align: left; font-weight: 600; font-size: 0.6875rem; color: #6B7280; background: #F7F8FC; padding: 0.375rem 0.5rem; white-space: nowrap; border-bottom: 1px solid #E8ECF4; }
+.submitTable td { padding: 0.375rem 0.5rem; color: #111827; border-bottom: 1px solid #F1F3F8; vertical-align: top; }
+.submitTable tr:last-child td { border-bottom: none; }
+.submitActions { display: flex; justify-content: flex-end; gap: 0.5rem; padding: 0.75rem 1.125rem; border-top: 1px solid #E8ECF4; background: #F7F8FC; }
+
+/* ── Cards in the chat ── */
+.card { max-width: 38rem; background: #FFFFFF; border: 1px solid #E8ECF4; border-radius: 12px; padding: 0.75rem 0.875rem; }
+.cardTitle { margin: 0 0 0.5rem; font-size: 0.8125rem; font-weight: 600; color: #111827; }
+.cardFoot { margin: 0.5rem 0 0; font-size: 0.6875rem; color: #9CA3AF; }
+.optionGroup { margin-bottom: 0.625rem; }
+.optionGroupTitle { margin: 0 0 0.3125rem; font-size: 0.75rem; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 0.375rem; }
+.optionNote { margin: 0 0 0.3125rem; font-size: 0.75rem; color: #6B7280; }
+
+/* ── Mic button and the "hearing" line (in the chat's input bar) ── */
+.micButton {
+  position: relative;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  height: 32px;
+  width: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+  flex-shrink: 0;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.micButton:hover { background: #EDE8FF; border-color: #C4AAFD; color: #8361FE; }
+
+/* ── The mic as an orb. Its look comes from data-state (page.tsx micState): off / listening / hearing (someone is
+   speaking) / working (the AI is answering or filling) / error. --voice-level (0..1) is written once a frame on the
+   input bar by voiceLevel.ts and inherited here: the orb grows and glows with the voice. ── */
+.orb {
+  --orb-a: #3B82F6;
+  --orb-b: #14B8A6;
+  --orb-rgb: 37, 150, 200;
+  border-radius: 50%;
+  isolation: isolate;
+  transition: background 0.25s ease-out, border-color 0.25s ease-out, color 0.25s ease-out, scale 0.12s ease-out,
+    box-shadow 0.2s ease-out;
+}
+.orb > svg:not(.micRing) { position: relative; z-index: 2; }
+.orb::before,
+.orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+  pointer-events: none;
+}
+.orb::before { background: conic-gradient(from 0deg, var(--orb-a), var(--orb-b), var(--orb-a)); z-index: 0; }
+.orb::after {
+  /* a slow light sweeping across while the AI works */
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%) no-repeat;
+  background-size: 250% 100%;
+  z-index: 1;
+}
+
+.orb[data-state="listening"],
+.orb[data-state="hearing"],
+.orb[data-state="working"] {
+  background: transparent;
+  border-color: transparent;
+  color: #FFFFFF;
+  scale: calc(1 + var(--voice-level, 0) * 0.12);
+  box-shadow: 0 0 calc(4px + var(--voice-level, 0) * 16px) rgba(var(--orb-rgb), calc(0.3 + var(--voice-level, 0) * 0.4));
+}
+.orb[data-state="listening"]::before,
+.orb[data-state="hearing"]::before,
+.orb[data-state="working"]::before {
+  opacity: 1;
+  animation: orbTurn 9s linear infinite, orbBreathe 3s ease-in-out infinite;
+}
+.orb[data-state="hearing"]::before { animation-play-state: running, paused; } /* the voice sets the size now */
+.orb[data-state="working"] { --orb-a: #8361FE; --orb-b: #C4AAFD; --orb-rgb: 131, 97, 254; }
+.orb[data-state="working"]::after { opacity: 1; animation: orbShimmer 2.4s ease-in-out infinite; }
+/* clicked, not yet streaming: violet and pulsing, never green, so green always means "talk now" */
+.orb[data-state="connecting"] {
+  background: #F5F2FF; border-color: #C4AAFD; color: #8361FE;
+  animation: orbConnecting 1s ease-in-out infinite;
+}
+@keyframes orbConnecting {
+  50% { box-shadow: 0 0 0 4px rgba(131, 97, 254, 0.18); }
+}
+.orb[data-state="error"], .orb[data-state="error"]:hover { background: #FEF2F2; border-color: #FCA5A5; color: #B91C1C; }
+
+/* the light inside the orb (like Siri's): three translucent ribbons of blue, teal and green, each slowly
+   changing shape and turning its own way; where they overlap the colours mix. A white glow in the middle, a soft
+   halo round it. Never a plain circle. The voice swells each ribbon by a different amount (--voice-level), so it
+   moves with the speaker; while the AI works the colours drift to violet and it slows down, thinking. */
+.orb:has(.orbSky)::before { opacity: 0; } /* the light replaces the gradient disc */
+.orbSky {
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 0 calc(3px + var(--voice-level, 0) * 9px) rgba(20, 184, 166, 0.55))
+    saturate(calc(1.1 + var(--voice-level, 0) * 0.4));
+  transition: filter 0.4s ease-out;
+  animation: pillIn 0.3s ease-out both;
+}
+.orb[data-state="working"] .orbSky {
+  filter: hue-rotate(75deg) drop-shadow(0 0 5px rgba(131, 97, 254, 0.55)) saturate(1.15);
+}
+.orbSky::after {
+  /* the glow in the middle */
+  content: "";
+  position: absolute;
+  inset: 26%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(1.5px);
+  scale: calc(0.9 + var(--voice-level, 0) * 0.5);
+  transition: scale 0.12s ease-out;
+}
+.orbSky > span {
+  position: absolute;
+  inset: 0;
+  opacity: 0.78;
+  transition: scale 0.12s ease-out;
+}
+.orbSky > span:nth-child(1) {
+  background: linear-gradient(135deg, #3B82F6 10%, #22D3EE 90%);
+  scale: calc(0.86 + var(--voice-level, 0) * 0.3);
+  animation: ribbonMorph 6s ease-in-out infinite, ribbonTurn 11s linear infinite;
+}
+.orbSky > span:nth-child(2) {
+  background: linear-gradient(200deg, #14B8A6 10%, #4ADE80 90%);
+  scale: calc(0.8 + var(--voice-level, 0) * 0.42);
+  animation: ribbonMorph 7.5s ease-in-out infinite reverse, ribbonTurn 14s linear infinite reverse;
+}
+.orbSky > span:nth-child(3) {
+  background: linear-gradient(320deg, #6366F1 10%, #38BDF8 90%);
+  opacity: 0.55;
+  scale: calc(0.74 + var(--voice-level, 0) * 0.5);
+  animation: ribbonMorph 9s ease-in-out infinite, ribbonTurn 9s linear infinite;
+}
+.orb[data-state="working"] .orbSky > span { animation-duration: 12s, 22s; }
+.orbSky ~ svg:not(.micRing) { opacity: 0; } /* the mic icon gives way to the light */
+@keyframes ribbonTurn { to { rotate: 360deg; } }
+@keyframes ribbonMorph {
+  0%, 100% { border-radius: 62% 38% 54% 46% / 44% 58% 42% 56%; }
+  25% { border-radius: 40% 60% 38% 62% / 60% 36% 64% 40%; }
+  50% { border-radius: 55% 45% 66% 34% / 38% 62% 40% 60%; }
+  75% { border-radius: 36% 64% 46% 54% / 56% 44% 58% 42%; }
+}
+
+/* basic voice (the browser's own speech-to-text): a small amber dot on the orb */
+.orbBasic {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F59E0B;
+  border: 1.5px solid #FFFFFF;
+  z-index: 3;
+}
+
+@keyframes orbTurn { to { rotate: 360deg; } }
+@keyframes orbBreathe { 50% { scale: 1.04; } }
+@keyframes orbShimmer { from { background-position: 130% 0; } to { background-position: -30% 0; } }
+
+/* the mic's last seconds before it switches itself off: a ring that runs out */
+.micRing {
+  position: absolute;
+  inset: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+  z-index: 3;
+}
+.micRing circle {
+  fill: none;
+  stroke: #F59E0B;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation-name: micRingRunOut;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes micRingRunOut { to { stroke-dashoffset: 100; } }
+
+/* the last thing said for the report and what it did: one line, replaced by the next */
+.reportLine {
+  display: flex;
+  flex-direction: column;
+  gap: 0.0625rem;
+  margin: 0 0.25rem 0.5rem;
+  padding: 0.375rem 0.625rem;
+  background: #FFFFFF;
+  border: 1px solid #E8ECF4;
+  border-left: 3px solid #8361FE;
+  border-radius: 8px;
+  font-size: 0.78125rem;
+}
+
+.reportSaid { color: #6B7280; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.reportDid { color: #111827; font-weight: 500; }
+.reportFailed { color: #B91C1C; font-weight: 500; }
+
+.hearing {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #6B7280;
+  margin: 0 0.25rem 0.5rem;
+  min-height: 1.25rem;
+}
+
+.hearingDot { width: 7px; height: 7px; border-radius: 50%; background: #D1D5DB; flex-shrink: 0; align-self: center; transition: background 0.25s ease-out; }
+.hearing[data-voice="hearing"] .hearingDot { background: #14B8A6; animation: pulse 1.2s ease-in-out infinite; }
+.hearing[data-voice="working"] .hearingDot { background: #8361FE; }
+.hearingText { color: #374151; overflow-wrap: anywhere; }
+.captionWord { display: inline-block; animation: captionIn 0.22s ease-out both; }
+.captionSettle { color: #111827; animation: captionAway 0.3s ease-out 0.28s forwards; }
+@keyframes captionIn { from { opacity: 0; transform: translateY(3px); } }
+@keyframes captionAway { to { opacity: 0; transform: translateY(-6px); } }
+
+/* ── The input bar while the mic is on: a soft glow in the orb's colour that swells with the voice, and a pill
+   saying where what is said goes. form.* outranks the bar's own :focus-within ring. ── */
+form.voiceComposer,
+form.voiceComposer:focus-within {
+  --aura-rgb: 37, 150, 200;
+  --wash-rgb: 20, 184, 166; /* the whole bar lit from below, green-teal */
+  border-color: rgba(var(--aura-rgb), 0.45);
+  box-shadow:
+    inset 0 -28px 44px -18px rgba(var(--wash-rgb), calc(0.16 + var(--voice-level, 0) * 0.16)),
+    inset 0 0 0 999px rgba(var(--wash-rgb), calc(0.05 + var(--voice-level, 0) * 0.05)),
+    0 2px 8px rgba(0, 0, 0, 0.048),
+    0 0 0 3px rgba(var(--aura-rgb), calc(0.08 + var(--voice-level, 0) * 0.14)),
+    0 0 calc(14px + var(--voice-level, 0) * 30px) rgba(var(--aura-rgb), calc(0.1 + var(--voice-level, 0) * 0.3));
+}
+form.voiceComposer[data-voice="working"] { --aura-rgb: 131, 97, 254; --wash-rgb: 131, 97, 254; }
+form.voiceComposer[data-voice="error"] { --wash-rgb: 239, 68, 68; }
+
+.voicePill {
+  align-self: center;
+  flex-shrink: 0;
+  font-size: 0.71875rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.3125rem 0.5625rem;
+  border-radius: 999px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  animation: pillIn 0.22s ease-out both;
+}
+.voicePill[data-mode="report"] { background: #ECFDF5; color: #047857; }
+.voicePill[data-mode="task"] { background: #F3EEFF; color: #5E3CDB; }
+@keyframes pillIn { from { opacity: 0; transform: translateX(-4px); } }
+.hearingIdle { color: #9CA3AF; }
+.micError { color: #B91C1C; font-size: 0.75rem; margin: 0 0.25rem 0.5rem; }
+
+.headerButton {
+  border: 1px solid #E0E4EF;
+  background: #FFFFFF;
+  color: #374151;
+  font-size: 0.78125rem;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.3125rem 0.6875rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.headerButton:hover { border-color: #C4AAFD; color: #5E3CDB; }
+.headerButtonOn { background: #EDE8FF; border-color: #C4AAFD; color: #5E3CDB; }
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .working, .liveDotBusy, .hearingDot { animation: none; }
+  /* the mic: colours still change; no turning, breathing, shimmer, growing or rising words */
+  .orb::before, .orb::after, .captionWord, .captionSettle, .voicePill { animation: none !important; }
+  .orb[data-state] { scale: none; }
+  .orb[data-state="connecting"] { animation: none; }
+  .orbSky, .orbSky > span { animation: none !important; }
+  .orbSky > span:nth-child(1) { border-radius: 58% 42% 52% 48%; }
+  .orbSky > span:nth-child(2) { border-radius: 44% 56% 60% 40%; }
+  .orbSky > span:nth-child(3) { border-radius: 50%; }
+  .captionSettle { opacity: 0; transition: opacity 0.3s 0.28s; }
+}
+
+@media (max-width: 900px) {
+  .pane { position: fixed; inset: 56px 0 0 0; z-index: 30; }
+}
+
+/* the number an option is picked by voice with ("the second one") */
+.chipNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.4rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: #EDE8FF;
+  color: #4C2FBF;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.reviewHint,
+.reviewLater {
+  margin: 0.4rem 0 0;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}

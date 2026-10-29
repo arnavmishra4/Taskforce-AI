@@ -1,0 +1,118 @@
+{
+  "voices": {
+    "narrator": {
+      "name": "Sarah",
+      "id": "EXAVITQu4vr4xnSDxMaL"
+    },
+    "user": {
+      "name": "Chris",
+      "id": "iP95p4xoKVk53GoZ742B"
+    }
+  },
+  "lines": {
+    "intro-1": {
+      "voice": "narrator",
+      "text": "This is TaskForce. Projects, daily site reports, finance, equipment, documents and quality, and every one of them holds live records from the field."
+    },
+    "intro-2": {
+      "voice": "narrator",
+      "text": "But when you need a single answer, like how far along a road program really is, you end up clicking through screens, filters and exports. There's a faster way."
+    },
+    "meet-1": {
+      "voice": "narrator",
+      "text": "Meet TaskForce AI. You ask in plain English, and it reads your live TaskForce data, shows you where every number came from, and writes the answer for you."
+    },
+    "live-lead": {
+      "voice": "narrator",
+      "text": "First, a quick status check. We want to know which streets in the Kawartha Lakes program still have driveways waiting on work."
+    },
+    "live-point": {
+      "voice": "narrator",
+      "text": "A hundred and thirty-five driveways still pending, street by street, with Kings Wharf Road and Brunon Avenue carrying the most. And every number comes straight from the latest site inspections."
+    },
+    "report-lead": {
+      "voice": "narrator",
+      "text": "Next, the big picture: a full progress report on the Kawartha Lakes program, road by road."
+    },
+    "report-point": {
+      "voice": "narrator",
+      "text": "It read all twenty roads and their inspections, and built this on its own. None of the roads is finished yet, and fifteen haven't started. It even caught that the task records and the inspections don't agree, and that one road is on hold with no reason recorded. Then it tells you exactly what to do next."
+    },
+    "report-pdf": {
+      "voice": "narrator",
+      "text": "And with one click, it becomes a PDF you can send straight to the client."
+    },
+    "intel-lead": {
+      "voice": "narrator",
+      "text": "Now let's follow the asphalt, and find out which streets the overlay and padding actually went into."
+    },
+    "intel-point": {
+      "voice": "narrator",
+      "text": "Here's the intel. Of forty and a half tonnes of overlay, Lakebreeze Drive took more than thirty-four, and the padding tells the same story. Fifteen of the twenty roads have none at all, so TaskForce AI asks the right question: is that work still to come, or data that was never entered?"
+    },
+    "map-lead": {
+      "voice": "narrator",
+      "text": "Then let's see where the work is actually happening, with the partly done roads on a map."
+    },
+    "map-point": {
+      "voice": "narrator",
+      "text": "Here are the five partly done roads, coloured by progress. Watson Drive is already at seventy percent, while Austin Drive is only just getting started."
+    },
+    "map-looks": {
+      "voice": "narrator",
+      "text": "And you can switch between grey, colour and satellite with a single click."
+    },
+    "history-1": {
+      "voice": "narrator",
+      "text": "Every conversation is kept right here, so you can always pick up where you left off."
+    },
+    "voice-lead": {
+      "voice": "narrator",
+      "text": "And you don't even have to type. TaskForce AI has its own voice system, so just tap the mic and ask how much padding went down each month."
+    },
+    "voice-ask": {
+      "voice": "user",
+      "text": "How much HMA padding was placed each month on the Kawartha Lakes Rural Resurfacing Program?"
+    },
+    "voice-point": {
+      "voice": "narrator",
+      "text": "It turned the speech into text as it was spoken, knew the moment the question was finished, and sent it on its own. Then it ran the numbers and spotted the drop: nearly thirty-five tonnes of padding in May, and just seven in July. That's worth a call to the site."
+    },
+    "dsr-lead": {
+      "voice": "narrator",
+      "text": "Now for the part your site supervisors are going to love: the daily site report, filled in by voice."
+    },
+    "dsr-ask": {
+      "voice": "user",
+      "text": "I want to fill today's daily site report."
+    },
+    "dsr-open": {
+      "voice": "narrator",
+      "text": "The report opens right beside the chat, so now you just describe the day."
+    },
+    "fill-1": {
+      "voice": "user",
+      "text": "Daily report for the Kawartha Lakes Rural Resurfacing Program. Day shift, sunny and fourteen degrees. Dufferin Construction had four asphalt rakers, a paver operator and a roller operator on site, eight hours each. We ran the BOMAG paver and the BOMAG roller all day."
+    },
+    "fill-1-point": {
+      "voice": "narrator",
+      "text": "Project, shift and weather, the crew with their trades and hours, and both machines, each one matched to the real records in TaskForce."
+    },
+    "fill-2": {
+      "voice": "user",
+      "text": "We placed forty tonnes of HL3 hot mix asphalt, and lost an hour in the morning waiting on the asphalt delivery."
+    },
+    "fill-2-point": {
+      "voice": "narrator",
+      "text": "Forty tonnes of HL3 go into materials, and the late delivery is logged as a material shortage. No forms, and no dropdowns."
+    },
+    "dsr-review": {
+      "voice": "narrator",
+      "text": "Before anything is submitted, the supervisor gets one clean summary to check, and then it's done."
+    },
+    "outro-1": {
+      "voice": "narrator",
+      "text": "That's TaskForce AI: live answers, smart reports, maps and voice, all from the data you already have in TaskForce. No menus, no filters. Just ask."
+    }
+  }
+}

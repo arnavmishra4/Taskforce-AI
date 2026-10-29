@@ -1,0 +1,47 @@
+/* ─── FormRow ─────────────────────────────────────────────────────────────── */
+
+.form-row {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-row--cols-1 {
+  grid-template-columns: 1fr;
+}
+.form-row--cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.form-row--cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.form-row--cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+/* 5 and 6 are part of the FormRow `cols` prop type. Without a rule here the
+   grid falls back to a single implicit column, which silently renders the row
+   as a vertical list instead of erroring — the bug that hit the read-only
+   Labor Tracking (cols=5) and Materials (cols=6) sections. */
+.form-row--cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.form-row--cols-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .form-row--cols-5,
+  .form-row--cols-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row--cols-2,
+  .form-row--cols-3,
+  .form-row--cols-4,
+  .form-row--cols-5,
+  .form-row--cols-6 {
+    grid-template-columns: 1fr;
+  }
+}

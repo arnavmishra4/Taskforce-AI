@@ -1,0 +1,48 @@
+.container {
+    border-radius: 5px;
+     color: #3D424F;
+}
+
+.bg {
+    background: #EEEAFA;
+
+}
+
+.primary-bg {
+    background: var(--primary-color);
+
+}
+
+.image-container {
+    background: #F7F7F9;
+}
+
+.container:hover {
+    background: #EEEAFA;
+}
+
+.container:hover .image-container {
+    background: #FFF;
+}
+
+.focusedText {
+    color: var(--Primary-color, #8361FE)
+}
+.normaltext{
+    color: var(--Black-text, #3D424F);
+
+}
+
+.subitem-open {
+    background-color: #F7F7F9;
+    color: black;
+    border-radius: 5px;
+}
+
+.label {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    /* 142.857% */
+}

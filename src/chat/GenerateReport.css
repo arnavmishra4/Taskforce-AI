@@ -1,0 +1,185 @@
+/* ─── Generate Report Form ───────────────────────────────────────────────── */
+
+/* ── Field group wrapper ─────────────────────────────────────────────────── */
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #33393d;
+  line-height: 20px;
+}
+
+.field-label__required {
+  color: #fe3766;
+  margin-left: 2px;
+}
+
+/* ── Repeatable entry wrapper ────────────────────────────────────────────── */
+
+.repeatable-entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ebedf8;
+}
+
+.repeatable-entry:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.remove-entry-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fe3766;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 150ms ease;
+}
+
+.remove-entry-btn:hover {
+  background: #fff1f1;
+}
+
+/* ── + Add Entry button ───────────────────────────────────────────────────── */
+
+.add-entry-btn {
+  background: none;
+  border: none;
+  color: #8361fe;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  text-align: right;
+  align-self: flex-end;
+  margin-top: 4px;
+  transition: opacity 150ms ease;
+}
+
+.add-entry-btn:hover {
+  opacity: 0.75;
+}
+
+/* ── Sub-entry rows (within labor / equipment / materials groups) ────────── */
+
+.sub-entries-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sub-entry {
+  position: relative;
+  padding-top: 12px;
+  border-top: 1px dashed #e8eaf0;
+}
+
+.sub-entry:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+/* ── Validation errors panel ─────────────────────────────────────────────── */
+
+.generate-report__validation-errors {
+  margin: 16px 0 0;
+  padding: 14px 18px;
+  border: 1.5px solid #fe3766;
+  border-radius: 8px;
+  background: #fff5f7;
+}
+
+.generate-report__validation-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #c0193c;
+  margin: 0 0 8px;
+}
+
+.generate-report__validation-errors ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.generate-report__validation-errors li {
+  font-size: 13px;
+  color: #c0193c;
+  line-height: 1.8;
+}
+
+/* ── Form footer ─────────────────────────────────────────────────────────── */
+
+.generate-report__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 0 4px;
+}
+
+.btn-save-draft {
+  padding: 10px 24px;
+  border: 1.5px solid #8361fe;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #8361fe;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.btn-save-draft:hover {
+  background: #f5f0ff;
+}
+
+.btn-submit {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #8361fe;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.btn-submit:hover {
+  background: #6d4fd6;
+}
+
+.btn-submit:disabled,
+.btn-save-draft:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Auto-save indicator ─────────────────────────────────────────────────── */
+
+.auto-save-indicator {
+  font-size: 12px;
+  color: #8b9faf;
+  margin-right: auto;
+}
+
+/* ── Form wrapper ────────────────────────────────────────────────────────── */
+
+.generate-report {
+  padding: 24px 32px;
+}

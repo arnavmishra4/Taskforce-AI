@@ -1,0 +1,39 @@
+{
+  "steps": [
+    {
+      "id": "live",
+      "title": "Live data",
+      "ask": "How many driveways are still pending on each street in the Kawartha Lakes Rural Resurfacing Program?",
+      "textOnly": true
+    },
+    {
+      "id": "report",
+      "title": "Smart reports",
+      "ask": "Give me a report on how the City of Kawartha Lakes Rural Resurfacing Program is progressing, road by road."
+    },
+    {
+      "id": "intel",
+      "title": "Smart intel",
+      "ask": "Show me a report of the asphalt overlay and padding placed on each street in the Kawartha Lakes program."
+    },
+    {
+      "id": "map",
+      "title": "Maps",
+      "ask": "Show me a report and a map of the roads that are partly done in the Kawartha Lakes program."
+    },
+    {
+      "id": "voice",
+      "title": "Voice",
+      "ask": "How much HMA padding was placed each month on the Kawartha Lakes Rural Resurfacing Program?"
+    },
+    {
+      "id": "dsr",
+      "title": "Daily Site Report",
+      "ask": "I want to fill today's daily site report.",
+      "fill": [
+        "Daily report for the Kawartha Lakes Rural Resurfacing Program. Day shift, sunny and fourteen degrees. Dufferin Construction had four asphalt rakers, a paver operator and a roller operator on site, eight hours each. We ran the BOMAG paver and the BOMAG roller all day.",
+        "We placed forty tonnes of HL3 hot mix asphalt, and lost an hour in the morning waiting on the asphalt delivery."
+      ]
+    }
+  ]
+}

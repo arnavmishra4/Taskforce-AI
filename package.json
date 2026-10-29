@@ -1,0 +1,36 @@
+{
+  "name": "taskforce-ai-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "record:answers": "node scripts/record-answers.mjs",
+    "record:voice": "node --env-file=.env.local scripts/record-voice.mjs"
+  },
+  "dependencies": {
+    "chart.js": "4.4.2",
+    "dompurify": "3.1.6",
+    "html2pdf.js": "0.10.2",
+    "jspdf": "2.5.2",
+    "leaflet": "1.9.4",
+    "react": "18.3.1",
+    "react-chartjs-2": "5.2.0",
+    "react-dom": "18.3.1",
+    "react-leaflet": "4.2.1"
+  },
+  "devDependencies": {
+    "@types/dompurify": "3.0.5",
+    "@types/leaflet": "1.9.8",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "4.3.1",
+    "typescript": "5.4.5",
+    "vite": "5.4.2"
+  },
+  "engines": {
+    "node": ">=20.6"
+  }
+}

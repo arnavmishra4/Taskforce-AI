@@ -1,0 +1,40 @@
+/* ─── FormSection ─────────────────────────────────────────────────────────── */
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  border-bottom: 1px solid #ebedf8;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.form-section__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-section__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #8361fe;
+}
+
+.form-section__title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #3d424f;
+  line-height: 28px;
+}
+
+/* ── Body: two-col grid ──────────────────────────────────────────────────── */
+
+.form-section__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
