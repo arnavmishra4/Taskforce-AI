@@ -58,12 +58,16 @@ const PAGE_MM = { w: 190, h: 273 };
 const PAGE_PX = (718 * PAGE_MM.h) / PAGE_MM.w;
 const ONE_PAGE_STRETCH = 1.22;            // at most ~18% smaller: text stays about 7-8pt
 
-const fmt = (v: number | null | undefined, unit?: string | null) => {
+const fmt = (v: number | null | undefined, unit?: string | null, scale = "") => {
   if (v === null || v === undefined || Number.isNaN(v)) return "n/a";
   const n = Number.isInteger(v) ? v.toLocaleString(LOCALE) : v.toLocaleString(LOCALE, { maximumFractionDigits: unit ? 2 : 1 });
   // a currency sign sits on the number ("$512,300"); any other unit keeps a non-breaking space, never wrapping apart
-  return unit ? (/^[$€£¥]$/.test(unit) ? `${unit}${n}` : `${unit}\u00a0${n}`) : n;
+  return unit ? (/^[$€£¥]$/.test(unit) ? `${unit}${n}${scale}` : `${unit}\u00a0${n}${scale}`) : `${n}${scale}`;
 };
+// "Money stuck ($M)", "At risk ($K)": the scale goes on the number ("$3.4M"), not only in the label
+const SCALE = /\s*\(\s*[$€£¥]\s*([MKB])\s*\)/i;
+const scaleOf = (text?: string | null) => (text ?? "").match(SCALE)?.[1]?.toUpperCase() ?? "";
+const unscaled = (text: string) => text.replace(SCALE, "");
 // 2026-10-19 -> "Oct 19" (hover: "Mon, Oct 19"); 2026-10 -> "Oct 2026" (day / week / month groupings)
 const nice = (s: string, long = false) => {
   if (/^\d{4}-\d{2}-\d{2}$/.test(s))
@@ -124,7 +128,7 @@ function ChartBlock({ block, colours, mode }: {
   const horizontal = chart === "hbar";
   const stacked = chart === "stacked_bar";
   const tick = { color: MUTED, font: { size: mode === "pdf" ? 10 : 11 } };
-  const value = (v: number | string) => fmt(Number(v), unit);
+  const value = (v: number | string) => fmt(Number(v), unit, scaleOf(block.title));
   const fullLabel = (items: { dataIndex: number }[]) => nice(labels[items[0]?.dataIndex ?? 0] ?? "", true);
   const animation = mode === "pdf" ? (false as const) : undefined;
 
@@ -156,7 +160,7 @@ function ChartBlock({ block, colours, mode }: {
             <li key={i}>
               <span className={styles.pieSwatch} style={{ background: data.datasets[0].backgroundColor[i] }} />
               <span>{nice(l)} <span className={styles.pieValue}>
-                {fmt(series[0].values[i], unit)} ({Math.round((series[0].values[i] / total) * 100)}%)</span></span>
+                {fmt(series[0].values[i], unit, scaleOf(block.title))} ({Math.round((series[0].values[i] / total) * 100)}%)</span></span>
             </li>
           ))}
         </ul>
@@ -221,10 +225,10 @@ function chartHeight(kind: ChartKind, n: number, mode: Mode, wrapped = false) {
   return n <= 3 ? (pdf ? 150 : 200) : (pdf ? 180 : 260);       // two or three bars need less height
 }
 
-function Change({ c, unit }: { c: NonNullable<KpiItem["compare"]>; unit?: string | null }) {
+function Change({ c, unit, scale }: { c: NonNullable<KpiItem["compare"]>; unit?: string | null; scale?: string }) {
   // up / down only, never judged good or bad: more DSRs is good, more delays is not
   const arrow = c.delta > 0 ? "▲" : c.delta < 0 ? "▼" : "=";
-  const text = c.delta === 0 ? `same as ${c.label}` : `${fmt(Math.abs(c.delta), unit)} vs ${c.label}`;
+  const text = c.delta === 0 ? `same as ${c.label}` : `${fmt(Math.abs(c.delta), unit, scale)} vs ${c.label}`;
   return <div className={styles.tileChange}><span aria-hidden="true">{arrow}</span> {text}</div>;
 }
 
@@ -236,9 +240,9 @@ function Tiles({ items }: { items: KpiItem[] }) {
     <div className={styles.tiles} style={{ "--cols": tileColumns(items.length) } as React.CSSProperties}>
       {items.map((k, i) => (
         <div key={i} className={styles.tile} title={k.footnote}>
-          <div className={styles.tileValue}>{k.value === null ? "n/a" : fmt(k.value, k.unit)}</div>
-          <div className={styles.tileLabel}>{k.label}</div>
-          {k.compare && <Change c={k.compare} unit={k.unit} />}
+          <div className={styles.tileValue}>{k.value === null ? "n/a" : fmt(k.value, k.unit, scaleOf(k.label))}</div>
+          <div className={styles.tileLabel}>{unscaled(k.label)}</div>
+          {k.compare && <Change c={k.compare} unit={k.unit} scale={scaleOf(k.label)} />}
           {k.note && <div className={styles.tileChange}>{k.note}</div>}
           {k.empty && k.empty !== "n/a" && <div className={styles.empty}>{k.empty}</div>}
         </div>
@@ -358,7 +362,7 @@ function Block({ block, colours, mode, paired = false }: {
               <span className={styles.insightLabel}>What this shows</span>
               {block.type === "chart" && at >= 0 && (
                 <div className={styles.keyStat}>
-                  <span className={styles.keyValue}>{fmt(block.series[0].values[at], block.unit)}</span>
+                  <span className={styles.keyValue}>{fmt(block.series[0].values[at], block.unit, scaleOf(block.title))}</span>
                   <span className={styles.keyLabel}>{nice(block.labels[at], true)}</span>
                 </div>
               )}
