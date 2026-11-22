@@ -9,6 +9,7 @@ export type KpiItem = {
   value: number | null;
   unit?: string | null;
   footnote?: string;
+  note?: string;                                                  // one line under the tile
   empty?: string;
   compare?: { label: string; value: number; delta: number };   // the same number for the period before
 };

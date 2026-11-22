@@ -16,6 +16,8 @@ import { Bar, Line, Pie } from "react-chartjs-2";
 import styles from "./report.module.css";
 import type { ChartKind, KpiItem, MapBlockData, Report, ReportBlock, ReportStory, Tone } from "./types";
 import { ROAD_COLOURS, ROAD_LABELS, driveColour } from "./mapColours";
+import { addMapPage } from "./mapPdf";
+import { splitFigures } from "./numbers";
 
 // leaflet is loaded with the first map only
 const LazyMap = lazy(() => import("./MapView"));
@@ -42,8 +44,8 @@ const SHORT = 18;                          // chat: longer category names are cu
 // marks are drawn as SVG paths: the PDF capture shifts text set inside a small circle.
 const TONES: Record<Tone, { mark: string; label: string; colour: string }> = {
   good: { mark: "M5 9.2l2.6 2.6L13 6.4", label: "Good", colour: "#0ca30c" },
-  watch: { mark: "M9 4.8v5.4M9 12.8v.4", label: "Watch", colour: "#fab219" },
-  concern: { mark: "M5.6 5.6l6.8 6.8M12.4 5.6l-6.8 6.8", label: "Concern", colour: "#d03b3b" },
+  watch: { mark: "M9 4.8v5.4M9 12.8v.4", label: "Warning", colour: "#fab219" },
+  concern: { mark: "M5.6 5.6l6.8 6.8M12.4 5.6l-6.8 6.8", label: "Critical", colour: "#d03b3b" },
   neutral: { mark: "M9 8.4v4.8M9 5.2v.4", label: "Note", colour: "#898781" },
 };
 
@@ -83,13 +85,12 @@ const heading = (c: string) => {
   return t.charAt(0).toUpperCase() + t.slice(1);
 };
 const grey = (label: string, notRecorded?: string) => label === notRecorded || label === "Other";
-// numbers in the written words stand out: "Demo User filed <b>27</b> of <b>53</b>"
-// (a standalone number only: never the digits of a code or name such as CR42 or DRAFT-147)
+// numbers in the written words stand out, the whole figure: "spent <b>$2.90M</b>, <b>41.9%</b> of it" (numbers.ts)
 const emph = (text: string) =>
-  text.split(/((?<![\w-])\d[\d,]*(?:\.\d+)?%?(?![\w-]))/).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
-// a long category name on a bar chart: up to two lines (three in the PDF) instead of cut short
+  splitFigures(text).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
+// a long category name on a bar chart: up to two lines (the row height allows two) instead of cut short
 const wrap = (s: string, mode: Mode): string | string[] => {
-  const width = 20, most = mode === "pdf" ? 3 : 2;
+  const width = 20, most = 2;
   const lines: string[] = [];
   for (const w of nice(s).split(" ")) {
     const last = lines[lines.length - 1];
@@ -141,15 +142,25 @@ function ChartBlock({ block, colours, mode }: {
     const options: ChartOptions<"pie"> = {
       responsive: true, maintainAspectRatio: false, animation, layout: { padding: 10 },
       plugins: {
-        legend: { position: "right", labels: { color: INK, boxWidth: 11, boxHeight: 11, font: { size: mode === "pdf" ? 10.5 : 12 },
-          generateLabels: (c) => labels.map((l, i) => ({
-            text: `${cut(l, mode)}  ${fmt(series[0].values[i], unit)} (${Math.round((series[0].values[i] / total) * 100)}%)`,
-            fillStyle: (c.data.datasets[0].backgroundColor as string[])[i], strokeStyle: "#ffffff", lineWidth: 0,
-            fontColor: INK, index: i, hidden: false })) } },
+        legend: { display: false },
         tooltip: { callbacks: { label: (c) => ` ${value(c.raw as number)} (${Math.round(((c.raw as number) / total) * 100)}%)` } },
       },
     };
-    return <Pie data={data} options={options} />;
+    // the legend in HTML beside the pie: full names, value and share, wrapping instead of cut off (chat and PDF)
+    return (
+      <div className={styles.pieRow}>
+        <div className={styles.pieCanvas} style={{ height: chartHeight("pie", 0, mode) }}><Pie data={data} options={options} /></div>
+        <ul className={styles.pieLegend}>
+          {labels.map((l, i) => (
+            <li key={i}>
+              <span className={styles.pieSwatch} style={{ background: data.datasets[0].backgroundColor[i] }} />
+              <span>{nice(l)} <span className={styles.pieValue}>
+                {fmt(series[0].values[i], unit)} ({Math.round((series[0].values[i] / total) * 100)}%)</span></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 
   const datasets = series.map((s, i) => {
@@ -216,14 +227,18 @@ function Change({ c, unit }: { c: NonNullable<KpiItem["compare"]>; unit?: string
   return <div className={styles.tileChange}><span aria-hidden="true">{arrow}</span> {text}</div>;
 }
 
+// rows of even length: 5 -> 3+2, 6 -> 3+3, 7 -> 4+3, 8 -> 4+4 (never one tile alone on a row)
+const tileColumns = (n: number) => (n <= 4 ? n : Math.ceil(n / Math.ceil(n / 4)));
+
 function Tiles({ items }: { items: KpiItem[] }) {
   return (
-    <div className={styles.tiles}>
+    <div className={styles.tiles} style={{ "--cols": tileColumns(items.length) } as React.CSSProperties}>
       {items.map((k, i) => (
         <div key={i} className={styles.tile} title={k.footnote}>
           <div className={styles.tileValue}>{k.value === null ? "n/a" : fmt(k.value, k.unit)}</div>
           <div className={styles.tileLabel}>{k.label}</div>
           {k.compare && <Change c={k.compare} unit={k.unit} />}
+          {k.note && <div className={styles.tileChange}>{k.note}</div>}
           {k.empty && k.empty !== "n/a" && <div className={styles.empty}>{k.empty}</div>}
         </div>
       ))}
@@ -271,12 +286,16 @@ function MapSection({ block, mode, titled = true }: { block: MapBlockData; mode:
           : <MapView block={block} height={380} />}
       </div>
       <div className={styles.legend}>
+        <span className={styles.legendTitle}>Roads:</span>
         {roads.map(({ p, n }) => (
           <span key={p} className={styles.legendItem}>
             <span className={styles.legendLine} style={{ background: ROAD_COLOURS[p] }} />
             {ROAD_LABELS[p]} <strong>{n}</strong>
           </span>
         ))}
+      </div>
+      <div className={styles.legend}>
+        <span className={styles.legendTitle}>Driveways:</span>
         {statuses.map(([s, n]) => (
           <span key={s} className={styles.legendItem}>
             <span className={styles.legendDot} style={{ background: driveColour(s) }} />
@@ -316,7 +335,7 @@ function Block({ block, colours, mode, paired = false }: {
   const visual = block.empty ? <div className={styles.empty}>No data · {block.empty}</div>
     : block.type === "chart" ? (
       <div className={block.chart === "pie" ? styles.pie : undefined}
-           style={{ height: chartHeight(block.chart, block.labels.length, mode,
+           style={block.chart === "pie" ? undefined : { height: chartHeight(block.chart, block.labels.length, mode,
                                         block.labels.some((l) => nice(l).length > 20)) }}>
         <ChartBlock block={block} colours={colours} mode={mode} />
       </div>
@@ -429,10 +448,12 @@ function rows(blocks: ReportBlock[], mode: Mode): ReportBlock[][] {
 }
 
 function Body({ report, colours, mode }: { report: Report; colours: Map<string, string>; mode: Mode }) {
+  // the PDF gives a map its own landscape page at the end (mapPdf.ts), with its legend and note
+  const blocks = mode === "pdf" ? report.blocks.filter((b) => b.type !== "map" || b.empty) : report.blocks;
   return (
     <>
       {report.story && <Summary story={report.story} />}
-      {rows(report.blocks, mode).map((row, i) => row.length === 2 ? (
+      {rows(blocks, mode).map((row, i) => row.length === 2 ? (
         <div key={i} className={`${styles.block} ${styles.pair}`}>
           {row.map((b, j) => <Block key={j} block={b} colours={colours} mode={mode} paired />)}
         </div>
@@ -463,10 +484,19 @@ export default function ReportCard({ report, summary }: { report: Report; summar
         const pages = pdf.internal.getNumberOfPages();
         for (let i = 1; i <= pages; i++) {
           pdf.setPage(i);
+          const w = pdf.internal.pageSize.getWidth(), h = pdf.internal.pageSize.getHeight();   // the map page is landscape
+          pdf.setFont("helvetica", "normal");
           pdf.setFontSize(8);
           pdf.setTextColor(107, 114, 128);
-          pdf.text(`${report.title} · counted from TaskForce on ${longDate(report.made_on)}`, 10, 291);
-          pdf.text(`Page ${i} of ${pages}`, 200, 291, { align: "right" });
+          pdf.text(`${report.title} · counted from TaskForce on ${longDate(report.made_on)}`, 10, h - 6);
+          pdf.text(`Page ${i} of ${pages}`, w - 10, h - 6, { align: "right" });
+        }
+      };
+      // each map gets its own landscape page at the end; a map that can't be drawn leaves the rest of the PDF as is
+      const maps = async (pdf: any) => {
+        for (const b of report.blocks) {
+          if (b.type !== "map" || b.empty) continue;
+          try { await addMapPage(pdf, b as MapBlockData); } catch (e) { console.error("Report map page failed", e); }
         }
       };
       const options = {
@@ -480,17 +510,25 @@ export default function ReportCard({ report, summary }: { report: Report; summar
       if (page.scrollHeight <= PAGE_PX * ONE_PAGE_STRETCH) {
         // a little over one page: one A4 page with the whole report scaled down evenly (nothing moved or cut),
         // instead of a second page holding only the last few lines
-        const canvas: HTMLCanvasElement = await html2pdf().from(page).set(options).toCanvas().get("canvas");
+        // no page-break rules here: their spacers push a section to where page 2 would start, leaving a gap
+        // and an image taller than the page
+        const canvas: HTMLCanvasElement = await html2pdf().from(page).set({ ...options, pagebreak: { mode: [] } })
+          .toCanvas().get("canvas");
         const { jsPDF } = await import("jspdf");
         const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
-        const fit = Math.min(1, PAGE_PX / page.scrollHeight);
+        const tall = (canvas.height / canvas.width) * PAGE_MM.w;          // mm at full width
+        const fit = Math.min(1, PAGE_MM.h / tall);
         const w = PAGE_MM.w * fit;
         pdf.addImage(canvas.toDataURL("image/jpeg", 0.95), "JPEG", PDF_MARGIN + (PAGE_MM.w - w) / 2, PDF_MARGIN, w,
-                     (canvas.height / canvas.width) * w);
+                     tall * fit);
+        await maps(pdf);
         footer(pdf);
         pdf.save(`${name}.pdf`);
       } else {
-        await html2pdf().from(page).set(options).toPdf().get("pdf").then(footer).save();
+        const pdf = await html2pdf().from(page).set(options).toPdf().get("pdf");
+        await maps(pdf);
+        footer(pdf);
+        pdf.save(`${name}.pdf`);
       }
     } catch (e) {
       console.error("Report PDF failed", e);
