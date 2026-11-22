@@ -61,7 +61,8 @@ const ONE_PAGE_STRETCH = 1.22;            // at most ~18% smaller: text stays ab
 const fmt = (v: number | null | undefined, unit?: string | null) => {
   if (v === null || v === undefined || Number.isNaN(v)) return "n/a";
   const n = Number.isInteger(v) ? v.toLocaleString(LOCALE) : v.toLocaleString(LOCALE, { maximumFractionDigits: unit ? 2 : 1 });
-  return unit ? `${unit} ${n}` : n;
+  // a currency sign sits on the number ("$512,300"); any other unit keeps a non-breaking space, never wrapping apart
+  return unit ? (/^[$€£¥]$/.test(unit) ? `${unit}${n}` : `${unit}\u00a0${n}`) : n;
 };
 // 2026-10-19 -> "Oct 19" (hover: "Mon, Oct 19"); 2026-10 -> "Oct 2026" (day / week / month groupings)
 const nice = (s: string, long = false) => {

@@ -170,6 +170,7 @@
 }
 
 .keyValue {
+  white-space: nowrap;
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.1;
@@ -312,6 +313,7 @@
 }
 
 .tileValue {
+  white-space: nowrap;
   font-size: 1.5rem;
   font-weight: 650;
   line-height: 1.2;
