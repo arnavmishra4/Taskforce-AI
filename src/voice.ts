@@ -9,16 +9,33 @@ const LEAD = 0.03;     // seconds kept before the first word
 const TAIL = 0.12;     // and after the last one, for its natural fall
 
 let ctx: AudioContext | null = null;
+let out: GainNode | null = null;    // every clip plays through this: Mute sets it to 0
+let muted = false;
 const clips = new Map<string, Promise<Clip | null>>();
 
 /** Called from the Play click: browsers start audio only after the user has pressed something. */
 export function unlock() {
-  ctx ??= new AudioContext();
+  if (!ctx) {
+    ctx = new AudioContext();
+    out = ctx.createGain();
+    out.gain.value = muted ? 0 : 1;
+    out.connect(ctx.destination);
+  }
   void ctx.resume();
 }
 
 export const pause = () => void ctx?.suspend();
 export const resume = () => void ctx?.resume();
+export function setMuted(m: boolean) {
+  muted = m;
+  if (out) out.gain.value = m ? 0 : 1;
+}
+
+/** How long a clip plays, in ms (null: there is no recording). */
+export const lengthOf = async (id: string) => {
+  const clip = await load(id);
+  return clip ? (clip.end - clip.start) * 1000 : null;
+};
 
 function trim(buffer: AudioBuffer): Clip {
   const data = buffer.getChannelData(0);
@@ -57,7 +74,7 @@ export async function play(id: string, alive: () => boolean, onTime?: (at: numbe
   const analyser = c.createAnalyser();
   analyser.fftSize = 1024;
   source.connect(analyser);
-  analyser.connect(c.destination);
+  analyser.connect(out ?? c.destination);
   const length = clip.end - clip.start;
   const began = c.currentTime;
   source.start(0, clip.start, length);

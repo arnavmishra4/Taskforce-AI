@@ -30,6 +30,7 @@ fs.mkdirSync(OUT, { recursive: true });
 
 let made = 0;
 for (const [id, { voice, text }] of Object.entries(lines)) {
+  if (/\{\w+\}/.test(text)) { console.log(`  ${id}: skipped, fill in ${text.match(/\{\w+\}/g).join(" ")} first`); continue; }
   const out = path.join(OUT, `${id}.mp3`);
   if (!force && fs.existsSync(out)) {
     if (!alignment[id]) alignment[id] = await align(out, text);

@@ -1,6 +1,6 @@
 // The TaskForce AI demo: the app's modules bar, the TaskForce AI page and its Daily Site Report pane, driven hands-free.
-// A voice-over (ElevenLabs, public/audio/<id>.mp3, lines in narration.json) walks through it; the questions are typed
-// or spoken into the chat and the answers that come back are TaskForce AI's real ones, recorded once from the AI service
+// A voice-over (ElevenLabs, public/audio/<id>.mp3, lines in narration.json) walks through it; the questions are spoken
+// into the chat and the answers that come back are TaskForce AI's real ones, recorded once from the AI service
 // (answers.json, scripts/record-answers.mjs) and replayed as they streamed, with the waiting cut short.
 import React, { useEffect, useRef, useState } from "react";
 import chat from "./chat/tfai.module.css";
@@ -29,7 +29,8 @@ type Msg = {
 };
 type Recorded = Record<string, {
   events: { t: number; e: Record<string, any> }[];
-  fills: { said: string; reply: string; summary: Summary }[];
+  fills: { said: string; reply: string; summary: Summary; review?: unknown[] }[];
+  reportDate?: string;
 }>;
 type MicState = "off" | "connecting" | "listening" | "hearing" | "working";
 type LineId = keyof typeof narration.lines;
@@ -44,14 +45,13 @@ class Stopped extends Error {}
 
 // The chapters of the show, in the bar at the bottom: what each one shows, as tags above it
 const CHAPTERS = [
-  { key: "intro", label: "Intro", title: "TaskForce and TaskForce AI", tags: ["Modules bar", "Live records", "Meet TaskForce AI"] },
-  { key: "live", label: "1", title: "Live data", tags: ["Plain-English question", "Live inspection records", "Thinking steps", "Source"] },
-  { key: "report", label: "2", title: "Smart report", tags: ["Report built on its own", "Charts and tables", "Findings", "Next steps", "PDF export"] },
-  { key: "intel", label: "3", title: "Smart intel", tags: ["Street-by-street breakdown", "Highlights", "Data gaps flagged"] },
-  { key: "map", label: "4", title: "Maps", tags: ["Roads on a map", "Coloured by progress", "Grey · Colour · Satellite", "Chat history"] },
-  { key: "voice", label: "5", title: "Voice", tags: ["Tap the mic", "Live transcript", "Spoken question"] },
-  { key: "dsr", label: "6", title: "Daily Site Report", tags: ["Opened by voice", "Form filled from speech", "Matched to real records", "Review before submit"] },
-  { key: "end", label: "End", title: "Wrap-up", tags: ["Everything in one place"] },
+  { key: "intro", label: "Intro", title: "Halcrest, Monday morning", tags: ["Four public jobs", "Live project records", "Meet TaskForce AI"] },
+  { key: "cash", label: "1", title: "Cash", tags: ["Asked by voice", "All four jobs", "Fastest money back", "Figures counted by code"] },
+  { key: "invoices", label: "2", title: "Invoice check", tags: ["Subcontract", "Agreed rates", "Site report crews", "Money at risk"] },
+  { key: "schedule", label: "3", title: "Schedule", tags: ["Why Ridgeline is late", "What it costs", "Schedule · site reports · finance", "Map"] },
+  { key: "claim", label: "4", title: "Delay claim", tags: ["Hydro delay at Harwood", "Linked days only", "Excluded days listed", "Daily report behind every line"] },
+  { key: "dsr", label: "5", title: "Daily Site Report", tags: ["Spoken, not typed", "Matched to real records", "Asks for what's missing", "Review before submit"] },
+  { key: "end", label: "End", title: "Wrap-up", tags: ["Five o'clock to Monday morning"] },
 ] as const;
 type ChapterKey = (typeof CHAPTERS)[number]["key"];
 
@@ -193,13 +193,6 @@ export default function App() {
   };
 
   // ── asking: typed, or said into the mic ──
-  const type = async (text: string, run: number) => {
-    for (let i = 1; i <= text.length; i++) { await wait(15 + Math.random() * 28, run); setInput(text.slice(0, i)); }
-    await wait(280, run);
-    spot($(`.${chat.sendButton}`), 600);
-    await wait(180, run);
-    setInput("");
-  };
   const speak = async (id: LineId, run: number) => {
     const words = narration.lines[id].text.split(" ");
     // each word appears as it is said: its start in the recording (alignment.json, ElevenLabs forced alignment),
@@ -237,7 +230,7 @@ export default function App() {
   const answer = async (id: string, asked: string, run: number, textOnly = false) => {
     setMessages((m) => [...m, { role: "user", content: asked }]);
     listChat(asked);
-    const { events } = answers[id];
+    const { events } = answers[id] ?? { events: [{ t: 0, e: { text: "(This answer is not recorded yet: npm run record:answers.)" } }] };
     const first = events.find(({ e }) => e.text)?.t ?? events[events.length - 1]?.t ?? 1;
     const last = events[events.length - 1]?.t ?? first;
     const k = Math.min(1, STREAM_MS / Math.max(1, last - first));
@@ -262,12 +255,22 @@ export default function App() {
     await wait(500, run);   // charts draw, the map loads its tiles
   };
 
-  // the voice points at the answer while the chat moves down through it
+  // the voice points at the answer while the chat moves down through it: a line with cues moves it to what it names,
+  // a line without moves on through the answer for as long as it is spoken
   const walk = async (lines: LineId[], run: number) => {
     follow.current = false;
     const box = areaRef.current, row = lastAnswer();
     if (box && row) await glide(box, topIn(row, box) - 36, 800, run);
-    for (const [n, id] of lines.entries()) { if (n) await wait(220, run); await present(id, run, () => areaRef.current); }
+    for (const [n, id] of lines.entries()) {
+      if (n) await wait(220, run);
+      if (box && row && !("cues" in narration.lines[id])) {
+        const top = topIn(row, box) - 36, travel = Math.max(0, row.offsetHeight - box.clientHeight * 0.6);
+        const ms = (await voice.lengthOf(id)) ?? readMs(narration.lines[id].text);
+        await Promise.all([play(id, run), glide(box, top + (travel * (n + 1)) / lines.length, ms, run)]);
+      } else {
+        await present(id, run, () => areaRef.current);
+      }
+    }
     follow.current = true;
   };
 
@@ -276,7 +279,7 @@ export default function App() {
     const list = $('[data-demo="module-list"]');
     spot($('[data-demo="modules"]'), 9000);
     const lighting = (async () => {
-      for (const m of ["Projects", "Daily Site Report", "Finance", "Equipment", "Document Control", "Quality Control", "Timesheet"]) {
+      for (const m of ["Projects", "Daily Site Report", "Finance", "Scheduling", "Change Order", "Document Control"]) {
         setModuleLit(m);
         const el = list?.querySelector(`[data-module="${m}"]`);
         if (el && list) await glide(list, topIn(el, list) - 80, 450, run);
@@ -286,9 +289,9 @@ export default function App() {
       setModuleLit("Daily Site Report");
       setModuleOpen("Daily Site Report");
     })();
-    await Promise.all([play("intro-1", run), lighting]);
+    await play("intro-1", run);
     await wait(220, run);
-    await play("intro-2", run);
+    await Promise.all([play("intro-2", run), lighting]);
     setModuleOpen(undefined);
     setModuleLit(undefined);
   };
@@ -298,86 +301,88 @@ export default function App() {
     await play("meet-1", run);
   };
 
-  const showHistory = async (run: number) => {
-    setHistoryOpen(true);
-    await wait(400, run);
-    spot($(`.${chat.chatHistory}`), 4200);
-    await play("history-1", run);
-    setHistoryOpen(false);
-    await wait(500, run);
-  };
-
-  const ask = async (id: string, title: string, run: number, extra?: (run: number) => Promise<void>) => {
-    const step = script.steps.find((s) => s.id === id)!;
+  // a scene: the narrator sets it up, the question is said into the mic, the answer streams in, the narrator walks it
+  const ask = async (id: string, run: number, extra?: (run: number) => Promise<void>) => {
+    const step = askOf(id);
     await play(`${id}-lead` as LineId, run);
-    await wait(150, run);
-    await type(step.ask, run);
-    await answer(id, step.ask, run, "textOnly" in step && !!step.textOnly);
-    await walk([`${id}-point` as LineId], run);
+    spot($(`.${dsrStyles.orb}`), 1600);
+    setFocus(true);
+    setMic("connecting");
+    await wait(500, run);
+    setMic("listening");
+    await wait(300, run);
+    await speak(`${id}-ask` as LineId, run);
+    setMic("working");
+    await answer(id, step.ask, run);
+    setMic("off");
+    await walk([`${id}-point` as LineId, `${id}-verify` as LineId], run);
     if (extra) await extra(run);
   };
 
-  const downloadPdf = async (run: number) => {
-    const box = areaRef.current, row = lastAnswer();
-    const button = row && Array.from(row.querySelectorAll("button")).find((b) => b.textContent?.trim() === "Download PDF");
-    if (!box || !row || !button) return;
+  // the scene ends on the map
+  const showMap = async (run: number) => {
+    const box = areaRef.current, map = lastAnswer()?.querySelector(".leaflet-container");
     follow.current = false;
-    await glide(box, topIn(row.querySelector('[role="region"]') ?? row, box) - 36, 800, run);
-    spot(button, 3000);
-    await present("report-pdf", run, () => areaRef.current);   // its cue clicks the button on "click"
-    for (let t = 0; t < 30000 && button.textContent?.trim() === "Preparing…"; t += 100) await wait(100, run);
-    follow.current = true;
-  };
-
-  const tourMap = async (run: number) => {
-    const box = areaRef.current, row = lastAnswer();
-    const map = row?.querySelector(".leaflet-container");
-    if (!box || !row || !map) return;
-    follow.current = false;
-    await glide(box, topIn(map, box) - 60, 700, run);
-    await present("map-looks", run, () => areaRef.current);    // its cues open the looks and switch them on their words
+    if (box && map) await glide(box, topIn(map, box) - 60, 900, run);
+    if (map) spot(map, 5000);
+    await play("schedule-map", run);
     await wait(500, run);
-    row.querySelector(".leaflet-control-layers")?.classList.remove("leaflet-control-layers-expanded");
     follow.current = true;
   };
 
-  const showVoice = async (run: number) => {
-    const step = script.steps.find((s) => s.id === "voice")!;
-    spot($(`.${dsrStyles.orb}`), 3000);
-    await play("voice-lead", run);
-    setFocus(true);
-    setMic("connecting");
-    await wait(600, run);
-    setMic("listening");
-    await wait(350, run);
-    await speak("voice-ask", run);
-    setMic("working");
-    await answer("voice", step.ask, run);
-    setMic("listening");
-    await walk(["voice-point"], run);
+  // the recorded fills, only when they are of this script's sentences (not an older recording's)
+  const fillsOf = () => {
+    const said = askOf("dsr").fill ?? [], fills = answers.dsr?.fills ?? [];
+    return fills.length === said.length && fills.every((f, n) => f.said === said[n]) ? fills : [];
   };
+  // the question the filler asked back at the end of its reply ("What was the weather and temperature on site?")
+  const askedBack = (reply: string) => reply.match(/[^.?!]*\?\s*$/)?.[0].trim() ?? "";
+  const doneOf = (reply: string) => reply.replace(/\s*Summary updated\./, "").replace(askedBack(reply), "").trim();
 
   const showDsr = async (run: number) => {
-    const step = script.steps.find((s) => s.id === "dsr")!;
+    const step = askOf("dsr");
     await play("dsr-lead", run);
+    setFocus(true);
+    setMic("connecting");
+    await wait(500, run);
+    setMic("listening");
     await speak("dsr-ask", run);
     setMic("working");
     await answer("dsr", step.ask, run);
+    setDsrOpen(true);     // the recorded answer opens it on its own; this keeps the scene whole before it is recorded
     setMic("listening");
     await play("dsr-open", run);
     const body = $('[data-demo="dsr-body"]');
-    for (const [n, fill] of answers.dsr.fills.entries()) {
+    const fills = fillsOf();
+    if (!fills.length) console.warn("The DSR fills are not recorded for this script: npm run record:answers -- dsr");
+    for (const [n, said] of (step.fill ?? []).entries()) {
+      const fill = fills[n];
       await speak(`fill-${n + 1}` as LineId, run);
-      setDsrLine({ said: fill.said, did: "", working: true });
+      setDsrLine({ said, did: "", working: true });
       setDsrBusy(true);
       setMic("working");
       await wait(800, run);
-      setForm((f) => ({ was: f.now, now: fill.summary }));
+      if (fill) setForm((f) => ({ was: f.now, now: fill.summary }));
       setDsrBusy(false);
       setMic("listening");
-      setDsrLine({ said: fill.said, did: fill.reply.replace(/\s*Summary updated\./, ""), working: false });
+      setDsrLine({ said, did: fill ? doneOf(fill.reply) : "(not recorded yet)", working: false });
       await wait(150, run);
       await present(`fill-${n + 1}-point` as LineId, run, () => body);   // its cues scroll the form to what it names
+      // the filler asked back for what was missing: shown in the chat, said, and then answered
+      // (not a question about an unclear name: that is an open review, and nothing is asked back then)
+      const question = fill && !fill.review?.length ? askedBack(fill.reply) : "";
+      const ask = `fill-${n + 1}-ask` as LineId;
+      if (ask in narration.lines && (question || !fill)) {
+        await present(`fill-${n + 1}-missing` as LineId, run, () => body);
+        setMessages((m) => [...m, { role: "assistant", content: question || narration.lines[ask].text }]);
+        setDsrLine({ said, did: question || narration.lines[ask].text, working: false });
+        await wait(300, run);
+        if (question && question !== narration.lines[ask].text) console.warn(`Asked back "${question}"; ${ask} says otherwise`);
+        await play(ask, run);
+        await wait(300, run);
+      } else if (ask in narration.lines) {
+        console.warn(`The recorded reply to fill ${n + 1} asks nothing back: "${fill?.reply}"`);
+      }
     }
     setMic("off");
     if (body) await glide(body, body.scrollHeight, 1200, run);
@@ -392,18 +397,18 @@ export default function App() {
 
   // a chapter jumped past: the chat (and the report) as that chapter left them, at once
   const restore = (key: ChapterKey) => {
-    if (!(key in answers)) return;
+    if (!(key in answers) || !script.steps.some((s) => s.id === key)) return;
     const asked = askOf(key).ask;
     const built = answers[key].events.reduce((a, { e }) => fold(a, e, textOnlyOf(key)), { steps: [], text: "" } as Built);
     const steps = built.steps.map((s) => ({ ...s, state: "done" as const }));
     setMessages((m) => [...m, { role: "user", content: asked },
       { role: "assistant", content: built.text, steps, report: built.report, thoughtMs: THINK_MS, startedAt: 0 }]);
     listChat(asked);
-    if (key === "dsr") {
-      const last = answers.dsr.fills[answers.dsr.fills.length - 1];
-      setDsrOpen(true);
+    const last = key === "dsr" ? fillsOf().at(-1) : undefined;
+    if (key === "dsr") setDsrOpen(true);
+    if (last) {
       setForm({ was: last.summary, now: last.summary });
-      setDsrLine({ said: last.said, did: last.reply.replace(/\s*Summary updated\./, ""), working: false });
+      setDsrLine({ said: last.said, did: doneOf(last.reply), working: false });
     }
   };
 
@@ -415,11 +420,10 @@ export default function App() {
 
   const RUN: Record<ChapterKey, (run: number) => Promise<void>> = {
     intro: async (run) => { await showModules(run); await showAssistant(run); },
-    live: (run) => ask("live", "Live data", run),
-    report: (run) => ask("report", "Smart reports", run, downloadPdf),
-    intel: (run) => ask("intel", "Smart intel", run),
-    map: async (run) => { await ask("map", "Maps", run, tourMap); await showHistory(run); },
-    voice: showVoice,
+    cash: (run) => ask("cash", run),
+    invoices: (run) => ask("invoices", run),
+    schedule: (run) => ask("schedule", run, showMap),
+    claim: (run) => ask("claim", run),
     dsr: showDsr,
     end: async (run) => { setReview(false); await play("outro-1", run); },
   };
@@ -453,12 +457,25 @@ export default function App() {
     setPaused(p);
     if (p) voice.pause(); else voice.resume();
   };
-  const keys = useRef({ togglePause });
-  keys.current = { togglePause };
+  const stop = () => {
+    ctl.current.run++;
+    voice.resume();
+    reset();
+    setPaused(false);
+    setPhase("ready");
+  };
+  const [muted, setMuted] = useState(false);
+  const toggleMute = () => setMuted((m) => { voice.setMuted(!m); return !m; });
+  const keys = useRef({ togglePause, stop, chapter, start });
+  keys.current = { togglePause, stop, chapter, start };
   useEffect(() => {
-    if (phase !== "running") return;
+    if (phase === "ready") return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === " ") { e.preventDefault(); keys.current.togglePause(); }
+      const k = keys.current;
+      if (e.key === " " && phase === "running") { e.preventDefault(); k.togglePause(); }
+      else if (e.key === "ArrowRight" && k.chapter < CHAPTERS.length - 1) void k.start(k.chapter + 1);
+      else if (e.key === "ArrowLeft" && k.chapter > 0) void k.start(k.chapter - 1);
+      else if (e.key === "Escape") k.stop();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -535,7 +552,7 @@ export default function App() {
           </div>
         </div>
 
-        {dsrOpen && <DsrPanel now={form.now} was={form.was} busy={dsrBusy} review={review} dim={focus} />}
+        {dsrOpen && <DsrPanel now={form.now} was={form.was} busy={dsrBusy} review={review} dim={focus} date={answers.dsr?.reportDate} />}
 
         {/* ══ the chat ══ */}
         <div className={`${chat.mainContent} ${dsrOpen ? dsrStyles.chatNarrow : ""}`}>
@@ -660,9 +677,9 @@ export default function App() {
           <div className={ui.startCard}>
             <div className={ui.brand}><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d={STAR} fill="white" /></svg></div>
             <h2>TaskForce AI</h2>
-            <p>Live data, smart reports, maps, voice, and the Daily Site Report, hands-free.</p>
+            <p>Halcrest Civil Constructors: cash, invoices, schedule, a delay claim, and the Daily Site Report, hands-free.</p>
             <button type="button" className={ui.play} onClick={() => void start()} autoFocus>▶ Play</button>
-            <span className={ui.hint}>Sound on · Space pauses</span>
+            <span className={ui.hint}>Sound on · Space pauses · ← → chapters · Esc stops</span>
           </div>
         </div>
       ) : (
@@ -692,6 +709,13 @@ export default function App() {
             <button type="button" className={ui.navButton} onClick={() => void start(Math.min(CHAPTERS.length - 1, chapter + 1))}
                     disabled={chapter === CHAPTERS.length - 1} aria-label="Next chapter" title="Next">
               <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <button type="button" className={ui.navButton} onClick={toggleMute} aria-pressed={muted}
+                    aria-label={muted ? "Unmute" : "Mute"} title={muted ? "Unmute" : "Mute"}>
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor" />
+                {muted ? <><line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" /></> : <path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" />}
+              </svg>
             </button>
             <span className={ui.navDivider} aria-hidden="true" />
             {CHAPTERS.map((c, i) => (
