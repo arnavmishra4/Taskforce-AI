@@ -73,6 +73,7 @@ export default function App() {
   const [review, setReview] = useState(false);
   const [moduleLit, setModuleLit] = useState<string>();
   const [moduleOpen, setModuleOpen] = useState<string>();
+  const [sideHidden, setSideHidden] = useState(false);   // the modules bar slides away once TaskForce AI takes over
   // ── the presentation ──
   const [phase, setPhase] = useState<"ready" | "running" | "done">("ready");
   const [paused, setPaused] = useState(false);
@@ -297,6 +298,7 @@ export default function App() {
   };
 
   const showAssistant = async (run: number) => {
+    setSideHidden(true);
     spot($(`.${chat.mainContent}`), 3500);
     await play("meet-1", run);
   };
@@ -416,7 +418,7 @@ export default function App() {
   const reset = () => {
     setMessages([]); setInput(""); setHistoryOpen(false); setChats(sessions); setMic("off"); setHeard(""); setFocus(false);
     setDsrOpen(false); setForm({ now: null, was: null }); setDsrBusy(false); setDsrLine(null); setReview(false);
-    setModuleLit(undefined); setModuleOpen(undefined); follow.current = true;
+    setModuleLit(undefined); setModuleOpen(undefined); follow.current = true; setSideHidden(false);
   };
 
   const RUN: Record<ChapterKey, (run: number) => Promise<void>> = {
@@ -440,6 +442,7 @@ export default function App() {
     voice.unlock();
     Object.keys(narration.lines).forEach((id) => void voice.load(id));
     CHAPTERS.slice(0, from).forEach((c) => restore(c.key));
+    if (from) setSideHidden(true);
     try {
       await wait(from ? 400 : 600, run);
       for (let i = from; i < CHAPTERS.length; i++) {
@@ -487,7 +490,9 @@ export default function App() {
 
   return (
     <div className={ui.app}>
-      <div className={focus ? ui.dimmed : ui.undimmed} style={{ display: "flex" }}><Sidebar open={moduleOpen} lit={moduleLit} /></div>
+      <div className={focus ? ui.dimmed : ui.undimmed}
+           style={{ display: "flex", overflow: "hidden", flexShrink: 0, maxWidth: sideHidden ? 0 : 400,
+                    transition: "max-width 700ms ease" }}><Sidebar open={moduleOpen} lit={moduleLit} /></div>
 
       <div className={chat.container} style={{ height: "100vh", flex: 1, minWidth: 0 }}>
         {/* ══ conversations (the TaskForce AI page's own sidebar) ══ */}
