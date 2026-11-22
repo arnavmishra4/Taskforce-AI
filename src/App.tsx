@@ -374,6 +374,7 @@ export default function App() {
       const ask = `fill-${n + 1}-ask` as LineId;
       if (ask in narration.lines && (question || !fill)) {
         await present(`fill-${n + 1}-missing` as LineId, run, () => body);
+        follow.current = true;   // the question shows at the bottom of the chat, scrolled into view
         setMessages((m) => [...m, { role: "assistant", content: question || narration.lines[ask].text }]);
         setDsrLine({ said, did: question || narration.lines[ask].text, working: false });
         await wait(300, run);

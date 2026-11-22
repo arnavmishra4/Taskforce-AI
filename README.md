@@ -14,7 +14,7 @@ It is a static site: no login, no backend, no keys in the browser.
 
 - **The screens** are TaskForce AI's own components and styles, copied from `taskforce-construction-frontend` (`src/chat/`; the report card is from branch `tfAi-v2.2`, commit c9fcc6c2).
 - **The answers are real.** They are recorded once from the TaskForce AI service on the Halcrest demo data (`src/answers.json`). The demo replays them as they streamed in, with the 20–35 s of thinking cut to about 3 s.
-- **The voices** are recorded once with ElevenLabs (`public/audio/`): Sarah narrates, and Chris says the questions and Maria's lines into the mic. Sarah also says the question TaskForce AI asks back in the DSR scene.
+- **The voices** are recorded once with ElevenLabs (`public/audio/`): Sarah narrates, Chris (the owner) asks the questions, and Jessica is Maria Santos, the site supervisor, in the DSR scene. Sarah also says the question TaskForce AI asks back.
 
 ## Run it
 

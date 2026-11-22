@@ -7,6 +7,10 @@
     "user": {
       "name": "Chris",
       "id": "iP95p4xoKVk53GoZ742B"
+    },
+    "maria": {
+      "name": "Jessica",
+      "id": "cgSgspJ2msm6clMCkdW9"
     }
   },
   "lines": {
@@ -39,7 +43,7 @@
       "text": "Can we recover what the Hydro delay at Harwood has cost us?"
     },
     "dsr-ask": {
-      "voice": "user",
+      "voice": "maria",
       "text": "I want to fill today's daily site report."
     },
     "cash-lead": {
@@ -109,7 +113,7 @@
       "text": "The daily site report opens beside the chat. No typing, no dropdowns. She just talks."
     },
     "fill-1": {
-      "voice": "user",
+      "voice": "maria",
       "text": "Okay, so this is my end of day report. I'm Maria Santos, and I was the site supervisor today. It was a day shift on the Ridgeline Regional Roads program, out at Payne Road. On our own crew we had our foreman, six general labourers and fourteen dump truck drivers, and everybody put in ten hours. Kestrel was paving item 109 today. Their crew was two asphalt paver operators, five asphalt rakers and four roller operators. All eleven of them worked ten hours, and every one of them, pavers, rakers and rollers, sat one hour on standby because of the rain. Lakeview delivered sixteen hundred and forty tonnes of HL3 hot mix, and we placed all sixteen hundred and forty tonnes on item 109. For equipment we ran our Caterpillar AP600F paver, our BOMAG 1055 paver, our BW213D roller and our CB10 roller, ten hours each. Then, after lunch, the rain stopped the work at two o'clock for about an hour. The one thing still stuck is Hydro. They still haven't moved the pole at the Harwood Road culvert, and that's holding up the culvert work there. But what did get done is the HL3 lift on Payne Road, from the culvert up to the north end. It's all rolled and compacted."
     },
     "fill-1-point": {
@@ -145,7 +149,7 @@
       "text": "What was the temperature on site?"
     },
     "fill-2": {
-      "voice": "user",
+      "voice": "maria",
       "text": "It started overcast, about eight degrees, then rain most of the afternoon."
     },
     "fill-2-point": {
