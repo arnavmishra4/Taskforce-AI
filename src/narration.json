@@ -48,7 +48,7 @@
     },
     "cash-point": {
       "voice": "narrator",
-      "text": "{cash_total} is tied up across the four jobs. {cash_top_job} holds the most, {cash_top_job_amount}. And the fastest money back is {cash_fastest}, worth {cash_fastest_amount}."
+      "text": "Nineteen point two million dollars is tied up across the four jobs. Harbourfront Watermain holds the most, eight point four million. And the fastest money back: get four point one million dollars of finished work on Harbourfront certified."
     },
     "cash-verify": {
       "voice": "narrator",
@@ -60,7 +60,7 @@
     },
     "invoices-point": {
       "voice": "narrator",
-      "text": "It flagged {invoice_flag_count} invoices, with {invoice_at_risk} at risk. The biggest is {invoice_top_vendor}: {invoice_top_issue}, worth {invoice_top_amount}."
+      "text": "It flagged five invoices, with one point five seven million dollars at risk. Kestrel billed a full crew on twenty-three days when your own site reports show no Kestrel crew there. And Corbin sent the same invoice twice."
     },
     "invoices-verify": {
       "voice": "narrator",
@@ -72,7 +72,7 @@
     },
     "schedule-point": {
       "voice": "narrator",
-      "text": "Ridgeline is {ridgeline_days_late} days behind. The cause is {ridgeline_cause}, and so far it has cost {ridgeline_cost}."
+      "text": "Ridgeline is fourteen percent behind schedule. Utility conflicts are the main cause, and the Harwood Road culvert alone is thirty-four days late."
     },
     "schedule-verify": {
       "voice": "narrator",
@@ -94,7 +94,7 @@
     },
     "claim-point": {
       "voice": "narrator",
-      "text": "It builds the claim: {claim_days} delay days at Harwood, worth {claim_total} in standby crews and equipment."
+      "text": "It builds the claim: seven logged delay days at Harwood, sixty-eight thousand dollars in waiting crews and machines, backing a one point eight four million dollar change order."
     },
     "claim-verify": {
       "voice": "narrator",
@@ -142,7 +142,7 @@
     },
     "fill-1-ask": {
       "voice": "narrator",
-      "text": "What was the weather and temperature on site?"
+      "text": "What was the temperature on site?"
     },
     "fill-2": {
       "voice": "user",
@@ -150,7 +150,7 @@
     },
     "fill-2-point": {
       "voice": "narrator",
-      "text": "The weather goes straight in. Nothing to retype.",
+      "text": "The temperature goes straight in. Nothing to retype.",
       "cues": [
         {
           "word": "weather",
