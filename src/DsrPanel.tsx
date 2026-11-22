@@ -51,45 +51,52 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-// a repeating section: one row per entry, the app's own row layout
+// a repeating section: one row per entry, the app's own row layout; with sub, one block per subcontractor, as the
+// app keeps them (the own crew's rows have none)
 function Rows({ label, now, was, columns, sub }: {
   label: string; now: Summary | null; was: Summary | null; sub?: boolean;
   columns: { title: string; from?: string; placeholder: string; select?: boolean }[];
 }) {
   const rows = table(now, label)?.rows.length ?? 0;
   const before = table(was, label)?.rows.length ?? 0;
-  const subcontractor = cell(now, label, 0, "Subcontractor");
+  const all = Array.from({ length: Math.max(rows, 1) }, (_, r) => r);
+  const subOf = (r: number) => (sub ? cell(now, label, r, "Subcontractor") : "");
+  const blocks = [...new Set(all.map(subOf))].map((name) => ({ name, rows: all.filter((r) => subOf(r) === name) }));
   return (
     <>
-      {sub && (
-        <Field label="Sub Contractor">
-          <Input value={subcontractor} placeholder="Select sub contractor..." select
-                 fresh={!!subcontractor && !cell(was, label, 0, "Subcontractor")} />
-        </Field>
-      )}
-      <div className="sub-entries-container">
-        {Array.from({ length: Math.max(rows, 1) }, (_, r) => (
-          <div key={r} className="sub-entry">
-            <div className={`form-row form-row--cols-${columns.length}`}>
-              {columns.map((c) => {
-                const v = c.from ? cell(now, label, r, c.from) : "";
-                return (
-                  <Field key={c.title} label={c.title}>
-                    <Input value={v} placeholder={c.placeholder} select={c.select} fresh={!!v && r >= before} />
-                  </Field>
-                );
-              })}
-            </div>
+      {blocks.map((b) => (
+        <React.Fragment key={b.name}>
+          {b.name && (
+            <Field label="Sub Contractor">
+              <Input value={b.name} placeholder="Select sub contractor..." select fresh={b.rows.some((r) => r >= before)} />
+            </Field>
+          )}
+          <div className="sub-entries-container">
+            {b.rows.map((r) => (
+              <div key={r} className="sub-entry">
+                <div className={`form-row form-row--cols-${columns.length}`}>
+                  {columns.map((c) => {
+                    const v = c.from ? cell(now, label, r, c.from) : "";
+                    return (
+                      <Field key={c.title} label={c.title}>
+                        <Input value={v} placeholder={c.placeholder} select={c.select} fresh={!!v && r >= before} />
+                      </Field>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </React.Fragment>
+      ))}
       <button type="button" className="add-entry-btn">+ Add More</button>
     </>
   );
 }
 
-export default function DsrPanel({ now, was, busy, review, dim }: {
+export default function DsrPanel({ now, was, busy, review, dim, date }: {
   now: Summary | null;      // the report as filled so far
+  date?: string;            // the day the report is for (YYYY-MM-DD, as recorded); today when not given
   was: Summary | null;      // before the last sentence: what changed glows
   busy: boolean;            // a sentence is going in
   review: boolean;          // Submit was pressed: the review before submitting
@@ -99,7 +106,8 @@ export default function DsrPanel({ now, was, busy, review, dim }: {
     const v = field(now, label);
     return <Input value={v} placeholder={placeholder} select={select} tall={tall} fresh={!!v && v !== field(was, label)} />;
   };
-  const today = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).replace(/ (\d{4})$/, ", $1");
+  const [y, m, d] = (date ?? "").split("-").map(Number);
+  const today = (date ? new Date(y, m - 1, d) : new Date()).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).replace(/ (\d{4})$/, ", $1");
   return (
     <aside className={`${dsr.pane} ${dim ? ui.dimmed : ui.undimmed}`} aria-label="Daily Site Report" data-demo="dsr">
       <header className={dsr.paneHeader}>
@@ -120,16 +128,21 @@ export default function DsrPanel({ now, was, busy, review, dim }: {
             <div className="form-row form-row--cols-2">
               <Field label="Project" required>{one("Project", "Select a project...", true)}</Field>
               <Field label="Report Date"><Input value={now ? today : ""} placeholder="Choose Date" /></Field>
-              <Field label="Submitted By (Supervisor)" required><Input value={now ? "Demo User" : ""} placeholder="Select supervisor" select /></Field>
+              <Field label="Submitted By (Supervisor)" required>
+                <Input value={field(now, "Submitted by") || (now ? "Demo User" : "")} placeholder="Select supervisor" select />
+              </Field>
               <Field label="Shift">{one("Shift", "Day Shift", true)}</Field>
+              <Field label="Site">{one("Site", "Select a site...", true)}</Field>
+              <Field label="Site Supervisor">{one("Site supervisor", "Select site supervisor...", true)}</Field>
             </div>
           </Section>
           <Section title="Weather Conditions">
             <div className="form-row form-row--cols-3">
               <Field label="Weather Type">{one("Weather", "Select weather...", true)}</Field>
               <Field label="Temperature (°C)">{one("Temperature", "22")}</Field>
-              <Field label="Wind Speed (km/h)"><Input value="" placeholder="15" /></Field>
+              <Field label="Wind Speed (km/h)">{one("Wind speed", "15")}</Field>
             </div>
+            <Field label="Weather Stoppage">{one("Weather stoppage", "How long and why weather stopped the work")}</Field>
           </Section>
           <Section title="Work Progress">{one("Work progress summary", "Describe work progress for today...", false, true)}</Section>
           <Section title="Labor Tracking">
@@ -137,21 +150,29 @@ export default function DsrPanel({ now, was, busy, review, dim }: {
               { title: "Trade", from: "Trade", placeholder: "Select trade...", select: true },
               { title: "Workers", from: "Workers", placeholder: "5" },
               { title: "Hours", from: "Hours", placeholder: "8" },
-              { title: "Stand By Hours", placeholder: "2" },
+              { title: "Stand By Hours", from: "Standby hours", placeholder: "2" },
+              { title: "Item No.", from: "Contract item", placeholder: "Select item...", select: true },
             ]} />
           </Section>
           <Section title="Equipment">
             <Rows label="Equipment" now={now} was={was} sub columns={[
               { title: "Equipment", from: "Equipment", placeholder: "Select equipment...", select: true },
               { title: "Hours", from: "Hours", placeholder: "8" },
+              { title: "Item No.", from: "Contract item", placeholder: "Select item...", select: true },
             ]} />
           </Section>
           <Section title="Materials">
-            <Rows label="Materials" now={now} was={was} columns={[
+            <Rows label="Materials" now={now} was={was} sub columns={[
               { title: "Item", from: "Material", placeholder: "Select item...", select: true },
               { title: "Quantity", from: "Quantity", placeholder: "5" },
-              { title: "Unit", from: "Unit", placeholder: "Auto-populated from material" },
               { title: "Supplier", from: "Supplier", placeholder: "Select supplier...", select: true },
+              { title: "Item No.", from: "Contract item", placeholder: "Select item...", select: true },
+            ]} />
+          </Section>
+          <Section title="Quantity Tracking">
+            <Rows label="Quantities" now={now} was={was} columns={[
+              { title: "Item No.", from: "Contract item", placeholder: "Select item...", select: true },
+              { title: "Quantity", from: "Quantity", placeholder: "100" },
             ]} />
           </Section>
           <Section title="Delays & Issues">

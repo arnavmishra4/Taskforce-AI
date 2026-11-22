@@ -7,232 +7,168 @@
     "user": {
       "name": "Chris",
       "id": "iP95p4xoKVk53GoZ742B"
+    },
+    "maria": {
+      "name": "Jessica",
+      "id": "cgSgspJ2msm6clMCkdW9"
     }
   },
   "lines": {
     "intro-1": {
       "voice": "narrator",
-      "text": "This is TaskForce. Projects, daily site reports, finance, equipment, documents and quality, and every one of them holds live records from the field."
+      "text": "Picture this: you own Halcrest Civil Constructors, four big public jobs running, roads, a watermain, a bridge and a street rebuild. It's Monday morning."
     },
     "intro-2": {
       "voice": "narrator",
-      "text": "But when you need a single answer, like how far along a road program really is, you end up clicking through screens, filters and exports. There's a faster way."
+      "text": "Everything about those jobs is already in TaskForce: projects, daily site reports, finance, the schedule. But one straight answer still means clicking through screens and exports."
     },
     "meet-1": {
       "voice": "narrator",
-      "text": "Meet TaskForce AI. You ask in plain English, and it reads your live TaskForce data, shows you where every number came from, and writes the answer for you."
+      "text": "Meet TaskForce AI. You ask a question in plain English. It reads your live project records, and builds a one-page answer."
     },
-    "live-lead": {
-      "voice": "narrator",
-      "text": "First, a quick status check. We want to know which streets in the Kawartha Lakes program still have driveways waiting on work."
+    "cash-ask": {
+      "voice": "user",
+      "text": "Where is our cash stuck across all our jobs, and what's the fastest way to get it back?"
     },
-    "live-point": {
-      "voice": "narrator",
-      "text": "A hundred and thirty-five driveways still pending, street by street, with Kings Wharf Road and Brunon Avenue carrying the most. And every number comes straight from the latest site inspections."
+    "invoices-ask": {
+      "voice": "user",
+      "text": "Are we paying for work that never happened?"
     },
-    "report-lead": {
-      "voice": "narrator",
-      "text": "Next, the big picture: a full progress report on the Kawartha Lakes program, road by road."
+    "schedule-ask": {
+      "voice": "user",
+      "text": "Why is Ridgeline late, and what's it costing us?"
     },
-    "report-point": {
+    "claim-ask": {
+      "voice": "user",
+      "text": "Can we recover what the Hydro delay at Harwood has cost us?"
+    },
+    "dsr-ask": {
+      "voice": "maria",
+      "text": "I want to fill today's daily site report."
+    },
+    "cash-lead": {
       "voice": "narrator",
-      "text": "It read all twenty roads and their inspections, and built this on its own. None of the roads is finished yet, and fifteen haven't started. It even caught that the task records and the inspections don't agree, and that one road is on hold with no reason recorded. Then it tells you exactly what to do next.",
+      "text": "First, the question every owner asks on a Monday: where is our cash stuck?"
+    },
+    "cash-point": {
+      "voice": "narrator",
+      "text": "Nineteen point two million dollars is tied up across the four jobs. Harbourfront Watermain holds the most, eight point four million. And the fastest money back: get four point one million dollars of finished work on Harbourfront certified."
+    },
+    "cash-verify": {
+      "voice": "narrator",
+      "text": "Every figure on this page is counted from your records by code. The AI writes the words, not the numbers."
+    },
+    "invoices-lead": {
+      "voice": "narrator",
+      "text": "Next, the bills. Are we paying for work that never happened?"
+    },
+    "invoices-point": {
+      "voice": "narrator",
+      "text": "It flagged five invoices, with one point five seven million dollars at risk. Kestrel billed a full crew on twenty-three days when your own site reports show no Kestrel crew there. And Corbin sent the same invoice twice."
+    },
+    "invoices-verify": {
+      "voice": "narrator",
+      "text": "Each invoice is checked against three sources: the subcontract, the agreed rates, and the crews your own site reports logged."
+    },
+    "schedule-lead": {
+      "voice": "narrator",
+      "text": "Now the schedule. Ridgeline is running late. Why, and what is it costing us?"
+    },
+    "schedule-point": {
+      "voice": "narrator",
+      "text": "Ridgeline is fourteen percent behind schedule. Utility conflicts are the main cause, and the Harwood Road culvert alone is thirty-four days late."
+    },
+    "schedule-verify": {
+      "voice": "narrator",
+      "text": "To get there, it cross-checks the layers: the schedule against the daily site reports, and both against finance."
+    },
+    "schedule-map": {
+      "voice": "narrator",
+      "text": "And here is where it's happening: the Ridgeline roads on the map, coloured by progress.",
       "cues": [
         {
-          "word": "twenty",
-          "show": "Roads in the program"
-        },
-        {
-          "word": "fifteen",
-          "show": "No roads completed; three in four not started"
-        },
-        {
-          "word": "caught",
-          "show": "One road on hold needs a decision"
-        },
-        {
-          "word": "Then",
-          "show": "What to look at next"
-        }
-      ]
-    },
-    "report-pdf": {
-      "voice": "narrator",
-      "text": "And with one click, it becomes a PDF you can send straight to the client.",
-      "cues": [
-        {
-          "word": "click",
-          "act": "pdf"
-        }
-      ]
-    },
-    "intel-lead": {
-      "voice": "narrator",
-      "text": "Now let's follow the asphalt, and find out which streets the overlay and padding actually went into."
-    },
-    "intel-point": {
-      "voice": "narrator",
-      "text": "Here's the intel. Of forty and a half tonnes of overlay, Lakebreeze Drive took more than thirty-four, and the padding tells the same story. Fifteen of the twenty roads have none at all, so TaskForce AI asks the right question: is that work still to come, or data that was never entered?",
-      "cues": [
-        {
-          "word": "forty",
-          "show": "Asphalt overlay placed (t)"
-        },
-        {
-          "word": "Lakebreeze",
-          "show": "Lakebreeze Dr. carries most of the overlay work"
-        },
-        {
-          "word": "padding",
-          "show": "Padding also concentrated on Lakebreeze Dr."
-        },
-        {
-          "word": "Fifteen",
-          "show": "Most of 20 roads have no asphalt placed"
-        },
-        {
-          "word": "asks",
-          "show": "What to look at next"
-        }
-      ]
-    },
-    "map-lead": {
-      "voice": "narrator",
-      "text": "Then let's see where the work is actually happening, with the partly done roads on a map."
-    },
-    "map-point": {
-      "voice": "narrator",
-      "text": "Here are the five partly done roads, coloured by progress. Watson Drive is already at seventy percent, while Austin Drive is only just getting started.",
-      "cues": [
-        {
-          "word": "five",
-          "show": "Roads partly done"
-        },
-        {
-          "word": "coloured",
+          "word": "here",
           "show": ".leaflet-container"
         }
       ]
     },
-    "map-looks": {
+    "claim-lead": {
       "voice": "narrator",
-      "text": "And you can switch between grey, colour and satellite with a single click.",
-      "cues": [
-        {
-          "word": "switch",
-          "act": "layers-open"
-        },
-        {
-          "word": "grey",
-          "act": "layer:Grey"
-        },
-        {
-          "word": "colour",
-          "act": "layer:Colour"
-        },
-        {
-          "word": "satellite",
-          "act": "layer:Satellite"
-        },
-        {
-          "word": "click",
-          "act": "layer:Grey"
-        }
-      ]
+      "text": "That Hydro delay at Harwood has a price. Can we get it back?"
     },
-    "history-1": {
+    "claim-point": {
       "voice": "narrator",
-      "text": "Every conversation is kept right here, so you can always pick up where you left off."
+      "text": "It builds the claim: seven logged delay days at Harwood, sixty-eight thousand dollars in waiting crews and machines, backing a one point eight four million dollar change order."
     },
-    "voice-lead": {
+    "claim-verify": {
       "voice": "narrator",
-      "text": "And you don't even have to type. TaskForce AI has its own voice system, so just tap the mic and ask how much padding went down each month."
-    },
-    "voice-ask": {
-      "voice": "user",
-      "text": "How much HMA padding was placed each month on the Kawartha Lakes Rural Resurfacing Program?"
-    },
-    "voice-point": {
-      "voice": "narrator",
-      "text": "It turned the speech into text as it was spoken, knew the moment the question was finished, and sent it on its own. Then it ran the numbers and spotted the drop: nearly thirty-five tonnes of padding in May, and just seven in July. That's worth a call to the site.",
-      "cues": [
-        {
-          "word": "turned",
-          "show": "How much HMA padding was placed each month"
-        },
-        {
-          "word": "ran",
-          "show": "Summary"
-        },
-        {
-          "word": "drop",
-          "show": "May 2026 placed most HMA padding, 34.77 tonnes"
-        },
-        {
-          "word": "worth",
-          "show": "What to look at next"
-        }
-      ]
+      "text": "It only counts days the records link to the Hydro delay. The days it left out are listed, and every line points to its daily report. Where the records can't prove something, it says so instead of guessing."
     },
     "dsr-lead": {
       "voice": "narrator",
-      "text": "Now for the part your site supervisors are going to love: the daily site report, filled in by voice."
-    },
-    "dsr-ask": {
-      "voice": "user",
-      "text": "I want to fill today's daily site report."
+      "text": "All of this starts with what your superintendents report at the end of the day. So here's Maria, at five o'clock."
     },
     "dsr-open": {
       "voice": "narrator",
-      "text": "The report opens right beside the chat, so now you just describe the day."
+      "text": "The daily site report opens beside the chat. No typing, no dropdowns. She just talks."
     },
     "fill-1": {
-      "voice": "user",
-      "text": "Daily report for the Kawartha Lakes Rural Resurfacing Program. Day shift, sunny and fourteen degrees. Dufferin Construction had four asphalt rakers, a paver operator and a roller operator on site, eight hours each. We ran the BOMAG paver and the BOMAG roller all day."
+      "voice": "maria",
+      "text": "Okay, so this is my end of day report. I'm Maria Santos, and I was the site supervisor today. It was a day shift on the Ridgeline Regional Roads program, out at Payne Road. On our own crew we had our foreman, six general labourers and fourteen dump truck drivers, and everybody put in ten hours. Kestrel was paving item 109 today. Their crew was two asphalt paver operators, five asphalt rakers and four roller operators. All eleven of them worked ten hours, and every one of them, pavers, rakers and rollers, sat one hour on standby because of the rain. Lakeview delivered sixteen hundred and forty tonnes of HL3 hot mix, and we placed all sixteen hundred and forty tonnes on item 109. For equipment we ran our Caterpillar AP600F paver, our BOMAG 1055 paver, our BW213D roller and our CB10 roller, ten hours each. Then, after lunch, the rain stopped the work at two o'clock for about an hour. The one thing still stuck is Hydro. They still haven't moved the pole at the Harwood Road culvert, and that's holding up the culvert work there. But what did get done is the HL3 lift on Payne Road, from the culvert up to the north end. It's all rolled and compacted."
     },
     "fill-1-point": {
       "voice": "narrator",
-      "text": "Project, shift and weather, the crew with their trades and hours, and both machines, each one matched to the real records in TaskForce.",
+      "text": "The form fills itself, matched to your real records: the contract item, the sub, the material and the equipment.",
       "cues": [
         {
-          "word": "Project",
-          "show": "[data-section='Site Information']"
-        },
-        {
-          "word": "crew",
+          "word": "item",
           "show": "[data-section='Labor Tracking']"
         },
         {
-          "word": "machines",
+          "word": "material",
+          "show": "[data-section='Materials']"
+        },
+        {
+          "word": "equipment",
           "show": "[data-section='Equipment']"
         }
       ]
     },
+    "fill-1-missing": {
+      "voice": "narrator",
+      "text": "And it notices what's missing, and asks.",
+      "cues": [
+        {
+          "word": "missing",
+          "show": "[data-section='Weather Conditions']"
+        }
+      ]
+    },
+    "fill-1-ask": {
+      "voice": "narrator",
+      "text": "What was the temperature on site?"
+    },
     "fill-2": {
-      "voice": "user",
-      "text": "We placed forty tonnes of HL3 hot mix asphalt, and lost an hour in the morning waiting on the asphalt delivery."
+      "voice": "maria",
+      "text": "It started overcast, about eight degrees, then rain most of the afternoon."
     },
     "fill-2-point": {
       "voice": "narrator",
-      "text": "Forty tonnes of HL3 go into materials, and the late delivery is logged as a material shortage. No forms, and no dropdowns.",
+      "text": "The temperature goes straight in. Nothing to retype.",
       "cues": [
         {
-          "word": "Forty",
-          "show": "[data-section='Materials']"
-        },
-        {
-          "word": "late",
-          "show": "[data-section='Delays & Issues']"
+          "word": "weather",
+          "show": "[data-section='Weather Conditions']"
         }
       ]
     },
     "dsr-review": {
       "voice": "narrator",
-      "text": "Before anything is submitted, the supervisor gets one clean summary to check, and then it's done."
+      "text": "Before it's submitted, Maria checks one clean summary, and it's done."
     },
     "outro-1": {
       "voice": "narrator",
-      "text": "That's TaskForce AI: live answers, smart reports, maps and voice, all from the data you already have in TaskForce. No menus, no filters. Just ask."
+      "text": "From what your superintendents say at five o'clock, to the answers you need on Monday morning. That's TaskForce AI."
     }
   }
 }
