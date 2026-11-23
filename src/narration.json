@@ -4,10 +4,6 @@
       "name": "Sarah",
       "id": "EXAVITQu4vr4xnSDxMaL"
     },
-    "user": {
-      "name": "Chris",
-      "id": "iP95p4xoKVk53GoZ742B"
-    },
     "supervisor": {
       "name": "Jessica (Gurpreet Sandhu, for now)",
       "id": "cgSgspJ2msm6clMCkdW9"
@@ -32,11 +28,7 @@
     },
     "brief-lead": {
       "voice": "narrator",
-      "text": "One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region."
-    },
-    "brief-ask": {
-      "voice": "user",
-      "text": "What should I worry about on Dixie this week?"
+      "text": "One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region. Here's the question every Monday starts with."
     },
     "brief-point": {
       "voice": "narrator",
@@ -48,11 +40,7 @@
     },
     "crews-lead": {
       "voice": "narrator",
-      "text": "Start with the leak nobody reports: crews being paid to wait."
-    },
-    "crews-ask": {
-      "voice": "user",
-      "text": "Where are we paying for crews that aren't producing on Dixie?"
+      "text": "Start with the leak nobody reports: crews being paid to wait. Let's ask it."
     },
     "crews-point": {
       "voice": "narrator",
@@ -66,10 +54,6 @@
       "voice": "narrator",
       "text": "Now the money."
     },
-    "cash-ask": {
-      "voice": "user",
-      "text": "How much money is the Dixie & Mayfield job owed right now, and what should we chase first?"
-    },
     "cash-point": {
       "voice": "narrator",
       "text": "Twenty point two nine million dollars is stuck. Almost all of it is work in the ground, not yet approved for billing."
@@ -80,11 +64,7 @@
     },
     "schedule-lead": {
       "voice": "narrator",
-      "text": "And the delays. Which ones can we bill back?"
-    },
-    "schedule-ask": {
-      "voice": "user",
-      "text": "Which Dixie delays can we bill back to the Region?"
+      "text": "Now the delays, and which of them belong on a claim."
     },
     "schedule-point": {
       "voice": "narrator",
@@ -100,7 +80,7 @@
     },
     "dsr-lead": {
       "voice": "narrator",
-      "text": "Every answer you just saw is only as good as what comes in from site. So here's Gurpreet Sandhu, the site supervisor, at the end of his day."
+      "text": "Every answer you just saw is only as good as what comes in from site. So here's what a site supervisor says at the end of his day."
     },
     "dsr-ask": {
       "voice": "supervisor",

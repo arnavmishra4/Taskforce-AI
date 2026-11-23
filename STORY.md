@@ -1,6 +1,7 @@
-# TaskForce AI: COO demo voice-over
+# TaskForce AI: client demo voice-over
 
 Audience: COO of a $2.6B Canadian heavy-civil contractor. Sceptical, short on time, commercially sharp.
+This is a client demo, not a skit: the narrator is the presenter. The questions are typed into the chat on screen, silently (no voice, no "owner" character). Only the narrator and the site supervisor's DSR speech are voiced.
 One job, one Monday: **Dixie Road & Mayfield Road Widening** (Peel Region). The contractor is "your company" / "we" in the voice-over; it is never named.
 This is the final narration: it matches `src/narration.json` line for line. Every figure is read off the recorded answers (`src/answers.json`, recorded 2026-11-23 from staging, tenant schema_3, user 119).
 
@@ -38,8 +39,8 @@ On screen: schedule KPIs, change orders awaiting approval ($214.3K add days, $65
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| brief-lead | narrator | 6 | One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region. |
-| brief-ask | owner | 4 | What should I worry about on Dixie this week? |
+| brief-lead | narrator | 8 | One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region. Here's the question every Monday starts with. |
+| _(typed)_ | on screen | ~4 | What should I worry about on Dixie this week? |
 | _(dwell)_ | | ~5 | |
 | brief-point | narrator | 8 | It starts with the schedule. Dixie is behind, and half of the delays logged on site came from third parties. |
 | brief-verify | narrator | 10 | Two hundred fourteen thousand dollars of change orders that add days are still waiting on approval. One page, from the live records. Let's pull each thread. |
@@ -50,8 +51,8 @@ On screen: 819 standby hours on own forces; by trade Foreman (Open Cut) 273, Lab
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| crews-lead | narrator | 4 | Start with the leak nobody reports: crews being paid to wait. |
-| crews-ask | owner | 4 | Where are we paying for crews that aren't producing on Dixie? |
+| crews-lead | narrator | 6 | Start with the leak nobody reports: crews being paid to wait. Let's ask it. |
+| _(typed)_ | on screen | ~4 | Where are we paying for crews that aren't producing on Dixie? |
 | _(dwell)_ | | ~5 | |
 | crews-point | narrator | 7 | Open-cut foremen, two hundred seventy-three standby hours. Open-cut labourers, two hundred sixty-one. And it peaked in July. |
 | crews-verify | narrator | 8 | Eight hundred nineteen of those hours are our own forces, not subcontractors. That's the conversation with the superintendent this week. |
@@ -63,7 +64,7 @@ On screen: $20.29M stuck, $20.01M work done not yet approved for billing, $279.3
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
 | cash-lead | narrator | 1 | Now the money. |
-| cash-ask | owner | 7 | How much money is the Dixie & Mayfield job owed right now, and what should we chase first? |
+| _(typed)_ | on screen | ~4 | How much money is the Dixie & Mayfield job owed right now, and what should we chase first? |
 | _(dwell)_ | | ~5 | |
 | cash-point | narrator | 9 | Twenty point two nine million dollars is stuck. Almost all of it is work in the ground, not yet approved for billing. |
 | cash-verify | narrator | 8 | First move: put one point eight two million on item C-fifteen b, Granular A, in this month's progress claim. |
@@ -75,8 +76,8 @@ On screen: "Half of 6 delay entries are third-party, billable to the Region."; 1
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| schedule-lead | narrator | 4 | And the delays. Which ones can we bill back? |
-| schedule-ask | owner | 4 | Which Dixie delays can we bill back to the Region? |
+| schedule-lead | narrator | 4 | Now the delays, and which of them belong on a claim. |
+| _(typed)_ | on screen | ~4 | Which Dixie delays can we bill back to the Region? |
 | _(dwell)_ | | ~5 | |
 | schedule-point | narrator | 8 | Three of the six delays logged on site came from third parties. Those are the ones to take to the Region. |
 | schedule-verify | narrator | 8 | Beside them, eleven hundred thirty-one standby hours from the same site reports. That's the evidence a claim is built on. |
@@ -88,7 +89,7 @@ Gurpreet's lines are `DSR_DEMO_SPEECH.md`, word for word (tested clean: turn 6 a
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| dsr-lead | narrator | 11 | Every answer you just saw is only as good as what comes in from site. So here's Gurpreet Sandhu, the site supervisor, at the end of his day. |
+| dsr-lead | narrator | 11 | Every answer you just saw is only as good as what comes in from site. So here's what a site supervisor says at the end of his day. |
 | dsr-ask | supervisor | 3 | I want to fill today's daily site report. |
 | _(dwell)_ | | ~5 | |
 | dsr-open | narrator | 5 | The report opens beside the chat. No typing, no dropdowns. He just talks. |
@@ -108,7 +109,7 @@ If the show runs long, `fill-3` (equipment) is the line to cut (with its sentenc
 
 ## 8. Close
 
-Three outcomes a COO can repeat to the CEO, then the closing line.
+Three outcomes the COO can repeat to the CEO, then the closing line.
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
@@ -117,4 +118,4 @@ Three outcomes a COO can repeat to the CEO, then the closing line.
 
 ## Running time
 
-About 4 min 10 s of voice, plus about 1 min of screen time (answers building, mic, form filling, map): **about 5 min 10 s**. To reach 6 to 8 minutes, let each answer sit longer on screen; don't add words.
+About 4 min of voice, plus about 1 min 15 s of screen time (questions typed, answers building, form filling, map): **about 5 min 15 s**. To reach 6 to 8 minutes, let each answer sit longer on screen; don't add words.

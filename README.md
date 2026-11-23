@@ -2,7 +2,7 @@
 
 A hands-free presentation of TaskForce AI, the TaskForce assistant, for a company owner or COO. Press **Play** and it runs on its own.
 
-The story: one job, one Monday. Dufferin Construction Company is widening Dixie Road and Mayfield Road for the Region of Peel (contract Peel 2026-289T). Every question is asked by voice, and TaskForce AI answers from the live project records with a one-page report:
+The story: one job, one Monday. Dufferin Construction Company is widening Dixie Road and Mayfield Road for the Region of Peel (contract Peel 2026-289T). Each question appears typed into the chat (no voice), and TaskForce AI answers from the live project records with a one-page report:
 
 1. **Monday briefing**: what to worry about on Dixie this week.
 2. **Idle crews**: where we are paying for crews that aren't producing.
@@ -14,7 +14,7 @@ It is a static site: no login, no backend, no keys in the browser.
 
 - **The screens** are TaskForce AI's own components and styles, copied from `taskforce-construction-frontend` (`src/chat/`; the report card is from branch `tfAi-v2.2`, commit c9fcc6c2).
 - **The answers are real.** They are recorded once from the TaskForce AI service on the staging data (tenant `schema_3`, user 119) (`src/answers.json`). The demo replays them as they streamed in, with the 15–35 s of thinking cut to about 3 s.
-- **The voices** are recorded once with ElevenLabs (`public/audio/`): Sarah narrates, Chris (the owner) asks the questions, and Jessica stands in for Gurpreet Sandhu, the site supervisor, in the DSR scene (voice `supervisor`). Sarah also reads TaskForce AI's answer to "What's still missing?".
+- **The voices** are recorded once with ElevenLabs (`public/audio/`): Sarah narrates as the presenter, and Jessica stands in for Gurpreet Sandhu, the site supervisor, in the DSR scene (voice `supervisor`). Sarah also reads TaskForce AI's answer to "What's still missing?".
 
 ## Run it
 
@@ -69,7 +69,7 @@ Import the repository in Vercel. It detects Vite: the build command is `npm run 
 |---|---|---|
 | What the voice says | `src/narration.json` | delete that line's `public/audio/<id>.mp3`, run `npm run record:voice` |
 | The narrator or supervisor voice | `voices` in `src/narration.json` | `npm run record:voice -- --force` |
-| A question or Gurpreet's lines | `src/script.json` (and the matching `-ask` / `fill-` line in `src/narration.json`) | `REPORT_DATE=… AI_SERVICE_KEY=… npm run record:answers -- <step id>`, then the voice |
+| A question or Gurpreet's lines | `src/script.json` (and, for Gurpreet's lines, the matching `fill-` line in `src/narration.json`) | `REPORT_DATE=… AI_SERVICE_KEY=… npm run record:answers -- <step id>`, then the voice |
 | The order of the show | `CHAPTERS` and `RUN` in `src/App.tsx` | |
 
 ## What is where

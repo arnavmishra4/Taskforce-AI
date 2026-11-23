@@ -46,7 +46,7 @@ class Stopped extends Error {}
 // The chapters of the show, in the bar at the bottom: what each one shows, as tags above it
 const CHAPTERS = [
   { key: "intro", label: "Intro", title: "Dixie Road, Monday morning", tags: ["One job", "Live project records", "Meet TaskForce AI"] },
-  { key: "brief", label: "1", title: "Monday briefing", tags: ["Asked by voice", "Schedule · finance · crews", "One page"] },
+  { key: "brief", label: "1", title: "Monday briefing", tags: ["One question", "Schedule · finance · crews", "One page"] },
   { key: "crews", label: "2", title: "Idle crews", tags: ["Standby hours", "By trade", "By subcontractor"] },
   { key: "cash", label: "3", title: "Cash", tags: ["Work not yet billed", "What to chase first", "Figures counted by code"] },
   { key: "schedule", label: "4", title: "Delay claims", tags: ["Which delays bill back", "Change orders waiting on the Region", "Site reports · change orders · NCRs", "Map"] },
@@ -95,7 +95,7 @@ export default function App() {
     for (let t = 0; t < ms;) { live(run); await sleep(50); if (!ctl.current.paused) t += 50; }
   };
 
-  // ── the voices: the narrator, and the person talking to TaskForce AI ──
+  // ── the voices: the narrator, and the site supervisor ──
   const play = async (id: LineId, run: number, onTime?: (at: number, of: number, from: number) => void,
                       level?: HTMLElement | null) => {
     if (!(await voice.play(id, () => run === ctl.current.run, onTime, level))) {
@@ -193,7 +193,7 @@ export default function App() {
     await chain;
   };
 
-  // ── asking: typed, or said into the mic ──
+  // ── the supervisor talking to the DSR form ──
   const speak = async (id: LineId, run: number) => {
     const words = narration.lines[id].text.split(" ");
     // each word appears as it is said: its start in the recording (alignment.json, ElevenLabs forced alignment),
@@ -208,6 +208,14 @@ export default function App() {
     await wait(350, run);   // the pause that sends it
     setHeard("");
     setFocus(false);
+  };
+
+  // a question typed into the composer, silently, letter by letter; it stays a moment to be read, then is sent
+  const typeIn = async (text: string, run: number) => {
+    spot(composerRef.current, 2000);
+    for (let n = 1; n <= text.length; n++) { setInput(text.slice(0, n)); await wait(38, run); }
+    await wait(Math.max(1200, readMs(text) * 0.5), run);
+    setInput("");
   };
 
   // the recorded answer, replayed as it streamed: the lookups first, then the report, then the written answer
@@ -304,20 +312,12 @@ export default function App() {
     await play("meet-1", run);
   };
 
-  // a scene: the narrator sets it up, the question is said into the mic, the answer streams in, the narrator walks it
+  // a scene: the narrator sets it up, the question is typed into the chat, the answer streams in, the narrator walks it
   const ask = async (id: string, run: number, extra?: (run: number) => Promise<void>) => {
     const step = askOf(id);
     await play(`${id}-lead` as LineId, run);
-    spot($(`.${dsrStyles.orb}`), 1600);
-    setFocus(true);
-    setMic("connecting");
-    await wait(500, run);
-    setMic("listening");
-    await wait(300, run);
-    await speak(`${id}-ask` as LineId, run);
-    setMic("working");
+    await typeIn(step.ask, run);
     await answer(id, step.ask, run);
-    setMic("off");
     await walk([`${id}-point` as LineId, `${id}-verify` as LineId], run);
     if (extra) await extra(run);
   };

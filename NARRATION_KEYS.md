@@ -3,8 +3,8 @@
 Every voice line of the show, in the order it plays. Text goes in `src/narration.json` → `lines.<key>.text`.
 A key still at `TODO` plays as a short silence. A `fill-N-point` / `fill-N-answer` key is optional: delete it and that beat is skipped.
 
-Voices: `narrator` (Sarah), `user` (Chris, the owner asking), `supervisor` (Gurpreet Sandhu; Jessica's voice for now).
-The `-ask` and `fill-N` lines are already the exact words sent to TaskForce AI. Change them only together with `src/script.json` (and re-record the answers): the on-screen caption is built from this text.
+Voices: `narrator` (Sarah, the presenter), `supervisor` (Gurpreet Sandhu; Jessica's voice for now). There is no voice for the questions: they are typed into the chat composer on screen, silently, from `src/script.json` (`ask`), held a moment to be read, then sent.
+The `dsr-ask` and `fill-N` lines are already the exact words sent to TaskForce AI. Change them only together with `src/script.json` (and re-record the answers): the on-screen caption is built from this text.
 
 | Key | Voice | Chapter | Plays when |
 |---|---|---|---|
@@ -13,19 +13,15 @@ The `-ask` and `fill-N` lines are already the exact words sent to TaskForce AI. 
 | intro-3 | narrator | Intro | After the lighting, modules bar still shown. |
 | meet-1 | narrator | Intro | The modules bar slides away; the TaskForce AI chat page is spotlit. |
 | brief-lead | narrator | 1 Monday briefing | Empty chat, before the mic turns on. |
-| brief-ask | user | 1 | Spoken into the mic; words appear in the composer as said. Then the answer streams in (about 5 s). |
 | brief-point | narrator | 1 | After the report is on screen; the chat scrolls slowly down the report while it plays. |
 | brief-verify | narrator | 1 | Right after brief-point, scroll continues to the bottom of the report. |
-| crews-lead | narrator | 2 Idle crews | Before the mic turns on. |
-| crews-ask | user | 2 | Spoken into the mic, then the answer streams in. |
+| crews-lead | narrator | 2 Idle crews | Before the question is typed into the chat; then the answer streams in. |
 | crews-point | narrator | 2 | Report on screen, scrolling down it. |
 | crews-verify | narrator | 2 | After crews-point, scrolling to the end. |
-| cash-lead | narrator | 3 Cash | Before the mic turns on. |
-| cash-ask | user | 3 | Spoken into the mic, then the answer streams in. |
+| cash-lead | narrator | 3 Cash | Before the question is typed into the chat; then the answer streams in. |
 | cash-point | narrator | 3 | Report on screen, scrolling down it. |
 | cash-verify | narrator | 3 | After cash-point, scrolling to the end. |
-| schedule-lead | narrator | 4 Delay claims | Before the mic turns on. |
-| schedule-ask | user | 4 | Spoken into the mic, then the answer streams in. |
+| schedule-lead | narrator | 4 Delay claims | Before the question is typed into the chat; then the answer streams in. |
 | schedule-point | narrator | 4 | Report on screen, scrolling down it. |
 | schedule-verify | narrator | 4 | After schedule-point. |
 | schedule-map | narrator | 4 | The chat glides to the report's map and spotlights it. May take `"cues"` (e.g. `{"word": "here", "show": ".leaflet-container"}`). |
@@ -46,4 +42,4 @@ The `-ask` and `fill-N` lines are already the exact words sent to TaskForce AI. 
 | outro-1 | narrator | End | Over the finished chat and form: the three outcomes. |
 | outro-2 | narrator | End | Last line, right after outro-1. |
 
-Removed: `intro-4` (cut for length). Removed (old Halcrest story): `invoices-*`, `claim-*`, `fill-1-ask`, `fill-1-missing`, `fill-2-point`; the `maria` voice is now `supervisor`.
+Removed: `intro-4` (cut for length); `brief-ask`, `crews-ask`, `cash-ask`, `schedule-ask` and the `user` voice (questions are typed, not voiced). Removed (old Halcrest story): `invoices-*`, `claim-*`, `fill-1-ask`, `fill-1-missing`, `fill-2-point`; the `maria` voice is now `supervisor`.
