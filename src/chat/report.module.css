@@ -31,6 +31,30 @@
   color: #6B7280;
 }
 
+.actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shareIcons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.shareIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid #E4E7EC;
+  background: #fff;
+  color: #6640EE;
+}
+
 .download {
   flex: none;
   border: 1px solid #D9D2FD;

@@ -58,12 +58,16 @@ const PAGE_MM = { w: 190, h: 273 };
 const PAGE_PX = (718 * PAGE_MM.h) / PAGE_MM.w;
 const ONE_PAGE_STRETCH = 1.22;            // at most ~18% smaller: text stays about 7-8pt
 
-const fmt = (v: number | null | undefined, unit?: string | null) => {
+const fmt = (v: number | null | undefined, unit?: string | null, scale = "") => {
   if (v === null || v === undefined || Number.isNaN(v)) return "n/a";
   const n = Number.isInteger(v) ? v.toLocaleString(LOCALE) : v.toLocaleString(LOCALE, { maximumFractionDigits: unit ? 2 : 1 });
   // a currency sign sits on the number ("$512,300"); any other unit keeps a non-breaking space, never wrapping apart
-  return unit ? (/^[$€£¥]$/.test(unit) ? `${unit}${n}` : `${unit}\u00a0${n}`) : n;
+  return unit ? (/^[$€£¥]$/.test(unit) ? `${unit}${n}${scale}` : `${unit}\u00a0${n}${scale}`) : `${n}${scale}`;
 };
+// "Money stuck ($M)", "At risk ($K)": the scale goes on the number ("$3.4M"), not only in the label
+const SCALE = /\s*\(\s*[$€£¥]\s*([MKB])\s*\)/i;
+const scaleOf = (text?: string | null) => (text ?? "").match(SCALE)?.[1]?.toUpperCase() ?? "";
+const unscaled = (text: string) => text.replace(SCALE, "");
 // 2026-10-19 -> "Oct 19" (hover: "Mon, Oct 19"); 2026-10 -> "Oct 2026" (day / week / month groupings)
 const nice = (s: string, long = false) => {
   if (/^\d{4}-\d{2}-\d{2}$/.test(s))
@@ -124,7 +128,7 @@ function ChartBlock({ block, colours, mode }: {
   const horizontal = chart === "hbar";
   const stacked = chart === "stacked_bar";
   const tick = { color: MUTED, font: { size: mode === "pdf" ? 10 : 11 } };
-  const value = (v: number | string) => fmt(Number(v), unit);
+  const value = (v: number | string) => fmt(Number(v), unit, scaleOf(block.title));
   const fullLabel = (items: { dataIndex: number }[]) => nice(labels[items[0]?.dataIndex ?? 0] ?? "", true);
   const animation = mode === "pdf" ? (false as const) : undefined;
 
@@ -156,7 +160,7 @@ function ChartBlock({ block, colours, mode }: {
             <li key={i}>
               <span className={styles.pieSwatch} style={{ background: data.datasets[0].backgroundColor[i] }} />
               <span>{nice(l)} <span className={styles.pieValue}>
-                {fmt(series[0].values[i], unit)} ({Math.round((series[0].values[i] / total) * 100)}%)</span></span>
+                {fmt(series[0].values[i], unit, scaleOf(block.title))} ({Math.round((series[0].values[i] / total) * 100)}%)</span></span>
             </li>
           ))}
         </ul>
@@ -221,10 +225,10 @@ function chartHeight(kind: ChartKind, n: number, mode: Mode, wrapped = false) {
   return n <= 3 ? (pdf ? 150 : 200) : (pdf ? 180 : 260);       // two or three bars need less height
 }
 
-function Change({ c, unit }: { c: NonNullable<KpiItem["compare"]>; unit?: string | null }) {
+function Change({ c, unit, scale }: { c: NonNullable<KpiItem["compare"]>; unit?: string | null; scale?: string }) {
   // up / down only, never judged good or bad: more DSRs is good, more delays is not
   const arrow = c.delta > 0 ? "▲" : c.delta < 0 ? "▼" : "=";
-  const text = c.delta === 0 ? `same as ${c.label}` : `${fmt(Math.abs(c.delta), unit)} vs ${c.label}`;
+  const text = c.delta === 0 ? `same as ${c.label}` : `${fmt(Math.abs(c.delta), unit, scale)} vs ${c.label}`;
   return <div className={styles.tileChange}><span aria-hidden="true">{arrow}</span> {text}</div>;
 }
 
@@ -236,9 +240,9 @@ function Tiles({ items }: { items: KpiItem[] }) {
     <div className={styles.tiles} style={{ "--cols": tileColumns(items.length) } as React.CSSProperties}>
       {items.map((k, i) => (
         <div key={i} className={styles.tile} title={k.footnote}>
-          <div className={styles.tileValue}>{k.value === null ? "n/a" : fmt(k.value, k.unit)}</div>
-          <div className={styles.tileLabel}>{k.label}</div>
-          {k.compare && <Change c={k.compare} unit={k.unit} />}
+          <div className={styles.tileValue}>{k.value === null ? "n/a" : fmt(k.value, k.unit, scaleOf(k.label))}</div>
+          <div className={styles.tileLabel}>{unscaled(k.label)}</div>
+          {k.compare && <Change c={k.compare} unit={k.unit} scale={scaleOf(k.label)} />}
           {k.note && <div className={styles.tileChange}>{k.note}</div>}
           {k.empty && k.empty !== "n/a" && <div className={styles.empty}>{k.empty}</div>}
         </div>
@@ -358,7 +362,7 @@ function Block({ block, colours, mode, paired = false }: {
               <span className={styles.insightLabel}>What this shows</span>
               {block.type === "chart" && at >= 0 && (
                 <div className={styles.keyStat}>
-                  <span className={styles.keyValue}>{fmt(block.series[0].values[at], block.unit)}</span>
+                  <span className={styles.keyValue}>{fmt(block.series[0].values[at], block.unit, scaleOf(block.title))}</span>
                   <span className={styles.keyLabel}>{nice(block.labels[at], true)}</span>
                 </div>
               )}
@@ -546,9 +550,17 @@ export default function ReportCard({ report, summary }: { report: Report; summar
           <p className={styles.subtitle}>Prepared by TaskForce AI · {longDate(report.made_on)}</p>
         </div>
         {!mapOnly && (
-          <button type="button" className={styles.download} onClick={() => void download()} disabled={printing}>
-            {printing ? "Preparing…" : "Download PDF"}
-          </button>
+          <div className={styles.actions}>
+            {/* share shortcuts: shown as in the app, not wired up */}
+            <span className={styles.shareIcons} aria-hidden="true">
+              <span title="Share on WhatsApp" className={styles.shareIcon} style={{ color: "#25D366" }}><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.1.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.969 9.969 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z" /></svg></span>
+              <span title="Email" className={styles.shareIcon}><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V8l8 5 8-5zm-8-7L4 6h16z" /></svg></span>
+              <span title="Share" className={styles.shareIcon}><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92M18 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M6 13c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m12 7.02c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1" /></svg></span>
+            </span>
+            <button type="button" className={styles.download} onClick={() => void download()} disabled={printing}>
+              {printing ? "Preparing…" : "Download PDF"}
+            </button>
+          </div>
         )}
       </div>
       <div className={styles.stack}>

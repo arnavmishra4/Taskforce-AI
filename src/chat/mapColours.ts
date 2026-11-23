@@ -7,7 +7,7 @@ export const ROAD_COLOURS: Record<RoadProgress, string> = {
   completed: "#1baf7a",
   partly_done: "#2a78d6",
   not_started: "#eb6834",
-  no_inspection: "#a8adb5",
+  no_inspection: "#7b3fe4",
 };
 export const ROAD_LABELS: Record<RoadProgress, string> = {
   completed: "Completed",

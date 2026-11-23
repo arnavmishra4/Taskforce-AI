@@ -1,6 +1,6 @@
 // The TaskForce AI demo: the app's modules bar, the TaskForce AI page and its Daily Site Report pane, driven hands-free.
-// A voice-over (ElevenLabs, public/audio/<id>.mp3, lines in narration.json) walks through it; the questions are spoken
-// into the chat and the answers that come back are TaskForce AI's real ones, recorded once from the AI service
+// A voice-over (ElevenLabs, public/audio/<id>.mp3, lines in narration.json) walks through it; the questions are said
+// by the narrator and typed into the chat as she says them and the answers that come back are TaskForce AI's real ones, recorded once from the AI service
 // (answers.json, scripts/record-answers.mjs) and replayed as they streamed, with the waiting cut short.
 import React, { useEffect, useRef, useState } from "react";
 import chat from "./chat/tfai.module.css";
@@ -29,7 +29,7 @@ type Msg = {
 };
 type Recorded = Record<string, {
   events: { t: number; e: Record<string, any> }[];
-  fills: { said: string; reply: string; summary: Summary; review?: unknown[] }[];
+  fills: { said: string; reply: string; summary: Summary; review?: unknown[]; changed?: string[]; focus?: string | null }[];
   reportDate?: string;
 }>;
 type MicState = "off" | "connecting" | "listening" | "hearing" | "working";
@@ -45,12 +45,12 @@ class Stopped extends Error {}
 
 // The chapters of the show, in the bar at the bottom: what each one shows, as tags above it
 const CHAPTERS = [
-  { key: "intro", label: "Intro", title: "Halcrest, Monday morning", tags: ["Four public jobs", "Live project records", "Meet TaskForce AI"] },
-  { key: "cash", label: "1", title: "Cash", tags: ["Asked by voice", "All four jobs", "Fastest money back", "Figures counted by code"] },
-  { key: "invoices", label: "2", title: "Invoice check", tags: ["Subcontract", "Agreed rates", "Site report crews", "Money at risk"] },
-  { key: "schedule", label: "3", title: "Schedule", tags: ["Why Ridgeline is late", "What it costs", "Schedule · site reports · finance", "Map"] },
-  { key: "claim", label: "4", title: "Delay claim", tags: ["Hydro delay at Harwood", "Linked days only", "Excluded days listed", "Daily report behind every line"] },
-  { key: "dsr", label: "5", title: "Daily Site Report", tags: ["Spoken, not typed", "Matched to real records", "Asks for what's missing", "Review before submit"] },
+  { key: "intro", label: "Intro", title: "Dixie Road, Monday morning", tags: ["One job", "Live project records", "Meet TaskForce AI"] },
+  { key: "brief", label: "1", title: "Monday briefing", tags: ["One question", "Schedule · finance · crews", "One page"] },
+  { key: "crews", label: "2", title: "Idle crews", tags: ["Standby hours", "By trade", "By subcontractor"] },
+  { key: "cash", label: "3", title: "Cash", tags: ["Work not yet billed", "What to chase first", "Figures counted by code"] },
+  { key: "schedule", label: "4", title: "Delay claims", tags: ["Which delays bill back", "Change orders waiting on the Region", "Site reports · change orders · NCRs", "Map"] },
+  { key: "dsr", label: "5", title: "Daily Site Report", tags: ["Spoken, not typed", "Matched to real records", "What's still missing", "Review before submit"] },
   { key: "end", label: "End", title: "Wrap-up", tags: ["Five o'clock to Monday morning"] },
 ] as const;
 type ChapterKey = (typeof CHAPTERS)[number]["key"];
@@ -95,7 +95,7 @@ export default function App() {
     for (let t = 0; t < ms;) { live(run); await sleep(50); if (!ctl.current.paused) t += 50; }
   };
 
-  // ── the voices: the narrator, and the person talking to TaskForce AI ──
+  // ── the voices: the narrator, and the site supervisor ──
   const play = async (id: LineId, run: number, onTime?: (at: number, of: number, from: number) => void,
                       level?: HTMLElement | null) => {
     if (!(await voice.play(id, () => run === ctl.current.run, onTime, level))) {
@@ -193,7 +193,7 @@ export default function App() {
     await chain;
   };
 
-  // ── asking: typed, or said into the mic ──
+  // ── the supervisor talking to the DSR form ──
   const speak = async (id: LineId, run: number) => {
     const words = narration.lines[id].text.split(" ");
     // each word appears as it is said: its start in the recording (alignment.json, ElevenLabs forced alignment),
@@ -208,6 +208,32 @@ export default function App() {
     await wait(350, run);   // the pause that sends it
     setHeard("");
     setFocus(false);
+  };
+
+  // a question, said by the narrator (line <id>-ask) and typed into the composer as it is said: each word starts at
+  // its start in the recording (alignment.json) and its letters fill in over the word (at most 0.35 s); evenly over
+  // the clip when there is no alignment. No recording: typed silently, letter by letter, and held a moment to be read.
+  const typeIn = async (id: LineId, text: string, run: number) => {
+    spot(composerRef.current, 2000);
+    if ((await voice.lengthOf(id)) === null) {
+      for (let n = 1; n <= text.length; n++) { setInput(text.slice(0, n)); await wait(38, run); }
+      await wait(Math.max(1200, readMs(text) * 0.5), run);
+    } else {
+      const words = text.split(" ");
+      const at0 = words.map((_, i) => words.slice(0, i).join(" ").length + (i ? 1 : 0));   // where each word begins
+      const starts = (alignment as Record<string, number[]>)[id];
+      const typed = (at: number, of: number, from: number) => {
+        if (at >= of) return text.length;
+        if (!starts || starts.length !== words.length) return Math.round((at / of) * text.length);
+        const t = from + at, i = starts.filter((s) => s <= t).length - 1;
+        if (i < 0) return 0;
+        const span = Math.min(0.35, (starts[i + 1] ?? from + of) - starts[i]);
+        return at0[i] + Math.ceil(Math.min(1, (t - starts[i]) / Math.max(0.05, span)) * words[i].length);
+      };
+      await play(id, run, (at, of, from) => setInput(text.slice(0, typed(at, of, from))));
+      await wait(300, run);   // the beat before it is sent
+    }
+    setInput("");
   };
 
   // the recorded answer, replayed as it streamed: the lookups first, then the report, then the written answer
@@ -295,28 +321,21 @@ export default function App() {
     await Promise.all([play("intro-2", run), lighting]);
     setModuleOpen(undefined);
     setModuleLit(undefined);
+    await say(["intro-3", "intro-4"], run);
   };
 
   const showAssistant = async (run: number) => {
     setSideHidden(true);
     spot($(`.${chat.mainContent}`), 3500);
-    await play("meet-1", run);
+    await say(["meet-1", "meet-2"], run);
   };
 
-  // a scene: the narrator sets it up, the question is said into the mic, the answer streams in, the narrator walks it
+  // a scene: the narrator sets it up, asks the question as it is typed into the chat, the answer streams in, the narrator walks it
   const ask = async (id: string, run: number, extra?: (run: number) => Promise<void>) => {
     const step = askOf(id);
     await play(`${id}-lead` as LineId, run);
-    spot($(`.${dsrStyles.orb}`), 1600);
-    setFocus(true);
-    setMic("connecting");
-    await wait(500, run);
-    setMic("listening");
-    await wait(300, run);
-    await speak(`${id}-ask` as LineId, run);
-    setMic("working");
+    await typeIn(`${id}-ask` as LineId, step.ask, run);
     await answer(id, step.ask, run);
-    setMic("off");
     await walk([`${id}-point` as LineId, `${id}-verify` as LineId], run);
     if (extra) await extra(run);
   };
@@ -341,6 +360,29 @@ export default function App() {
   const askedBack = (reply: string) => reply.match(/[^.?!]*\?\s*$/)?.[0].trim() ?? "";
   const doneOf = (reply: string) => reply.replace(/\s*Summary updated\./, "").replace(askedBack(reply), "").trim();
 
+  // the form field the AI points at (dsr/turn's focus, or the first thing a sentence filled): scrolled to and, for a
+  // focus, flashed purple for 2 s, like jumpToField.ts in the app (the demo form's own headings and labels)
+  const FIELDS: Record<string, [string, string | null]> = {
+    project: ["Site Information", "Project"], shift: ["Site Information", "Shift"], site: ["Site Information", "Site"],
+    siteSupervisor: ["Site Information", "Site Supervisor"], client: ["Site Information", null], contractor: ["Site Information", null],
+    weather: ["Weather Conditions", "Weather Type"], "weather.type": ["Weather Conditions", "Weather Type"],
+    "weather.temperature": ["Weather Conditions", "Temperature (°C)"], workProgressSummary: ["Work Progress", null],
+    laborTracking: ["Labor Tracking", null], equipment: ["Equipment", null], materials: ["Materials", null],
+    quantityTracking: ["Quantity Tracking", null], delays: ["Delays & Issues", null],
+  };
+  const jumpToField = async (key: string, body: HTMLElement | null, run: number, flash: boolean) => {
+    const [heading, label] = FIELDS[key] ?? FIELDS[key.split(".")[0]] ?? [];
+    const section = body?.querySelector(`[data-section="${heading}"]`) as HTMLElement | null;
+    const el = (label && Array.from(section?.querySelectorAll(".field-group") ?? [])
+      .find((g) => g.querySelector(".field-label")?.firstChild?.textContent === label) as HTMLElement | undefined) || section;
+    if (!el || !body) return;
+    await glide(body, topIn(el, body) - 36, 700, run);
+    if (!flash) return;
+    const keep = el.getAttribute("style") ?? "";
+    Object.assign(el.style, { outline: "3px solid #7b3fe4", outlineOffset: "4px", borderRadius: "8px", transition: "outline-color 0.4s" });
+    setTimeout(() => el.setAttribute("style", keep), 2000);
+  };
+
   const showDsr = async (run: number) => {
     const step = askOf("dsr");
     await play("dsr-lead", run);
@@ -359,6 +401,7 @@ export default function App() {
     if (!fills.length) console.warn("The DSR fills are not recorded for this script: npm run record:answers -- dsr");
     for (const [n, said] of (step.fill ?? []).entries()) {
       const fill = fills[n];
+      const line = (k: string) => (k in narration.lines ? (k as LineId) : null);
       await speak(`fill-${n + 1}` as LineId, run);
       setDsrLine({ said, did: "", working: true });
       setDsrBusy(true);
@@ -368,24 +411,22 @@ export default function App() {
       setDsrBusy(false);
       setMic("listening");
       setDsrLine({ said, did: fill ? doneOf(fill.reply) : "(not recorded yet)", working: false });
-      await wait(150, run);
-      await present(`fill-${n + 1}-point` as LineId, run, () => body);   // its cues scroll the form to what it names
-      // the filler asked back for what was missing: shown in the chat, said, and then answered
-      // (not a question about an unclear name: that is an open review, and nothing is asked back then)
-      const question = fill && !fill.review?.length ? askedBack(fill.reply) : "";
-      const ask = `fill-${n + 1}-ask` as LineId;
-      if (ask in narration.lines && (question || !fill)) {
-        await present(`fill-${n + 1}-missing` as LineId, run, () => body);
-        follow.current = true;   // the question shows at the bottom of the chat, scrolled into view
-        setMessages((m) => [...m, { role: "assistant", content: question || narration.lines[ask].text }]);
-        setDsrLine({ said, did: question || narration.lines[ask].text, working: false });
-        await wait(300, run);
-        if (question && question !== narration.lines[ask].text) console.warn(`Asked back "${question}"; ${ask} says otherwise`);
-        await play(ask, run);
-        await wait(300, run);
-      } else if (ask in narration.lines) {
-        console.warn(`The recorded reply to fill ${n + 1} asks nothing back: "${fill?.reply}"`);
+      // a question ("What's still missing?"): its answer shows in the chat too
+      if (fill && said.trim().endsWith("?")) {
+        follow.current = true;
+        setMessages((m) => [...m, { role: "user", content: said }, { role: "assistant", content: fill.reply }]);
       }
+      await wait(150, run);
+      const answerLine = line(`fill-${n + 1}-answer`), point = line(`fill-${n + 1}-point`);
+      if (answerLine) await play(answerLine, run);
+      // a turn that filled nothing and names a field (the "still missing" answer) jumps the form to it, as the app
+      // does; any other turn shows the first section it filled. ponytail: turns 1-3 also carry focus=weather (the
+      // question asked back) but jumping there would pull the eye off what was just filled.
+      const jumpTo = fill?.focus && !fill.changed?.length ? fill.focus
+        : fill?.changed?.map((c) => c.split(":")[1]).find((k) => k !== "workProgressSummary");
+      const jumping = jumpTo ? jumpToField(jumpTo, body, run, jumpTo === fill?.focus) : Promise.resolve();
+      if (point) await Promise.all([jumping, present(point, run, () => body)]);
+      else { await jumping; await wait(1200, run); }
     }
     setMic("off");
     if (body) await glide(body, body.scrollHeight, 1200, run);
@@ -423,12 +464,12 @@ export default function App() {
 
   const RUN: Record<ChapterKey, (run: number) => Promise<void>> = {
     intro: async (run) => { await showModules(run); await showAssistant(run); },
+    brief: (run) => ask("brief", run),
+    crews: (run) => ask("crews", run),
     cash: (run) => ask("cash", run),
-    invoices: (run) => ask("invoices", run),
     schedule: (run) => ask("schedule", run, showMap),
-    claim: (run) => ask("claim", run),
     dsr: showDsr,
-    end: async (run) => { setReview(false); await play("outro-1", run); },
+    end: async (run) => { setReview(false); await say(["outro-1", "outro-2"], run); },
   };
 
   // plays the show from a chapter on (the chapters before it are shown as they ended)
@@ -683,7 +724,7 @@ export default function App() {
           <div className={ui.startCard}>
             <div className={ui.brand}><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d={STAR} fill="white" /></svg></div>
             <h2>TaskForce AI</h2>
-            <p>Halcrest Civil Constructors: cash, invoices, schedule, a delay claim, and the Daily Site Report, hands-free.</p>
+            <p>Dixie Road &amp; Mayfield Road Widening: the Monday briefing, idle crews, cash, delay claims, and the Daily Site Report, hands-free.</p>
             <button type="button" className={ui.play} onClick={() => void start()} autoFocus>▶ Play</button>
             <span className={ui.hint}>Sound on · Space pauses · ← → chapters · Esc stops</span>
           </div>

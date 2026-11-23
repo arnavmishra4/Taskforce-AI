@@ -1,32 +1,37 @@
 {
   "steps": [
     {
-      "id": "cash",
-      "title": "Cash",
-      "ask": "Where is our cash stuck across all our jobs, and what's the fastest way to get it back?"
+      "id": "brief",
+      "title": "Monday briefing",
+      "ask": "What should I worry about on Dixie this week?"
     },
     {
-      "id": "invoices",
-      "title": "Invoice check",
-      "ask": "Are we paying for work that never happened?"
+      "id": "crews",
+      "title": "Idle crews",
+      "ask": "Where are we paying for crews that aren't producing on Dixie?"
+    },
+    {
+      "id": "cash",
+      "title": "Cash",
+      "ask": "How much money is the Dixie & Mayfield job owed right now, and what should we chase first?"
     },
     {
       "id": "schedule",
-      "title": "Schedule",
-      "ask": "Why is Ridgeline late, and what's it costing us?"
-    },
-    {
-      "id": "claim",
-      "title": "Delay claim",
-      "ask": "Can we recover what the Hydro delay at Harwood has cost us?"
+      "title": "Delay claims",
+      "ask": "Which Dixie delays can we bill back to the Region?"
     },
     {
       "id": "dsr",
       "title": "Daily Site Report",
       "ask": "I want to fill today's daily site report.",
       "fill": [
-        "Okay, so this is my end of day report. I'm Maria Santos, and I was the site supervisor today. It was a day shift on the Ridgeline Regional Roads program, out at Payne Road. On our own crew we had our foreman, six general labourers and fourteen dump truck drivers, and everybody put in ten hours. Kestrel was paving item 109 today. Their crew was two asphalt paver operators, five asphalt rakers and four roller operators. All eleven of them worked ten hours, and every one of them, pavers, rakers and rollers, sat one hour on standby because of the rain. Lakeview delivered sixteen hundred and forty tonnes of HL3 hot mix, and we placed all sixteen hundred and forty tonnes on item 109. For equipment we ran our Caterpillar AP600F paver, our BOMAG 1055 paver, our BW213D roller and our CB10 roller, ten hours each. Then, after lunch, the rain stopped the work at two o'clock for about an hour. The one thing still stuck is Hydro. They still haven't moved the pole at the Harwood Road culvert, and that's holding up the culvert work there. But what did get done is the HL3 lift on Payne Road, from the culvert up to the north end. It's all rolled and compacted.",
-        "It started overcast, about eight degrees, then rain most of the afternoon."
+        "Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu supervising.",
+        "On the storm sewer we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each.",
+        "We ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each.",
+        "On item C-15 a we placed three hundred tonnes.",
+        "We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty.",
+        "What's still missing?",
+        "Partly cloudy, twelve degrees."
       ]
     }
   ]

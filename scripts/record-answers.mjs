@@ -6,7 +6,7 @@
 // missing ("What was the weather and temperature on site?").
 //
 // Usage: AI_SERVICE_KEY=… node scripts/record-answers.mjs [step ids…]   (ids given: only those are asked again)
-// Env: AI_URL (default http://127.0.0.1:8000), TENANT (schema_3), USER_ID (1, Demo User). X-App construction.
+// Env: AI_URL (default http://127.0.0.1:8000), TENANT (schema_3), USER_ID (1; the Dixie recording used 119). X-App construction.
 //      REPORT_DATE (YYYY-MM-DD, default today): the day the Daily Site Report is for (the seed's empty voice day).
 
 import fs from "fs";
@@ -62,6 +62,8 @@ for (const step of script.steps.filter((s) => !only.length || only.includes(s.id
   const report = events.find(({ e }) => e.report)?.e.report;
   console.log(`  ${((Date.now() - t0) / 1000).toFixed(1)}s${report ? ` · report "${report.title}"` : ""}`);
   // a chart or table that came back empty shows "No data" in the demo: worth asking again
+  const types = (report?.blocks ?? []).map((b) => b.type);
+  if (report) console.log(`  blocks: ${types.join(", ")}`);
   const empty = (report?.blocks ?? []).filter((b) => b.empty || (b.type === "chart" && !b.labels?.length));
   if (empty.length) console.log(`  ! empty: ${empty.map((b) => b.title).join(", ")}`);
   console.log(`  ${text.replace(/\n+/g, " ").slice(0, 600)}`);
@@ -71,8 +73,8 @@ for (const step of script.steps.filter((s) => !only.length || only.includes(s.id
     const r = await fill(said, form, fills.map((f) => f.said.slice(-600)).slice(-2));
     if (r.status !== "ok") throw new Error(`dsr/turn ${r.status}: ${r.note ?? ""}`);
     form = { payload: r.payload, review: r.review ?? [], shown: r.shown ?? null };
-    fills.push({ said, reply: r.reply, summary: r.summary, changed: r.changed, review: r.review ?? [] });
-    console.log(`  DSR: ${r.reply}`);
+    fills.push({ said, reply: r.reply, summary: r.summary, changed: r.changed, review: r.review ?? [], focus: r.focus ?? null });
+    console.log(`  DSR: ${r.reply}${r.focus ? `  [focus ${r.focus}]` : ""}`);
   }
   answers[step.id] = step.fill ? { events, fills, reportDate: today } : { events, fills };
 }
