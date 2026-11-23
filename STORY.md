@@ -1,14 +1,14 @@
 # TaskForce AI: client demo voice-over
 
 Audience: COO of a $2.6B Canadian heavy-civil contractor. Sceptical, short on time, commercially sharp.
-This is a client demo, not a skit: the narrator is the presenter. The questions are typed into the chat on screen, silently (no voice, no "owner" character). Only the narrator and the site supervisor's DSR speech are voiced.
-One job, one Monday: **Dixie Road & Mayfield Road Widening** (Peel Region). The contractor is "your company" / "we" in the voice-over; it is never named.
+This is a client demo, not a skit: the narrator is the presenter. The narrator also asks the questions: each is said aloud and typed into the chat as she says it (no separate "owner" character). Only the narrator and the site supervisor's DSR speech are voiced.
+One job, one Monday: **Dixie Road & Mayfield Road Widening** (Peel Region). The voice-over is a story the viewer steps into, in the second person ("Dixie Road and Mayfield Road is your job"), the viewer is the one asking. The contractor is never named.
 This is the final narration: it matches `src/narration.json` line for line. Every figure is read off the recorded answers (`src/answers.json`, recorded 2026-11-23 from staging, tenant schema_3, user 119).
 
 ## The story in one breath
 
-1. The answers to "are we on track, what is it costing, where is our cash" exist, but they sit with four people, so a decision arrives days late and already filtered.
-2. TaskForce already holds every one of those records; TaskForce AI reads across all of them at once and hands back one page.
+1. Picture it: Dixie is your job, it's Monday, seven a.m. The weekend's updates (site reports, a schedule that moved, costs in finance, extra work awaiting sign-off) are scattered and don't talk to each other, so answering "are we okay?" takes phone calls until Thursday.
+2. Now you just ask. TaskForce AI goes through every one of those updates and comes back with one page: what's wrong, how bad, what to do first. Every number comes straight from your own records.
 3. On one job, one Monday: a briefing, crews on standby, $20.29M stuck, and which delays we can bill back, each in about a minute.
 4. It all rests on the field: the site supervisor files a complete report by talking, the same day, which is why the answers can be trusted.
 
@@ -23,15 +23,17 @@ This is the final narration: it matches `src/narration.json` line for line. Ever
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| intro-1 | narrator | 6 | It's Monday morning. You have one simple question: is the Dixie Road job on track? |
-| intro-2 | narrator | 10 | The answer exists. But it's split across the schedule, the daily site reports, finance and the contract, and each of those belongs to someone else. |
-| intro-3 | narrator | 11 | So someone stitches it together. It reaches you days old, tidied on the way up. And every day a problem waits is margin you don't get back. |
+| intro-1 | narrator | 9 | Picture this. Dixie Road and Mayfield Road is your job. Two roads, crews out every day, the Region watching. It's Monday, seven a.m. |
+| intro-2 | narrator | 11 | Over the weekend, the updates piled up. Daily site reports from the field. A schedule that moved. Costs landing in finance. Extra work waiting on the client's sign-off. |
+| intro-3 | narrator | 8 | Every one of them matters. None of them talk to each other. And the one question you actually have, are we okay, isn't answered in any of them. |
+| intro-4 | narrator | 8 | So you start calling. The project manager, the superintendent, accounting. By Thursday you have an answer. By then, it's already cost you. |
 
 ## 2. Meet TaskForce AI
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| meet-1 | narrator | 12 | Those records already live in TaskForce. Ask TaskForce AI in plain words, and it reads them all at once: one page, with the numbers, the evidence, and what to do first. |
+| meet-1 | narrator | 10 | Now imagine you just ask. TaskForce AI goes through every one of those updates for you, and comes back with one page: what's wrong, how bad, and what to do first. |
+| meet-2 | narrator | 3 | Every number on it comes straight from your own records. |
 
 ## 3. The Monday briefing (`brief`)
 
@@ -39,11 +41,11 @@ On screen: schedule KPIs, change orders awaiting approval ($214.3K add days, $65
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| brief-lead | narrator | 8 | One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region. Here's the question every Monday starts with. |
-| _(typed)_ | on screen | ~4 | What should I worry about on Dixie this week? |
+| brief-lead | narrator | 3 | So. Monday, seven a.m. One question. |
+| brief-ask | narrator (typed as she says it) | 2 | What should I worry about on Dixie this week? |
 | _(dwell)_ | | ~5 | |
 | brief-point | narrator | 8 | It starts with the schedule. Dixie is behind, and half of the delays logged on site came from third parties. |
-| brief-verify | narrator | 10 | Two hundred fourteen thousand dollars of change orders that add days are still waiting on approval. One page, from the live records. Let's pull each thread. |
+| brief-verify | narrator | 10 | One page, from the live records, instead of three reports from three departments. Let's pull each thread. |
 
 ## 4. Crews on standby (`crews`)
 
@@ -52,10 +54,10 @@ On screen: 819 standby hours on own forces; by trade Foreman (Open Cut) 273, Lab
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
 | crews-lead | narrator | 6 | Start with the leak nobody reports: crews being paid to wait. Let's ask it. |
-| _(typed)_ | on screen | ~4 | Where are we paying for crews that aren't producing on Dixie? |
+| crews-ask | narrator (typed as she says it) | 3 | Where are we paying for crews that aren't producing on Dixie? |
 | _(dwell)_ | | ~5 | |
 | crews-point | narrator | 7 | Open-cut foremen, two hundred seventy-three standby hours. Open-cut labourers, two hundred sixty-one. And it peaked in July. |
-| crews-verify | narrator | 8 | Eight hundred nineteen of those hours are our own forces, not subcontractors. That's the conversation with the superintendent this week. |
+| crews-verify | narrator | 8 | Three daily reports, D-S-R forty-three, fifty-seven and forty-four, carry the most standby. That's where the conversation with the superintendent starts this week. |
 
 ## 5. Cash (`cash`)
 
@@ -64,7 +66,7 @@ On screen: $20.29M stuck, $20.01M work done not yet approved for billing, $279.3
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
 | cash-lead | narrator | 1 | Now the money. |
-| _(typed)_ | on screen | ~4 | How much money is the Dixie & Mayfield job owed right now, and what should we chase first? |
+| cash-ask | narrator (typed as she says it) | 5 | How much money is the Dixie & Mayfield job owed right now, and what should we chase first? |
 | _(dwell)_ | | ~5 | |
 | cash-point | narrator | 9 | Twenty point two nine million dollars is stuck. Almost all of it is work in the ground, not yet approved for billing. |
 | cash-verify | narrator | 8 | First move: put one point eight two million on item C-fifteen b, Granular A, in this month's progress claim. |
@@ -77,10 +79,10 @@ On screen: "Half of 6 delay entries are third-party, billable to the Region."; 1
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
 | schedule-lead | narrator | 4 | Now the delays, and which of them belong on a claim. |
-| _(typed)_ | on screen | ~4 | Which Dixie delays can we bill back to the Region? |
+| schedule-ask | narrator (typed as she says it) | 2 | Which Dixie delays can we bill back to the Region? |
 | _(dwell)_ | | ~5 | |
 | schedule-point | narrator | 8 | Three of the six delays logged on site came from third parties. Those are the ones to take to the Region. |
-| schedule-verify | narrator | 8 | Beside them, eleven hundred thirty-one standby hours from the same site reports. That's the evidence a claim is built on. |
+| schedule-verify | narrator | 8 | An unmarked Bell duct bank, nesting birds, an archaeological find: each one logged by date and report. That's the evidence a claim is built on. |
 | schedule-map | narrator | 10 | And here's where it's happening: Dixie Road, thirteen plus five-twenty to sixteen plus five hundred, and Mayfield Road, thirty-nine plus seven-fourteen to forty-one plus three seventy-six. |
 
 ## 7. The field (`dsr`)
@@ -118,4 +120,4 @@ Three outcomes the COO can repeat to the CEO, then the closing line.
 
 ## Running time
 
-About 4 min of voice, plus about 1 min 15 s of screen time (questions typed, answers building, form filling, map): **about 5 min 15 s**. To reach 6 to 8 minutes, let each answer sit longer on screen; don't add words.
+About 4 min 30 s of voice (the questions are now part of it), plus about 1 min of screen time (answers building, form filling, map): **about 5 min 30 s**. To reach 6 to 8 minutes, let each answer sit longer on screen; don't add words.

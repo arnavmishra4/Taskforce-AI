@@ -1,6 +1,6 @@
 // The TaskForce AI demo: the app's modules bar, the TaskForce AI page and its Daily Site Report pane, driven hands-free.
-// A voice-over (ElevenLabs, public/audio/<id>.mp3, lines in narration.json) walks through it; the questions are spoken
-// into the chat and the answers that come back are TaskForce AI's real ones, recorded once from the AI service
+// A voice-over (ElevenLabs, public/audio/<id>.mp3, lines in narration.json) walks through it; the questions are said
+// by the narrator and typed into the chat as she says them and the answers that come back are TaskForce AI's real ones, recorded once from the AI service
 // (answers.json, scripts/record-answers.mjs) and replayed as they streamed, with the waiting cut short.
 import React, { useEffect, useRef, useState } from "react";
 import chat from "./chat/tfai.module.css";
@@ -210,11 +210,29 @@ export default function App() {
     setFocus(false);
   };
 
-  // a question typed into the composer, silently, letter by letter; it stays a moment to be read, then is sent
-  const typeIn = async (text: string, run: number) => {
+  // a question, said by the narrator (line <id>-ask) and typed into the composer as it is said: each word starts at
+  // its start in the recording (alignment.json) and its letters fill in over the word (at most 0.35 s); evenly over
+  // the clip when there is no alignment. No recording: typed silently, letter by letter, and held a moment to be read.
+  const typeIn = async (id: LineId, text: string, run: number) => {
     spot(composerRef.current, 2000);
-    for (let n = 1; n <= text.length; n++) { setInput(text.slice(0, n)); await wait(38, run); }
-    await wait(Math.max(1200, readMs(text) * 0.5), run);
+    if ((await voice.lengthOf(id)) === null) {
+      for (let n = 1; n <= text.length; n++) { setInput(text.slice(0, n)); await wait(38, run); }
+      await wait(Math.max(1200, readMs(text) * 0.5), run);
+    } else {
+      const words = text.split(" ");
+      const at0 = words.map((_, i) => words.slice(0, i).join(" ").length + (i ? 1 : 0));   // where each word begins
+      const starts = (alignment as Record<string, number[]>)[id];
+      const typed = (at: number, of: number, from: number) => {
+        if (at >= of) return text.length;
+        if (!starts || starts.length !== words.length) return Math.round((at / of) * text.length);
+        const t = from + at, i = starts.filter((s) => s <= t).length - 1;
+        if (i < 0) return 0;
+        const span = Math.min(0.35, (starts[i + 1] ?? from + of) - starts[i]);
+        return at0[i] + Math.ceil(Math.min(1, (t - starts[i]) / Math.max(0.05, span)) * words[i].length);
+      };
+      await play(id, run, (at, of, from) => setInput(text.slice(0, typed(at, of, from))));
+      await wait(300, run);   // the beat before it is sent
+    }
     setInput("");
   };
 
@@ -303,20 +321,20 @@ export default function App() {
     await Promise.all([play("intro-2", run), lighting]);
     setModuleOpen(undefined);
     setModuleLit(undefined);
-    await play("intro-3", run);
+    await say(["intro-3", "intro-4"], run);
   };
 
   const showAssistant = async (run: number) => {
     setSideHidden(true);
     spot($(`.${chat.mainContent}`), 3500);
-    await play("meet-1", run);
+    await say(["meet-1", "meet-2"], run);
   };
 
-  // a scene: the narrator sets it up, the question is typed into the chat, the answer streams in, the narrator walks it
+  // a scene: the narrator sets it up, asks the question as it is typed into the chat, the answer streams in, the narrator walks it
   const ask = async (id: string, run: number, extra?: (run: number) => Promise<void>) => {
     const step = askOf(id);
     await play(`${id}-lead` as LineId, run);
-    await typeIn(step.ask, run);
+    await typeIn(`${id}-ask` as LineId, step.ask, run);
     await answer(id, step.ask, run);
     await walk([`${id}-point` as LineId, `${id}-verify` as LineId], run);
     if (extra) await extra(run);

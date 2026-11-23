@@ -12,23 +12,35 @@
   "lines": {
     "intro-1": {
       "voice": "narrator",
-      "text": "It's Monday morning. You have one simple question: is the Dixie Road job on track?"
+      "text": "Picture this. Dixie Road and Mayfield Road is your job. Two roads, crews out every day, the Region watching. It's Monday, seven a.m."
     },
     "intro-2": {
       "voice": "narrator",
-      "text": "The answer exists. But it's split across the schedule, the daily site reports, finance and the contract, and each of those belongs to someone else."
+      "text": "Over the weekend, the updates piled up. Daily site reports from the field. A schedule that moved. Costs landing in finance. Extra work waiting on the client's sign-off."
     },
     "intro-3": {
       "voice": "narrator",
-      "text": "So someone stitches it together. It reaches you days old, tidied on the way up. And every day a problem waits is margin you don't get back."
+      "text": "Every one of them matters. None of them talk to each other. And the one question you actually have, are we okay, isn't answered in any of them."
+    },
+    "intro-4": {
+      "voice": "narrator",
+      "text": "So you start calling. The project manager, the superintendent, accounting. By Thursday you have an answer. By then, it's already cost you."
     },
     "meet-1": {
       "voice": "narrator",
-      "text": "Those records already live in TaskForce. Ask TaskForce AI in plain words, and it reads them all at once: one page, with the numbers, the evidence, and what to do first."
+      "text": "Now imagine you just ask. TaskForce AI goes through every one of those updates for you, and comes back with one page: what's wrong, how bad, and what to do first."
+    },
+    "meet-2": {
+      "voice": "narrator",
+      "text": "Every number on it comes straight from your own records."
     },
     "brief-lead": {
       "voice": "narrator",
-      "text": "One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region. Here's the question every Monday starts with."
+      "text": "So. Monday, seven a.m. One question."
+    },
+    "brief-ask": {
+      "voice": "narrator",
+      "text": "What should I worry about on Dixie this week?"
     },
     "brief-point": {
       "voice": "narrator",
@@ -42,6 +54,10 @@
       "voice": "narrator",
       "text": "Start with the leak nobody reports: crews being paid to wait. Let's ask it."
     },
+    "crews-ask": {
+      "voice": "narrator",
+      "text": "Where are we paying for crews that aren't producing on Dixie?"
+    },
     "crews-point": {
       "voice": "narrator",
       "text": "Open-cut foremen, two hundred seventy-three standby hours. Open-cut labourers, two hundred sixty-one. And it peaked in July."
@@ -54,6 +70,10 @@
       "voice": "narrator",
       "text": "Now the money."
     },
+    "cash-ask": {
+      "voice": "narrator",
+      "text": "How much money is the Dixie & Mayfield job owed right now, and what should we chase first?"
+    },
     "cash-point": {
       "voice": "narrator",
       "text": "Twenty point two nine million dollars is stuck. Almost all of it is work in the ground, not yet approved for billing."
@@ -65,6 +85,10 @@
     "schedule-lead": {
       "voice": "narrator",
       "text": "Now the delays, and which of them belong on a claim."
+    },
+    "schedule-ask": {
+      "voice": "narrator",
+      "text": "Which Dixie delays can we bill back to the Region?"
     },
     "schedule-point": {
       "voice": "narrator",
