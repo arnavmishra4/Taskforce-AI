@@ -23,7 +23,7 @@ This is the final narration: it matches `src/narration.json` line for line. Ever
 
 | Key | Speaker | Sec | Line |
 |---|---|---|---|
-| intro-1 | narrator | 9 | Picture this. Dixie Road and Mayfield Road is your job. Two roads, crews out every day, the Region watching. It's Monday, seven a.m. |
+| intro-1 | narrator | 9 | Picture this. You're running the Dixie Road and Mayfield Road widening. Two roads, crews out every day, the Region watching. It's Monday, seven a.m. |
 | intro-2 | narrator | 11 | Over the weekend, the updates piled up. Daily site reports from the field. A schedule that moved. Costs landing in finance. Extra work waiting on the client's sign-off. |
 | intro-3 | narrator | 8 | Every one of them matters. None of them talk to each other. And the one question you actually have, are we okay, isn't answered in any of them. |
 | intro-4 | narrator | 8 | So you start calling. The project manager, the superintendent, accounting. By Thursday you have an answer. By then, it's already cost you. |
