@@ -8,167 +8,159 @@
       "name": "Chris",
       "id": "iP95p4xoKVk53GoZ742B"
     },
-    "maria": {
-      "name": "Jessica",
+    "supervisor": {
+      "name": "Jessica (Gurpreet Sandhu, for now)",
       "id": "cgSgspJ2msm6clMCkdW9"
     }
   },
   "lines": {
     "intro-1": {
       "voice": "narrator",
-      "text": "Picture this: you own Halcrest Civil Constructors, four big public jobs running, roads, a watermain, a bridge and a street rebuild. It's Monday morning."
+      "text": "TODO"
     },
     "intro-2": {
       "voice": "narrator",
-      "text": "Everything about those jobs is already in TaskForce: projects, daily site reports, finance, the schedule. But one straight answer still means clicking through screens and exports."
+      "text": "TODO"
+    },
+    "intro-3": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "intro-4": {
+      "voice": "narrator",
+      "text": "TODO"
     },
     "meet-1": {
       "voice": "narrator",
-      "text": "Meet TaskForce AI. You ask a question in plain English. It reads your live project records, and builds a one-page answer."
+      "text": "TODO"
     },
-    "cash-ask": {
+    "brief-lead": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "brief-ask": {
       "voice": "user",
-      "text": "Where is our cash stuck across all our jobs, and what's the fastest way to get it back?"
+      "text": "What should I worry about on Dixie this week?"
     },
-    "invoices-ask": {
+    "brief-point": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "brief-verify": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "crews-lead": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "crews-ask": {
       "voice": "user",
-      "text": "Are we paying for work that never happened?"
+      "text": "Where are we paying for crews that aren't producing on Dixie?"
     },
-    "schedule-ask": {
-      "voice": "user",
-      "text": "Why is Ridgeline late, and what's it costing us?"
+    "crews-point": {
+      "voice": "narrator",
+      "text": "TODO"
     },
-    "claim-ask": {
-      "voice": "user",
-      "text": "Can we recover what the Hydro delay at Harwood has cost us?"
-    },
-    "dsr-ask": {
-      "voice": "maria",
-      "text": "I want to fill today's daily site report."
+    "crews-verify": {
+      "voice": "narrator",
+      "text": "TODO"
     },
     "cash-lead": {
       "voice": "narrator",
-      "text": "First, the question every owner asks on a Monday: where is our cash stuck?"
+      "text": "TODO"
+    },
+    "cash-ask": {
+      "voice": "user",
+      "text": "How much money is the Dixie & Mayfield job owed right now, and what should we chase first?"
     },
     "cash-point": {
       "voice": "narrator",
-      "text": "Nineteen point two million dollars is tied up across the four jobs. Harbourfront Watermain holds the most, eight point four million. And the fastest money back: get four point one million dollars of finished work on Harbourfront certified."
+      "text": "TODO"
     },
     "cash-verify": {
       "voice": "narrator",
-      "text": "Every figure on this page is counted from your records by code. The AI writes the words, not the numbers."
-    },
-    "invoices-lead": {
-      "voice": "narrator",
-      "text": "Next, the bills. Are we paying for work that never happened?"
-    },
-    "invoices-point": {
-      "voice": "narrator",
-      "text": "It flagged five invoices, with one point five seven million dollars at risk. Kestrel billed a full crew on twenty-three days when your own site reports show no Kestrel crew there. And Corbin sent the same invoice twice."
-    },
-    "invoices-verify": {
-      "voice": "narrator",
-      "text": "Each invoice is checked against three sources: the subcontract, the agreed rates, and the crews your own site reports logged."
+      "text": "TODO"
     },
     "schedule-lead": {
       "voice": "narrator",
-      "text": "Now the schedule. Ridgeline is running late. Why, and what is it costing us?"
+      "text": "TODO"
+    },
+    "schedule-ask": {
+      "voice": "user",
+      "text": "Why is Dixie behind schedule, and what's it costing us?"
     },
     "schedule-point": {
       "voice": "narrator",
-      "text": "Ridgeline is fourteen percent behind schedule. Utility conflicts are the main cause, and the Harwood Road culvert alone is thirty-four days late."
+      "text": "TODO"
     },
     "schedule-verify": {
       "voice": "narrator",
-      "text": "To get there, it cross-checks the layers: the schedule against the daily site reports, and both against finance."
+      "text": "TODO"
     },
     "schedule-map": {
       "voice": "narrator",
-      "text": "And here is where it's happening: the Ridgeline roads on the map, coloured by progress.",
-      "cues": [
-        {
-          "word": "here",
-          "show": ".leaflet-container"
-        }
-      ]
-    },
-    "claim-lead": {
-      "voice": "narrator",
-      "text": "That Hydro delay at Harwood has a price. Can we get it back?"
-    },
-    "claim-point": {
-      "voice": "narrator",
-      "text": "It builds the claim: seven logged delay days at Harwood, sixty-eight thousand dollars in waiting crews and machines, backing a one point eight four million dollar change order."
-    },
-    "claim-verify": {
-      "voice": "narrator",
-      "text": "It only counts days the records link to the Hydro delay. The days it left out are listed, and every line points to its daily report. Where the records can't prove something, it says so instead of guessing."
+      "text": "TODO"
     },
     "dsr-lead": {
       "voice": "narrator",
-      "text": "All of this starts with what your superintendents report at the end of the day. So here's Maria, at five o'clock."
+      "text": "TODO"
+    },
+    "dsr-ask": {
+      "voice": "supervisor",
+      "text": "I want to fill today's daily site report."
     },
     "dsr-open": {
       "voice": "narrator",
-      "text": "The daily site report opens beside the chat. No typing, no dropdowns. She just talks."
+      "text": "TODO"
     },
     "fill-1": {
-      "voice": "maria",
-      "text": "Okay, so this is my end of day report. I'm Maria Santos, and I was the site supervisor today. It was a day shift on the Ridgeline Regional Roads program, out at Payne Road. On our own crew we had our foreman, six general labourers and fourteen dump truck drivers, and everybody put in ten hours. Kestrel was paving item 109 today. Their crew was two asphalt paver operators, five asphalt rakers and four roller operators. All eleven of them worked ten hours, and every one of them, pavers, rakers and rollers, sat one hour on standby because of the rain. Lakeview delivered sixteen hundred and forty tonnes of HL3 hot mix, and we placed all sixteen hundred and forty tonnes on item 109. For equipment we ran our Caterpillar AP600F paver, our BOMAG 1055 paver, our BW213D roller and our CB10 roller, ten hours each. Then, after lunch, the rain stopped the work at two o'clock for about an hour. The one thing still stuck is Hydro. They still haven't moved the pole at the Harwood Road culvert, and that's holding up the culvert work there. But what did get done is the HL3 lift on Payne Road, from the culvert up to the north end. It's all rolled and compacted."
-    },
-    "fill-1-point": {
-      "voice": "narrator",
-      "text": "The form fills itself, matched to your real records: the contract item, the sub, the material and the equipment.",
-      "cues": [
-        {
-          "word": "item",
-          "show": "[data-section='Labor Tracking']"
-        },
-        {
-          "word": "material",
-          "show": "[data-section='Materials']"
-        },
-        {
-          "word": "equipment",
-          "show": "[data-section='Equipment']"
-        }
-      ]
-    },
-    "fill-1-missing": {
-      "voice": "narrator",
-      "text": "And it notices what's missing, and asks.",
-      "cues": [
-        {
-          "word": "missing",
-          "show": "[data-section='Weather Conditions']"
-        }
-      ]
-    },
-    "fill-1-ask": {
-      "voice": "narrator",
-      "text": "What was the temperature on site?"
+      "voice": "supervisor",
+      "text": "Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu supervising."
     },
     "fill-2": {
-      "voice": "maria",
-      "text": "It started overcast, about eight degrees, then rain most of the afternoon."
+      "voice": "supervisor",
+      "text": "On the storm sewer we had one foreman, four open-cut labourers and two pipelayers, ten hours each."
     },
-    "fill-2-point": {
+    "fill-3": {
+      "voice": "supervisor",
+      "text": "We ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each."
+    },
+    "fill-4": {
+      "voice": "supervisor",
+      "text": "We placed three hundred tonnes of Granular A under item C-15 a."
+    },
+    "fill-5": {
+      "voice": "supervisor",
+      "text": "We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty."
+    },
+    "fill-5-point": {
       "voice": "narrator",
-      "text": "The temperature goes straight in. Nothing to retype.",
-      "cues": [
-        {
-          "word": "weather",
-          "show": "[data-section='Weather Conditions']"
-        }
-      ]
+      "text": "TODO"
+    },
+    "fill-6": {
+      "voice": "supervisor",
+      "text": "What's still missing?"
+    },
+    "fill-6-answer": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "fill-6-point": {
+      "voice": "narrator",
+      "text": "TODO"
+    },
+    "fill-7": {
+      "voice": "supervisor",
+      "text": "Partly cloudy, twelve degrees."
     },
     "dsr-review": {
       "voice": "narrator",
-      "text": "Before it's submitted, Maria checks one clean summary, and it's done."
+      "text": "TODO"
     },
     "outro-1": {
       "voice": "narrator",
-      "text": "From what your superintendents say at five o'clock, to the answers you need on Monday morning. That's TaskForce AI."
+      "text": "TODO"
     }
   }
 }
