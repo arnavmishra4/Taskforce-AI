@@ -17,8 +17,8 @@
     },
     {
       "id": "schedule",
-      "title": "Schedule",
-      "ask": "Why is Dixie behind schedule, and what's it costing us?"
+      "title": "Delay claims",
+      "ask": "Which Dixie delays can we bill back to the Region?"
     },
     {
       "id": "dsr",
@@ -26,9 +26,9 @@
       "ask": "I want to fill today's daily site report.",
       "fill": [
         "Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu supervising.",
-        "On the storm sewer we had one foreman, four open-cut labourers and two pipelayers, ten hours each.",
+        "On the storm sewer we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each.",
         "We ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each.",
-        "We placed three hundred tonnes of Granular A under item C-15 a.",
+        "On item C-15 a we placed three hundred tonnes.",
         "We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty.",
         "What's still missing?",
         "Partly cloudy, twelve degrees."

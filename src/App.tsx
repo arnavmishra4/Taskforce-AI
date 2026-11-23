@@ -49,7 +49,7 @@ const CHAPTERS = [
   { key: "brief", label: "1", title: "Monday briefing", tags: ["Asked by voice", "Schedule · finance · crews", "One page"] },
   { key: "crews", label: "2", title: "Idle crews", tags: ["Standby hours", "By trade", "By subcontractor"] },
   { key: "cash", label: "3", title: "Cash", tags: ["Work not yet billed", "What to chase first", "Figures counted by code"] },
-  { key: "schedule", label: "4", title: "Schedule", tags: ["Why Dixie is behind", "What it costs", "Schedule · site reports · finance", "Map"] },
+  { key: "schedule", label: "4", title: "Delay claims", tags: ["Which delays bill back", "Change orders waiting on the Region", "Site reports · change orders · NCRs", "Map"] },
   { key: "dsr", label: "5", title: "Daily Site Report", tags: ["Spoken, not typed", "Matched to real records", "What's still missing", "Review before submit"] },
   { key: "end", label: "End", title: "Wrap-up", tags: ["Five o'clock to Monday morning"] },
 ] as const;
@@ -295,7 +295,7 @@ export default function App() {
     await Promise.all([play("intro-2", run), lighting]);
     setModuleOpen(undefined);
     setModuleLit(undefined);
-    await say(["intro-3", "intro-4"], run);
+    await play("intro-3", run);
   };
 
   const showAssistant = async (run: number) => {
@@ -451,7 +451,7 @@ export default function App() {
     cash: (run) => ask("cash", run),
     schedule: (run) => ask("schedule", run, showMap),
     dsr: showDsr,
-    end: async (run) => { setReview(false); await play("outro-1", run); },
+    end: async (run) => { setReview(false); await say(["outro-1", "outro-2"], run); },
   };
 
   // plays the show from a chapter on (the chapters before it are shown as they ended)
@@ -706,7 +706,7 @@ export default function App() {
           <div className={ui.startCard}>
             <div className={ui.brand}><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d={STAR} fill="white" /></svg></div>
             <h2>TaskForce AI</h2>
-            <p>Dixie Road &amp; Mayfield Road Widening: the Monday briefing, idle crews, cash, the schedule, and the Daily Site Report, hands-free.</p>
+            <p>Dixie Road &amp; Mayfield Road Widening: the Monday briefing, idle crews, cash, delay claims, and the Daily Site Report, hands-free.</p>
             <button type="button" className={ui.play} onClick={() => void start()} autoFocus>▶ Play</button>
             <span className={ui.hint}>Sound on · Space pauses · ← → chapters · Esc stops</span>
           </div>

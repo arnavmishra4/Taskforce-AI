@@ -16,27 +16,23 @@
   "lines": {
     "intro-1": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "It's Monday morning. You have one simple question: is the Dixie Road job on track?"
     },
     "intro-2": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "The answer exists. But it's split across the schedule, the daily site reports, finance and the contract, and each of those belongs to someone else."
     },
     "intro-3": {
       "voice": "narrator",
-      "text": "TODO"
-    },
-    "intro-4": {
-      "voice": "narrator",
-      "text": "TODO"
+      "text": "So someone stitches it together. It reaches you days old, tidied on the way up. And every day a problem waits is margin you don't get back."
     },
     "meet-1": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Those records already live in TaskForce. Ask TaskForce AI in plain words, and it reads them all at once: one page, with the numbers, the evidence, and what to do first."
     },
     "brief-lead": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "One job, one Monday: the Dixie Road and Mayfield Road widening, for Peel Region."
     },
     "brief-ask": {
       "voice": "user",
@@ -44,15 +40,15 @@
     },
     "brief-point": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "It starts with the schedule. Dixie is behind, and half of the delays logged on site came from third parties."
     },
     "brief-verify": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Two hundred fourteen thousand dollars of change orders that add days are still waiting on approval. One page, from the live records. Let's pull each thread."
     },
     "crews-lead": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Start with the leak nobody reports: crews being paid to wait."
     },
     "crews-ask": {
       "voice": "user",
@@ -60,15 +56,15 @@
     },
     "crews-point": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Open-cut foremen, two hundred seventy-three standby hours. Open-cut labourers, two hundred sixty-one. And it peaked in July."
     },
     "crews-verify": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Eight hundred nineteen of those hours are our own forces, not subcontractors. That's the conversation with the superintendent this week."
     },
     "cash-lead": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Now the money."
     },
     "cash-ask": {
       "voice": "user",
@@ -76,35 +72,35 @@
     },
     "cash-point": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Twenty point two nine million dollars is stuck. Almost all of it is work in the ground, not yet approved for billing."
     },
     "cash-verify": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "First move: put one point eight two million on item C-fifteen b, Granular A, in this month's progress claim."
     },
     "schedule-lead": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "And the delays. Which ones can we bill back?"
     },
     "schedule-ask": {
       "voice": "user",
-      "text": "Why is Dixie behind schedule, and what's it costing us?"
+      "text": "Which Dixie delays can we bill back to the Region?"
     },
     "schedule-point": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Three of the six delays logged on site came from third parties. Those are the ones to take to the Region."
     },
     "schedule-verify": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Beside them, eleven hundred thirty-one standby hours from the same site reports. That's the evidence a claim is built on."
     },
     "schedule-map": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "And here's where it's happening: Dixie Road, thirteen plus five-twenty to sixteen plus five hundred, and Mayfield Road, thirty-nine plus seven-fourteen to forty-one plus three seventy-six."
     },
     "dsr-lead": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Every answer you just saw is only as good as what comes in from site. So here's Gurpreet Sandhu, the site supervisor, at the end of his day."
     },
     "dsr-ask": {
       "voice": "supervisor",
@@ -112,7 +108,7 @@
     },
     "dsr-open": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "The report opens beside the chat. No typing, no dropdowns. He just talks."
     },
     "fill-1": {
       "voice": "supervisor",
@@ -120,7 +116,7 @@
     },
     "fill-2": {
       "voice": "supervisor",
-      "text": "On the storm sewer we had one foreman, four open-cut labourers and two pipelayers, ten hours each."
+      "text": "On the storm sewer we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each."
     },
     "fill-3": {
       "voice": "supervisor",
@@ -128,7 +124,7 @@
     },
     "fill-4": {
       "voice": "supervisor",
-      "text": "We placed three hundred tonnes of Granular A under item C-15 a."
+      "text": "On item C-15 a we placed three hundred tonnes."
     },
     "fill-5": {
       "voice": "supervisor",
@@ -136,7 +132,7 @@
     },
     "fill-5-point": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Crew, equipment, quantities against the contract item, and the Bell delay, each matched to your real records."
     },
     "fill-6": {
       "voice": "supervisor",
@@ -144,11 +140,11 @@
     },
     "fill-6-answer": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Still empty: Weather, Temperature."
     },
     "fill-6-point": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "And the form jumps straight to it."
     },
     "fill-7": {
       "voice": "supervisor",
@@ -156,11 +152,15 @@
     },
     "dsr-review": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "That two-hour Bell delay is on the record, at a station, the same day: the paper trail that wins a delay claim. And these hours and quantities feed tomorrow's standby and billing answers."
     },
     "outro-1": {
       "voice": "narrator",
-      "text": "TODO"
+      "text": "Know where a job stands in one minute, not one week. Find idle crews and unbilled work while it's still recoverable. Every delay logged the same day it happens, ready for a claim."
+    },
+    "outro-2": {
+      "voice": "narrator",
+      "text": "You don't need more reports. You need fewer steps between the question and the answer."
     }
   }
 }

@@ -7,7 +7,7 @@ The story: one job, one Monday. Dufferin Construction Company is widening Dixie 
 1. **Monday briefing**: what to worry about on Dixie this week.
 2. **Idle crews**: where we are paying for crews that aren't producing.
 3. **Cash**: how much the job is owed right now, and what to chase first.
-4. **Schedule**: why Dixie is behind and what it costs. It ends on the job's map.
+4. **Delay claims**: which Dixie delays we can bill back to the Region. It ends on the job's map.
 5. **Daily Site Report**: Gurpreet Sandhu, the site supervisor, says his day in short sentences and the form fills itself. He asks "What's still missing?", the form jumps to the weather, and he answers.
 
 It is a static site: no login, no backend, no keys in the browser.
