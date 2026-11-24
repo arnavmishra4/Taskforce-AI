@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "record:answers": "node scripts/record-answers.mjs",
-    "record:voice": "node --env-file=.env.local scripts/record-voice.mjs"
+    "record:voice": "node --env-file=.env.local scripts/record-voice.mjs",
+    "speech": "node scripts/speech.mjs"
   },
   "dependencies": {
     "chart.js": "4.4.2",

@@ -57,7 +57,8 @@ const answers = only.length && fs.existsSync("src/answers.json") ? JSON.parse(fs
 for (const step of script.steps.filter((s) => !only.length || only.includes(s.id))) {
   console.log(`\n> ${step.ask}`);
   const t0 = Date.now();
-  const events = await ask(step.ask);
+  const chatId = `demo-${step.id}-${Date.now()}`;
+  const events = await ask(step.ask, chatId);
   const text = events.map(({ e }) => e.text ?? "").join("");
   const report = events.find(({ e }) => e.report)?.e.report;
   console.log(`  ${((Date.now() - t0) / 1000).toFixed(1)}s${report ? ` · report "${report.title}"` : ""}`);
@@ -77,6 +78,25 @@ for (const step of script.steps.filter((s) => !only.length || only.includes(s.id
     console.log(`  DSR: ${r.reply}${r.focus ? `  [focus ${r.focus}]` : ""}`);
   }
   answers[step.id] = step.fill ? { events, fills, reportDate: today } : { events, fills };
+  // follow-ups in the same chat ("send this report to …", "yes"). The AI hands an email to the backend as a
+  // {"send"} event, which writes "Sent to … by email." before the end (tfAi/index.js forwardStream, emailReport.js
+  // sentLine): the same line is put in its place here. Nothing is emailed while recording.
+  for (const then of step.then ?? []) {
+    console.log(`> ${then.ask}`);
+    const got = await ask(then.ask, chatId);
+    const out = [];
+    for (const ev of got) {
+      if (ev.e.send) {
+        const names = (ev.e.send.recipients ?? ev.e.send.to ?? []).map((r) => r.name || r.email || r).filter(Boolean)
+          .map((n) => (n.includes("@") ? n : n.replace(/\b\w/g, (c) => c.toUpperCase())));   // titleCase, as the backend
+        const join = (n) => (n.length === 1 ? n[0] : `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}`);
+        out.push({ t: ev.t, e: { text: `\n\nSent to ${join(names)} by email.` } });
+        console.log(`  (send to ${JSON.stringify(ev.e.send.recipients ?? ev.e.send.to)})`);
+      } else out.push(ev);
+    }
+    console.log(`  ${out.map(({ e }) => e.text ?? "").join("").replace(/\n+/g, " ")}`);
+    answers[then.id] = { events: out, fills: [] };
+  }
 }
 fs.writeFileSync("src/answers.json", JSON.stringify(answers));
 console.log("\nSaved src/answers.json");

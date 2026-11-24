@@ -3,7 +3,17 @@
     {
       "id": "brief",
       "title": "Monday briefing",
-      "ask": "What should I worry about on Dixie this week?"
+      "ask": "What should I worry about on Dixie this week?",
+      "then": [
+        {
+          "id": "send",
+          "ask": "Send this report to Arnav Mishra and mishraarnav32@gmail.com"
+        },
+        {
+          "id": "send-yes",
+          "ask": "Yes"
+        }
+      ]
     },
     {
       "id": "crews",
@@ -25,13 +35,13 @@
       "title": "Daily Site Report",
       "ask": "I want to fill today's daily site report.",
       "fill": [
-        "Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu supervising.",
-        "On the storm sewer we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each.",
-        "We ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each.",
-        "On item C-15 a we placed three hundred tonnes.",
-        "We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty.",
-        "What's still missing?",
-        "Partly cloudy, twelve degrees."
+        "Okay, let's start a daily report. This one's for Dixie Road and Mayfield Road, on the Dixie corridor site. It was a day shift, and the supervisor is Gurpreet Sandhu.",
+        "On item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers. They each put in ten hours.",
+        "On the same item, we had the 40 tonne excavator going, plus three granular trucks. Those ran ten hours each too.",
+        "And we got three hundred tonnes placed on C-15 a.",
+        "And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty.",
+        "Okay, what else is missing?",
+        "Oh right, the weather. It was partly cloudy, twelve degrees."
       ]
     }
   ]

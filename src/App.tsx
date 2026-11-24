@@ -46,7 +46,7 @@ class Stopped extends Error {}
 // The chapters of the show, in the bar at the bottom: what each one shows, as tags above it
 const CHAPTERS = [
   { key: "intro", label: "Intro", title: "Dixie Road, Monday morning", tags: ["One job", "Live project records", "Meet TaskForce AI"] },
-  { key: "brief", label: "1", title: "Monday briefing", tags: ["One question", "Schedule · finance · crews", "One page"] },
+  { key: "brief", label: "1", title: "Monday briefing", tags: ["One question", "Schedule · finance · crews", "One page", "Emailed as a PDF"] },
   { key: "crews", label: "2", title: "Idle crews", tags: ["Standby hours", "By trade", "By subcontractor"] },
   { key: "cash", label: "3", title: "Cash", tags: ["Work not yet billed", "What to chase first", "Figures counted by code"] },
   { key: "schedule", label: "4", title: "Delay claims", tags: ["Which delays bill back", "Change orders waiting on the Region", "Site reports · change orders · NCRs", "Map"] },
@@ -254,9 +254,10 @@ export default function App() {
     setChats((c) => [asked.slice(0, 40) + (asked.length > 40 ? "…" : ""), ...c.filter((x) => !asked.startsWith(x.replace(/…$/, "")))]);
 
   // textOnly: the written answer alone (a quick question: "not everything needs a report")
-  const answer = async (id: string, asked: string, run: number, textOnly = false) => {
+  // sameChat: a follow-up in the chat already open ("send this report to …"), not a new chat in the history list
+  const answer = async (id: string, asked: string, run: number, textOnly = false, sameChat = false) => {
     setMessages((m) => [...m, { role: "user", content: asked }]);
-    listChat(asked);
+    if (!sameChat) listChat(asked);
     const { events } = answers[id] ?? { events: [{ t: 0, e: { text: "(This answer is not recorded yet: npm run record:answers.)" } }] };
     const first = events.find(({ e }) => e.text)?.t ?? events[events.length - 1]?.t ?? 1;
     const last = events[events.length - 1]?.t ?? first;
@@ -331,13 +332,28 @@ export default function App() {
   };
 
   // a scene: the narrator sets it up, asks the question as it is typed into the chat, the answer streams in, the narrator walks it
-  const ask = async (id: string, run: number, extra?: (run: number) => Promise<void>) => {
+  // during: a line spoken while the answer is coming in ("Watch what it's doing while it works")
+  const ask = async (id: string, run: number, extra?: (run: number) => Promise<void>, during?: LineId) => {
     const step = askOf(id);
     await play(`${id}-lead` as LineId, run);
     await typeIn(`${id}-ask` as LineId, step.ask, run);
-    await answer(id, step.ask, run);
+    await Promise.all([answer(id, step.ask, run), during ? play(during, run) : Promise.resolve()]);
     await walk([`${id}-point` as LineId, `${id}-verify` as LineId], run);
     if (extra) await extra(run);
+  };
+
+  // the briefing goes to the project manager: asked by name and by address in the same chat, confirmed, sent
+  const thenOf = () => (("then" in askOf("brief") ? askOf("brief").then : []) ?? []) as { id: string; ask: string }[];
+  const sendIt = async (run: number) => {
+    const [send, yes] = thenOf();
+    if (!send || !yes) return;
+    await play("send-lead", run);
+    await typeIn("send-ask", send.ask, run);
+    await answer(send.id, send.ask, run, true, true);
+    await typeIn("send-yes", yes.ask, run);
+    await answer(yes.id, yes.ask, run, true, true);
+    follow.current = true;
+    await play("send-point", run);
   };
 
   // the scene ends on the map
@@ -448,6 +464,13 @@ export default function App() {
     setMessages((m) => [...m, { role: "user", content: asked },
       { role: "assistant", content: built.text, steps, report: built.report, thoughtMs: THINK_MS, startedAt: 0 }]);
     listChat(asked);
+    if (key === "brief") {
+      for (const t of thenOf().filter((t) => t.id in answers)) {
+        const said = answers[t.id].events.reduce((a, { e }) => fold(a, e, true), { steps: [], text: "" } as Built);
+        setMessages((m) => [...m, { role: "user", content: t.ask },
+          { role: "assistant", content: said.text, steps: [], thoughtMs: THINK_MS, startedAt: 0 }]);
+      }
+    }
     const last = key === "dsr" ? fillsOf().at(-1) : undefined;
     if (key === "dsr") setDsrOpen(true);
     if (last) {
@@ -464,7 +487,7 @@ export default function App() {
 
   const RUN: Record<ChapterKey, (run: number) => Promise<void>> = {
     intro: async (run) => { await showModules(run); await showAssistant(run); },
-    brief: (run) => ask("brief", run),
+    brief: (run) => ask("brief", run, sendIt, "brief-wait"),
     crews: (run) => ask("crews", run),
     cash: (run) => ask("cash", run),
     schedule: (run) => ask("schedule", run, showMap),

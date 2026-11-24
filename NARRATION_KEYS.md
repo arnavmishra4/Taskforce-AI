@@ -16,8 +16,13 @@ The `dsr-ask` and `fill-N` lines are already the exact words sent to TaskForce A
 | meet-2 | narrator | Intro | Right after meet-1, same screen. |
 | brief-lead | narrator | 1 Monday briefing | Empty chat, before the question. |
 | brief-ask | narrator | 1 | Said while it is typed into the composer; sent when she finishes. Then the answer streams in. |
+| brief-wait | narrator | 1 | While the answer comes in ("Watch it work"). |
 | brief-point | narrator | 1 | After the report is on screen; the chat scrolls slowly down the report while it plays. |
 | brief-verify | narrator | 1 | Right after brief-point, scroll continues to the bottom of the report. |
+| send-lead | narrator | 1 | After the briefing: the report goes to Arnav. |
+| send-ask | narrator | 1 | Typed into the chat as it is said ("Send this report to Arnav Mishra and …"). |
+| send-yes | narrator | 1 | "Yes", typed as it is said, to the AI's "Want me to send…?". |
+| send-point | narrator | 1 | After "Sent to Arnav Mishra and … by email." |
 | crews-lead | narrator | 2 Idle crews | Before the question. |
 | crews-ask | narrator | 2 | Said while it is typed into the composer; sent when she finishes. Then the answer streams in. |
 | crews-point | narrator | 2 | Report on screen, scrolling down it. |
@@ -41,8 +46,7 @@ The `dsr-ask` and `fill-N` lines are already the exact words sent to TaskForce A
 | fill-5 | supervisor | 5 | Then the Bell delay fills; form scrolls to Delays & Issues. |
 | fill-5-point | narrator | 5 | Right after the delay row appears (replaces the 1.2 s pause). Optional; may take cues like `{"word": "crew", "show": "[data-section='Labor Tracking']"}`. |
 | fill-6 | supervisor | 5 | "What's still missing?" spoken. The question and TaskForce AI's reply "Still empty: Weather, Temperature." appear in the chat. |
-| fill-6-answer | narrator | 5 | Right after that reply appears (reads it out). Optional. |
-| fill-6-point | narrator | 5 | Plays while the form jumps to Weather Type and flashes it purple for 2 s. Optional. |
+| fill-6-point | narrator | 5 | After the "still missing" reply; the form jumps to the weather. |
 | fill-7 | supervisor | 5 | "Partly cloudy, twelve degrees." Weather and Temperature fill; form scrolls to Weather Conditions. |
 | dsr-review | narrator | 5 | The form scrolls to Submit, then the review-before-submit box opens. |
 | outro-1 | narrator | End | Over the finished chat and form: the three outcomes. |
