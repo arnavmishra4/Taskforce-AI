@@ -69,25 +69,27 @@ is what a site supervisor does at the end of his day.
 
 The report opens right here, beside the chat. No typing, no dropdowns. He just talks.
 
-**"Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu
-supervising."**
+**"Okay, let's start a daily report. This one's for Dixie Road and Mayfield Road, on the Dixie corridor site. It was
+a day shift, and the supervisor is Gurpreet Sandhu."**
 
-**"On item C-15 a, we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each."**
+**"On item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers. They each put in ten
+hours."**
 
-**"On the same item, we ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each."**
+**"On the same item, we had the 40 tonne excavator going, plus three tri-axle dump trucks. Those ran ten hours each
+too."**
 
-**"And we placed three hundred tonnes on C-15 a."**
+**"And we got three hundred tonnes placed on C-15 a."**
 
-**"We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty."**
+**"And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."**
 
 The crew, the equipment, the quantity against the contract item, and that Bell delay, each one matched to the real
 records as he says it. And before he signs off, he asks one more thing:
 
-**"What's still missing?"**
+**"Okay, what else is missing?"**
 
 It checks the report, tells him what's left, and takes him straight to it.
 
-**"Partly cloudy, twelve degrees."**
+**"Oh right, the weather. It was partly cloudy, twelve degrees."**
 
 Done. And that two-hour Bell delay is now on the record, at a station, the same day it happened. That's the paper
 trail that wins a delay claim. And the hours and quantities he just gave us are what feed tomorrow morning's standby
@@ -105,5 +107,7 @@ Thank you.
 ---
 
 <sub>**For the DSR, say these words exactly** (otherwise it stops to ask "which one?"): "open-cut foreman",
-"open-cut labourers", "On item C-15 a" / "on the same item" (the Submit check wants every row on an item), "40 tonne excavator". After the first line it asks for the weather once: keep
-going. Don't save the report at the end; close it.</sub>
+"open-cut labourers", "40 tonne excavator", and the item on every work line: "On item C-15 a", "On the same item",
+"on C-15 a" (the Submit check wants every crew, equipment and quantity row on an item). After the first line it asks
+for the weather once: keep going. Start from a fresh report (New report in the form's menu). Submitting at the end
+works: nothing is left for the Submit check to flag.</sub>
