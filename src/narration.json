@@ -32,27 +32,47 @@
     },
     "meet-2": {
       "voice": "narrator",
-      "text": "Every number on it comes straight from your own records."
+      "text": "And every number on that page comes straight from your own records."
     },
     "brief-lead": {
       "voice": "narrator",
-      "text": "So. Monday, seven a.m. One question."
+      "text": "So let's do exactly that. Monday, seven a.m., one question."
     },
     "brief-ask": {
       "voice": "narrator",
       "text": "What should I worry about on Dixie this week?"
     },
+    "brief-wait": {
+      "voice": "narrator",
+      "text": "Watch it work. It's going through the schedule, the site reports, the money and the delays, all at once. The part that normally takes your team a week."
+    },
     "brief-point": {
       "voice": "narrator",
-      "text": "It starts with the schedule. Dixie is behind, and half of the delays logged on site came from third parties."
+      "text": "And there it is. What's wrong, how bad, and what to do first: your whole Monday meeting, before your coffee. The tiles show where the job stands against the plan."
     },
     "brief-verify": {
       "voice": "narrator",
-      "text": "One page, from the live records, instead of three reports from three departments. Let's pull each thread."
+      "text": "Look at the delays: the biggest share came from outside, not our crews. And the map: Dixie Road and Mayfield Road, exactly where the work is."
+    },
+    "send-lead": {
+      "voice": "narrator",
+      "text": "Arnav runs Dixie day to day. He should see this. Just ask."
+    },
+    "send-ask": {
+      "voice": "narrator",
+      "text": "Send this report to Arnav Mishra and mishraarnav32@gmail.com"
+    },
+    "send-yes": {
+      "voice": "narrator",
+      "text": "Yes"
+    },
+    "send-point": {
+      "voice": "narrator",
+      "text": "It found Arnav's work email in your staff records. His personal address works just as well. It goes out as a PDF."
     },
     "crews-lead": {
       "voice": "narrator",
-      "text": "Start with the leak nobody reports: crews being paid to wait. Let's ask it."
+      "text": "One page, instead of three reports from three departments. Now pull each thread. Start with the leak nobody reports: crews paid to wait."
     },
     "crews-ask": {
       "voice": "narrator",
@@ -60,11 +80,11 @@
     },
     "crews-point": {
       "voice": "narrator",
-      "text": "Open-cut foremen, two hundred seventy-three standby hours. Open-cut labourers, two hundred sixty-one. And it peaked in July."
+      "text": "Here it is, trade by trade: who stood by, and for how long. This line shows when, month by month, and where it spiked."
     },
     "crews-verify": {
       "voice": "narrator",
-      "text": "Three daily reports, D-S-R forty-three, fifty-seven and forty-four, carry the most standby. That's where the conversation with the superintendent starts this week."
+      "text": "And where those hours were charged, item by item. Nobody hid this. It sat in the site reports. Nobody had time to add it up."
     },
     "cash-lead": {
       "voice": "narrator",
@@ -76,11 +96,11 @@
     },
     "cash-point": {
       "voice": "narrator",
-      "text": "Twenty point two nine million dollars is stuck. Almost all of it is work in the ground, not yet approved for billing."
+      "text": "That's the money stuck on this job, and most of it is work already in the ground, just not yet approved for billing."
     },
     "cash-verify": {
       "voice": "narrator",
-      "text": "First move: put one point eight two million on item C-fifteen b, Granular A, in this month's progress claim."
+      "text": "And it tells you which items to chase first, and what to put in this month's progress claim. Working capital, found with one question."
     },
     "schedule-lead": {
       "voice": "narrator",
@@ -92,19 +112,19 @@
     },
     "schedule-point": {
       "voice": "narrator",
-      "text": "Three of the six delays logged on site came from third parties. Those are the ones to take to the Region."
+      "text": "Every delay on this job, logged by the site, with its date and report. An unmarked Bell duct bank. Nesting birds. An archaeological find."
     },
     "schedule-verify": {
       "voice": "narrator",
-      "text": "An unmarked Bell duct bank, nesting birds, an archaeological find: each one logged by date and report. That's the evidence a claim is built on."
+      "text": "That's the evidence a claim is built on. The third-party ones go to the Region."
     },
     "schedule-map": {
       "voice": "narrator",
-      "text": "And here's where it's happening: Dixie Road, thirteen plus five-twenty to sixteen plus five hundred, and Mayfield Road, thirty-nine plus seven-fourteen to forty-one plus three seventy-six."
+      "text": "And here's where it's all happening."
     },
     "dsr-lead": {
       "voice": "narrator",
-      "text": "Every answer you just saw is only as good as what comes in from site. So here's what a site supervisor says at the end of his day."
+      "text": "Every answer you've just seen is only as good as what comes in from site. So here's the other end: a site supervisor at the end of his day."
     },
     "dsr-ask": {
       "voice": "supervisor",
@@ -116,55 +136,51 @@
     },
     "fill-1": {
       "voice": "supervisor",
-      "text": "Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu supervising."
+      "text": "Okay, let's start a daily report. This one's for Dixie Road and Mayfield Road, on the Dixie corridor site. It was a day shift, and the supervisor is Gurpreet Sandhu."
     },
     "fill-2": {
       "voice": "supervisor",
-      "text": "On the storm sewer we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each."
+      "text": "On item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers. They each put in ten hours."
     },
     "fill-3": {
       "voice": "supervisor",
-      "text": "We ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each."
+      "text": "On the same item, we had the 40 tonne excavator going, plus three granular trucks. Those ran ten hours each too."
     },
     "fill-4": {
       "voice": "supervisor",
-      "text": "On item C-15 a we placed three hundred tonnes."
+      "text": "And we got three hundred tonnes placed on C-15 a."
     },
     "fill-5": {
       "voice": "supervisor",
-      "text": "We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty."
+      "text": "And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."
     },
     "fill-5-point": {
       "voice": "narrator",
-      "text": "Crew, equipment, quantities against the contract item, and the Bell delay, each matched to your real records."
+      "text": "Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then he asks one more thing."
     },
     "fill-6": {
       "voice": "supervisor",
-      "text": "What's still missing?"
-    },
-    "fill-6-answer": {
-      "voice": "narrator",
-      "text": "Still empty: Weather, Temperature."
+      "text": "Okay, what else is missing?"
     },
     "fill-6-point": {
       "voice": "narrator",
-      "text": "And the form jumps straight to it."
+      "text": "It tells him what's left, and takes him straight to it."
     },
     "fill-7": {
       "voice": "supervisor",
-      "text": "Partly cloudy, twelve degrees."
+      "text": "Oh right, the weather. It was partly cloudy, twelve degrees."
     },
     "dsr-review": {
       "voice": "narrator",
-      "text": "That two-hour Bell delay is on the record, at a station, the same day: the paper trail that wins a delay claim. And these hours and quantities feed tomorrow's standby and billing answers."
+      "text": "Done. That Bell delay is on the record, at a station, the same day: the paper trail that wins a claim. And these hours feed tomorrow morning's answers."
     },
     "outro-1": {
       "voice": "narrator",
-      "text": "Know where a job stands in one minute, not one week. Find idle crews and unbilled work while it's still recoverable. Every delay logged the same day it happens, ready for a claim."
+      "text": "So here's what this means for you. Know where a job stands in one minute, not one week. Catch idle crews and unbilled work while it's recoverable. Log every delay the day it happens."
     },
     "outro-2": {
       "voice": "narrator",
-      "text": "You don't need more reports. You need fewer steps between the question and the answer."
+      "text": "You don't need more reports. You need fewer steps between the question and the answer. Thank you."
     }
   }
 }
