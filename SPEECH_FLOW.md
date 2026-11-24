@@ -11,7 +11,7 @@ watching. It's Monday, seven a.m.
 Over the weekend, the updates piled up. Daily site reports from the field. A schedule that moved. Costs landing in
 finance. Extra work waiting on the client's sign-off.
 
-Every one of them matters. None of them talk to each other. And the one question you actually have, *are we okay*,
+Every one of them matters. None of them talk to each other. And the one question you actually have, *"are we okay"*,
 isn't answered in any of them.
 
 So you start calling. The project manager, the superintendent, accounting. By Thursday you have an answer. By then,
@@ -72,11 +72,11 @@ The report opens right here, beside the chat. No typing, no dropdowns. He just t
 **"Start a daily report for Dixie Road and Mayfield Road, on the Dixie corridor site. Day shift, Gurpreet Sandhu
 supervising."**
 
-**"On the storm sewer we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each."**
+**"On item C-15 a, we had one open-cut foreman, four open-cut labourers and two pipelayers, ten hours each."**
 
-**"We ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each."**
+**"On the same item, we ran the 40 tonne excavator and three tri-axle dump trucks, ten hours each."**
 
-**"On item C-15 a we placed three hundred tonnes."**
+**"And we placed three hundred tonnes on C-15 a."**
 
 **"We lost two hours waiting for Bell to locate a duct bank at station fourteen plus two-eighty."**
 
@@ -105,5 +105,5 @@ Thank you.
 ---
 
 <sub>**For the DSR, say these words exactly** (otherwise it stops to ask "which one?"): "open-cut foreman",
-"open-cut labourers", "On item C-15 a", "40 tonne excavator". After the first line it asks for the weather once: keep
+"open-cut labourers", "On item C-15 a" / "on the same item" (the Submit check wants every row on an item), "40 tonne excavator". After the first line it asks for the weather once: keep
 going. Don't save the report at the end; close it.</sub>
