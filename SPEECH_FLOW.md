@@ -75,7 +75,7 @@ a day shift, and the supervisor is Gurpreet Sandhu."**
 **"On item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers. They each put in ten
 hours."**
 
-**"On the same item, we had the 40 tonne excavator going, plus three tri-axle dump trucks. Those ran ten hours each
+**"On the same item, we had the 40 tonne excavator going, plus three granular trucks. Those ran ten hours each
 too."**
 
 **"And we got three hundred tonnes placed on C-15 a."**
@@ -107,7 +107,7 @@ Thank you.
 ---
 
 <sub>**For the DSR, say these words exactly** (otherwise it stops to ask "which one?"): "open-cut foreman",
-"open-cut labourers", "40 tonne excavator", and the item on every work line: "On item C-15 a", "On the same item",
+"open-cut labourers", "40 tonne excavator", "granular trucks", and the item on every work line: "On item C-15 a", "On the same item",
 "on C-15 a" (the Submit check wants every crew, equipment and quantity row on an item). After the first line it asks
 for the weather once: keep going. Start from a fresh report (New report in the form's menu). Submitting at the end
 works: nothing is left for the Submit check to flag.</sub>
