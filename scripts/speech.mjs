@@ -17,8 +17,11 @@ const LIVE = [["Send this report to Arnav Mishra and mishraarnav32@gmail.com", "
                "It found Talha's work email in your staff records."],
               ["Arnav Mishra", "Talha Asif"], ["Arnav", "Talha"],
               // the DSR lines in the presenter's own wording, with the item still on every work line
-              ["On item C-15 a today, we had one open-cut foreman", "For work progress, on item C-15 a today, we had one open-cut foreman"],
-              ["On the same item, we had the 40 tonne excavator going", "For equipment, on the same item, we had the 40 tonne excavator going"],
+              // production has no cost rate for pipe layers or granular trucks: only rows that cost out are said
+              ["On item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers. They each put in ten hours.",
+               "For work progress, on item C-15 a today, we had one open-cut foreman and four open-cut labourers. They each put in ten hours."],
+              ["On the same item, we had the 40 tonne excavator going, plus three granular trucks. Those ran ten hours each too.",
+               "For equipment, on the same item, we had the 40 tonne excavator going for ten hours."],
               ["And we got three hundred tonnes placed on C-15 a.", "On item C-15 a, we got three hundred tonnes placed."]];
 const live = (text) => LIVE.reduce((t, [from, to]) => t.split(from).join(to), text);
 const body = Object.entries(lines).map(([id, { text }]) => wrap(toAi(id) ? `**"${live(text)}"**` : live(text))).join("\n\n");
@@ -34,8 +37,7 @@ ${body}
 ---
 
 <sub>**For the DSR, say these words exactly** (otherwise it stops to ask "which one?"): "open-cut foreman",
-"open-cut labourers", "40 tonne excavator", "granular trucks", and the item on every work line: "On item C-15 a", "On
-the same item", "on C-15 a" (the Submit check wants every crew, equipment and quantity row on an item). After the first
+"open-cut labourers", "40 tonne excavator", and the item on every work line: "on item C-15 a", "on the same item" (the Submit check wants every crew, equipment and quantity row on an item). After the first
 line it asks for the weather once: keep going. Start from a fresh report (New report in the form's menu). This file is
 made from the demo's lines (src/narration.json) by \`npm run speech\`: change the lines there, not here.</sub>
 `);

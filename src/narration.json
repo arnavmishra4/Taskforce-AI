@@ -52,15 +52,15 @@
     },
     "brief-verify": {
       "voice": "narrator",
-      "text": "Look at the delays: the biggest share came from outside, not our crews. And the map: Dixie Road and Mayfield Road, exactly where the work is."
+      "text": "Look at what's waiting on the Region's sign-off. And the map: Dixie Road and Mayfield Road, exactly where the work is."
     },
     "send-lead": {
       "voice": "narrator",
-      "text": "Arnav runs Dixie day to day. He should see this. Just ask."
+      "text": "Talha runs Dixie day to day, and should see this. Just ask."
     },
     "send-ask": {
       "voice": "narrator",
-      "text": "Send this report to Arnav Mishra and mishraarnav32@gmail.com"
+      "text": "Send this report to Talha Asif"
     },
     "send-yes": {
       "voice": "narrator",
@@ -68,7 +68,7 @@
     },
     "send-point": {
       "voice": "narrator",
-      "text": "It found Arnav's work email in your staff records. His personal address works just as well. It goes out as a PDF."
+      "text": "It found Talha's work email in your staff records. It goes out as a PDF."
     },
     "crews-lead": {
       "voice": "narrator",
@@ -80,7 +80,7 @@
     },
     "crews-point": {
       "voice": "narrator",
-      "text": "Here it is, trade by trade: who stood by, and for how long. This line shows when, month by month, and where it spiked."
+      "text": "Here it is, in dollars: what we paid crews to stand by, trade by trade."
     },
     "crews-verify": {
       "voice": "narrator",
@@ -96,11 +96,11 @@
     },
     "cash-point": {
       "voice": "narrator",
-      "text": "That's the money stuck on this job, and most of it is work already in the ground, just not yet approved for billing."
+      "text": "That's what the job is owed right now. The biggest piece is a progress claim the Region has already certified, but not yet paid. Then the extra work waiting on their sign-off."
     },
     "cash-verify": {
       "voice": "narrator",
-      "text": "And it tells you which items to chase first, and what to put in this month's progress claim. Working capital, found with one question."
+      "text": "The holdback sits on its own: the Region keeps it until the job is done, so it isn't owed yet. And it tells you what to chase first. Working capital, found with one question."
     },
     "schedule-lead": {
       "voice": "narrator",
@@ -112,11 +112,11 @@
     },
     "schedule-point": {
       "voice": "narrator",
-      "text": "Every delay on this job, logged by the site, with its date and report. An unmarked Bell duct bank. Nesting birds. An archaeological find."
+      "text": "Every delay on this job, logged by the site, and what each one cost: the change order behind it, approved or still waiting on the Region. An unmarked Bell duct bank. Nesting birds. An archaeological find."
     },
     "schedule-verify": {
       "voice": "narrator",
-      "text": "That's the evidence a claim is built on. The third-party ones go to the Region."
+      "text": "That's the evidence a claim is built on, in dollars. The third-party ones go to the Region; our own rework stays with us."
     },
     "schedule-map": {
       "voice": "narrator",
@@ -124,7 +124,7 @@
     },
     "dsr-lead": {
       "voice": "narrator",
-      "text": "Every answer you've just seen is only as good as what comes in from site. So here's the other end: a site supervisor at the end of his day."
+      "text": "Every answer you've just seen is only as good as what comes in from site. So here's the other end: a site supervisor at the end of the day."
     },
     "dsr-ask": {
       "voice": "supervisor",
@@ -132,7 +132,7 @@
     },
     "dsr-open": {
       "voice": "narrator",
-      "text": "The report opens beside the chat. No typing, no dropdowns. He just talks."
+      "text": "The report opens beside the chat. No typing, no dropdowns. Just talking."
     },
     "fill-1": {
       "voice": "supervisor",
@@ -156,7 +156,7 @@
     },
     "fill-5-point": {
       "voice": "narrator",
-      "text": "Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then he asks one more thing."
+      "text": "Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then one more question."
     },
     "fill-6": {
       "voice": "supervisor",
@@ -164,7 +164,7 @@
     },
     "fill-6-point": {
       "voice": "narrator",
-      "text": "It tells him what's left, and takes him straight to it."
+      "text": "It says what's left, and goes straight to it."
     },
     "fill-7": {
       "voice": "supervisor",

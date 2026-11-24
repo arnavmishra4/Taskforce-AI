@@ -32,10 +32,9 @@ normally takes your team a week.
 And there it is. What's wrong, how bad, and what to do first: your whole Monday meeting, before your coffee. The tiles
 show where the job stands against the plan.
 
-Look at the delays: the biggest share came from outside, not our crews. And the map: Dixie Road and Mayfield Road,
-exactly where the work is.
+Look at what's waiting on the Region's sign-off. And the map: Dixie Road and Mayfield Road, exactly where the work is.
 
-Talha runs Dixie day to day. He should see this. Just ask.
+Talha runs Dixie day to day, and should see this. Just ask.
 
 **"Send this report to Talha Asif"**
 
@@ -48,7 +47,7 @@ crews paid to wait.
 
 **"Where are we paying for crews that aren't producing on Dixie?"**
 
-Here it is, trade by trade: who stood by, and for how long. This line shows when, month by month, and where it spiked.
+Here it is, in dollars: what we paid crews to stand by, trade by trade.
 
 And where those hours were charged, item by item. Nobody hid this. It sat in the site reports. Nobody had time to add
 it up.
@@ -57,48 +56,49 @@ Now the money.
 
 **"How much money is the Dixie & Mayfield job owed right now, and what should we chase first?"**
 
-That's the money stuck on this job, and most of it is work already in the ground, just not yet approved for billing.
+That's what the job is owed right now. The biggest piece is a progress claim the Region has already certified, but not
+yet paid. Then the extra work waiting on their sign-off.
 
-And it tells you which items to chase first, and what to put in this month's progress claim. Working capital, found
-with one question.
+The holdback sits on its own: the Region keeps it until the job is done, so it isn't owed yet. And it tells you what
+to chase first. Working capital, found with one question.
 
 Now the delays, and which of them belong on a claim.
 
 **"Which Dixie delays can we bill back to the Region?"**
 
-Every delay on this job, logged by the site, with its date and report. An unmarked Bell duct bank. Nesting birds. An
-archaeological find.
+Every delay on this job, logged by the site, and what each one cost: the change order behind it, approved or still
+waiting on the Region. An unmarked Bell duct bank. Nesting birds. An archaeological find.
 
-That's the evidence a claim is built on. The third-party ones go to the Region.
+That's the evidence a claim is built on, in dollars. The third-party ones go to the Region; our own rework stays with
+us.
 
 And here's where it's all happening.
 
 Every answer you've just seen is only as good as what comes in from site. So here's the other end: a site supervisor
-at the end of his day.
+at the end of the day.
 
 **"I want to fill today's daily site report."**
 
-The report opens beside the chat. No typing, no dropdowns. He just talks.
+The report opens beside the chat. No typing, no dropdowns. Just talking.
 
 **"Okay, let's start a daily report. This one's for Dixie Road and Mayfield Road, on the Dixie corridor site. It was a
 day shift, and the supervisor is Gurpreet Sandhu."**
 
-**"For work progress, on item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers.
-They each put in ten hours."**
+**"For work progress, on item C-15 a today, we had one open-cut foreman and four open-cut labourers. They each put in
+ten hours."**
 
-**"For equipment, on the same item, we had the 40 tonne excavator going, plus three granular trucks. Those ran ten
-hours each too."**
+**"For equipment, on the same item, we had the 40 tonne excavator going for ten hours."**
 
 **"On item C-15 a, we got three hundred tonnes placed."**
 
 **"And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."**
 
-Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then he
-asks one more thing.
+Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then
+one more question.
 
 **"Okay, what else is missing?"**
 
-It tells him what's left, and takes him straight to it.
+It says what's left, and goes straight to it.
 
 **"Oh right, the weather. It was partly cloudy, twelve degrees."**
 
@@ -113,7 +113,6 @@ You don't need more reports. You need fewer steps between the question and the a
 ---
 
 <sub>**For the DSR, say these words exactly** (otherwise it stops to ask "which one?"): "open-cut foreman",
-"open-cut labourers", "40 tonne excavator", "granular trucks", and the item on every work line: "On item C-15 a", "On
-the same item", "on C-15 a" (the Submit check wants every crew, equipment and quantity row on an item). After the first
+"open-cut labourers", "40 tonne excavator", and the item on every work line: "on item C-15 a", "on the same item" (the Submit check wants every crew, equipment and quantity row on an item). After the first
 line it asks for the weather once: keep going. Start from a fresh report (New report in the form's menu). This file is
 made from the demo's lines (src/narration.json) by `npm run speech`: change the lines there, not here.</sub>
