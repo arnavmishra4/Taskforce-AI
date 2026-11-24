@@ -37,8 +37,7 @@ ${body}
 ---
 
 <sub>**For the DSR, say these words exactly** (otherwise it stops to ask "which one?"): "open-cut foreman",
-"open-cut labourers", "40 tonne excavator", "granular trucks", and the item on every work line: "On item C-15 a", "On
-the same item", "on C-15 a" (the Submit check wants every crew, equipment and quantity row on an item). After the first
+"open-cut labourers", "40 tonne excavator", and the item on every work line: "on item C-15 a", "on the same item" (the Submit check wants every crew, equipment and quantity row on an item). After the first
 line it asks for the weather once: keep going. Start from a fresh report (New report in the form's menu). This file is
 made from the demo's lines (src/narration.json) by \`npm run speech\`: change the lines there, not here.</sub>
 `);
