@@ -11,7 +11,12 @@ const wrap = (text, width = 118) => text.split(" ").reduce((out, w) => {
   return out;
 }, []).join("\n");
 
-const body = Object.entries(lines).map(([id, { text }]) => wrap(toAi(id) ? `**"${text}"**` : text)).join("\n\n");
+// Live, the report goes to Talha Asif; the video keeps Arnav Mishra (its voices are recorded with him)
+const LIVE = [["It found Arnav's work email in your staff records. His personal address works just as well.",
+               "It found Talha's work email in your staff records, and any other address works just as well."],
+              ["Arnav Mishra", "Talha Asif"], ["Arnav", "Talha"]];
+const live = (text) => LIVE.reduce((t, [from, to]) => t.split(from).join(to), text);
+const body = Object.entries(lines).map(([id, { text }]) => wrap(toAi(id) ? `**"${live(text)}"**` : live(text))).join("\n\n");
 fs.writeFileSync("SPEECH_FLOW.md", `# TaskForce AI: the speech (Dixie Road & Mayfield Road)
 
 *Read it straight through. Lines in quotes inside the speech are typed or said to TaskForce AI as you say them. The

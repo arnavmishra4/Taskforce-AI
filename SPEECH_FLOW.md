@@ -35,13 +35,13 @@ show where the job stands against the plan.
 Look at the delays: the biggest share came from outside, not our crews. And the map: Dixie Road and Mayfield Road,
 exactly where the work is.
 
-Arnav runs Dixie day to day. He should see this. Just ask.
+Talha runs Dixie day to day. He should see this. Just ask.
 
-**"Send this report to Arnav Mishra and mishraarnav32@gmail.com"**
+**"Send this report to Talha Asif and mishraarnav32@gmail.com"**
 
 **"Yes"**
 
-It found Arnav's work email in your staff records. His personal address works just as well. It goes out as a PDF.
+It found Talha's work email in your staff records, and any other address works just as well. It goes out as a PDF.
 
 One page, instead of three reports from three departments. Now pull each thread. Start with the leak nobody reports:
 crews paid to wait.
