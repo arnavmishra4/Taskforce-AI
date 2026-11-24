@@ -83,11 +83,10 @@ The report opens beside the chat. No typing, no dropdowns. He just talks.
 **"Okay, let's start a daily report. This one's for Dixie Road and Mayfield Road, on the Dixie corridor site. It was a
 day shift, and the supervisor is Gurpreet Sandhu."**
 
-**"For work progress, on item C-15 a today, we had one open-cut foreman, four open-cut labourers and two pipelayers.
-They each put in ten hours."**
+**"For work progress, on item C-15 a today, we had one open-cut foreman and four open-cut labourers. They each put in
+ten hours."**
 
-**"For equipment, on the same item, we had the 40 tonne excavator going, plus three granular trucks. Those ran ten
-hours each too."**
+**"For equipment, on the same item, we had the 40 tonne excavator going for ten hours."**
 
 **"On item C-15 a, we got three hundred tonnes placed."**
 
