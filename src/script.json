@@ -7,7 +7,7 @@
       "then": [
         {
           "id": "send",
-          "ask": "Send this report to Arnav Mishra and mishraarnav32@gmail.com"
+          "ask": "Send this report to Talha Asif"
         },
         {
           "id": "send-yes",
