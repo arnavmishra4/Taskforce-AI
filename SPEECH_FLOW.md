@@ -37,11 +37,11 @@ exactly where the work is.
 
 Talha runs Dixie day to day. He should see this. Just ask.
 
-**"Send this report to Talha Asif and mishraarnav32@gmail.com"**
+**"Send this report to Talha Asif"**
 
 **"Yes"**
 
-It found Talha's work email in your staff records, and any other address works just as well. It goes out as a PDF.
+It found Talha's work email in your staff records. It goes out as a PDF.
 
 One page, instead of three reports from three departments. Now pull each thread. Start with the leak nobody reports:
 crews paid to wait.

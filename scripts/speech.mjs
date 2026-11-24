@@ -12,8 +12,9 @@ const wrap = (text, width = 118) => text.split(" ").reduce((out, w) => {
 }, []).join("\n");
 
 // Live, the report goes to Talha Asif; the video keeps Arnav Mishra (its voices are recorded with him)
-const LIVE = [["It found Arnav's work email in your staff records. His personal address works just as well.",
-               "It found Talha's work email in your staff records, and any other address works just as well."],
+const LIVE = [["Send this report to Arnav Mishra and mishraarnav32@gmail.com", "Send this report to Talha Asif"],
+              ["It found Arnav's work email in your staff records. His personal address works just as well.",
+               "It found Talha's work email in your staff records."],
               ["Arnav Mishra", "Talha Asif"], ["Arnav", "Talha"]];
 const live = (text) => LIVE.reduce((t, [from, to]) => t.split(from).join(to), text);
 const body = Object.entries(lines).map(([id, { text }]) => wrap(toAi(id) ? `**"${live(text)}"**` : live(text))).join("\n\n");
