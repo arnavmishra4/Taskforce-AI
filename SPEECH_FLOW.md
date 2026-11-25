@@ -84,23 +84,27 @@ The report opens beside the chat. No typing, no dropdowns. Just talking.
 **"Okay, let's start a daily report. This one's for Dixie Road and Mayfield Road, on the Dixie corridor site. It was a
 day shift, and the supervisor is Gurpreet Sandhu."**
 
-**"For work progress, on item C-15 a today, we had one open-cut foreman and four open-cut labourers. They each put in
-ten hours."**
+**"For work progress, on item C-15 a, ninety percent of the Granular A is complete. The remaining ten percent will be
+completed by next week."**
+
+**"For labour, on the same item, we had one Foreman Open Cut and four Labourer Open Cut. They each put in ten
+hours."**
 
 **"For equipment, on the same item, we had the 40 tonne excavator going for ten hours."**
 
 **"For quantities, on item C-15 a, we placed three hundred tonnes."**
 
-**"And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."**
+**"For delays, we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus
+two-eighty."**
 
-Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then
-one more question.
+Progress, crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real
+records. Then one more question.
 
 **"Okay, what else is missing?"**
 
 It says what's left, and goes straight to it.
 
-**"Oh right, the weather. It was partly cloudy, twelve degrees."**
+**"For weather, it was partly cloudy, twelve degrees."**
 
 Done. That Bell delay is on the record, at a station, the same day: the paper trail that wins a claim. And these hours
 feed tomorrow morning's answers.

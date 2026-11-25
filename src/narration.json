@@ -140,35 +140,39 @@
     },
     "fill-2": {
       "voice": "supervisor",
-      "text": "For work progress, on item C-15 a today, we had one open-cut foreman and four open-cut labourers. They each put in ten hours."
+      "text": "For work progress, on item C-15 a, ninety percent of the Granular A is complete. The remaining ten percent will be completed by next week."
     },
     "fill-3": {
       "voice": "supervisor",
-      "text": "For equipment, on the same item, we had the 40 tonne excavator going for ten hours."
+      "text": "For labour, on the same item, we had one Foreman Open Cut and four Labourer Open Cut. They each put in ten hours."
     },
     "fill-4": {
       "voice": "supervisor",
-      "text": "For quantities, on item C-15 a, we placed three hundred tonnes."
+      "text": "For equipment, on the same item, we had the 40 tonne excavator going for ten hours."
     },
     "fill-5": {
       "voice": "supervisor",
-      "text": "And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."
-    },
-    "fill-5-point": {
-      "voice": "narrator",
-      "text": "Crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then one more question."
+      "text": "For quantities, on item C-15 a, we placed three hundred tonnes."
     },
     "fill-6": {
       "voice": "supervisor",
-      "text": "Okay, what else is missing?"
+      "text": "For delays, we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."
     },
     "fill-6-point": {
       "voice": "narrator",
-      "text": "It says what's left, and goes straight to it."
+      "text": "Progress, crew, equipment, the quantity against the contract item, and the Bell delay, each matched to the real records. Then one more question."
     },
     "fill-7": {
       "voice": "supervisor",
-      "text": "Oh right, the weather. It was partly cloudy, twelve degrees."
+      "text": "Okay, what else is missing?"
+    },
+    "fill-7-point": {
+      "voice": "narrator",
+      "text": "It says what's left, and goes straight to it."
+    },
+    "fill-8": {
+      "voice": "supervisor",
+      "text": "For weather, it was partly cloudy, twelve degrees."
     },
     "dsr-review": {
       "voice": "narrator",
