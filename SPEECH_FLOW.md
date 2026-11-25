@@ -89,7 +89,7 @@ ten hours."**
 
 **"For equipment, on the same item, we had the 40 tonne excavator going for ten hours."**
 
-**"On item C-15 a, we got three hundred tonnes placed."**
+**"For quantities, on item C-15 a, we placed three hundred tonnes."**
 
 **"And we lost two hours this morning, waiting on Bell to locate a duct bank at station fourteen plus two-eighty."**
 
